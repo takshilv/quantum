@@ -13,7 +13,7 @@ chrome_options.add_argument('--headless=old')
 driver = webdriver.Chrome(options=chrome_options)
 driver.maximize_window()
 # download_dir = "E:\\takshil\\quantum_pdf\\"
-download_dir = "storage/loan-applications/"
+download_dir = "/home/ubuntu/storage/loan-applications/"
 
 # download_dir = "D:\\khushali\\pdf\\"
 driver.execute_cdp_cmd("Page.setDownloadBehavior", {
