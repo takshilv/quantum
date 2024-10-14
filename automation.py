@@ -9,7 +9,7 @@ from selenium.webdriver.chrome.options import Options
 import requests
 
 chrome_options = Options()
-# chrome_options.add_argument('--headless=old')
+chrome_options.add_argument('--headless=old')
 driver = webdriver.Chrome(options=chrome_options)
 driver.maximize_window()
 # download_dir = "E:\\takshil\\quantum_pdf\\"
@@ -30,17 +30,19 @@ for js in jss:
     print(js)
 
     driver.get('https://www.qmlsystem.co.uk/Portal/Application/DisplayForm?formName=Apply%20-%20How%20Many%20Applicants&items=OgofrOXVTjoqOqAqsFlTCJmY4LV4KEBMoZUjOJnG13tc7rmUeXAUryG4RN37o5DOO4Puo27WVw0sDKNrBPvPaMmHjVtHGruK8fHxz7%2B9t9HitYT79DCfI6gfzMZrK42oI7gWDZPweYjl1NRyn5VPcCrekyYhGfryHRpAY099Y5g%3D')
+    try:
+        username = driver.find_element(By.ID ,'Email')
+        username.send_keys('asaraff@arethacapital.com')
+        time.sleep(2)
 
-    username = driver.find_element(By.ID ,'Email')
-    username.send_keys('asaraff@arethacapital.com')
-    time.sleep(2)
+        password = driver.find_element(By.ID ,'Password')
+        password.send_keys('X5VA5uX!tLLj4Yg')
+        time.sleep(2)
 
-    password = driver.find_element(By.ID ,'Password')
-    password.send_keys('X5VA5uX!tLLj4Yg')
-    time.sleep(2)
-
-    login = driver.find_element(By.XPATH, '//*[@type="submit"]').click()
-    time.sleep(3)
+        login = driver.find_element(By.XPATH, '//*[@type="submit"]').click()
+        time.sleep(3)
+    except:
+        pass
 
     number_of_applicants = driver.find_element(By.XPATH, '//*[@id="Application_NumberOfApplicants"]')
     number_of_applicants.clear()
