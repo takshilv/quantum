@@ -12,7 +12,8 @@ chrome_options = Options()
 # chrome_options.add_argument('--headless=old')
 driver = webdriver.Chrome(options=chrome_options)
 driver.maximize_window()
-download_dir = "E:\\takshil\\quantum_pdf\\"
+# download_dir = "E:\\takshil\\quantum_pdf\\"
+download_dir = "storage\\loan-applications\\"
 
 # download_dir = "D:\\khushali\\pdf\\"
 driver.execute_cdp_cmd("Page.setDownloadBehavior", {
@@ -434,7 +435,7 @@ for js in jss:
         time.sleep(1)
 
     # Define the new file name
-    updated_file_name = unique_id_file_name  # Replace with your desired file name
+    updated_file_name = unique_id_file_name+'.pdf'  # Replace with your desired file name
     updated_file_path = os.path.join(download_dir, updated_file_name)
 
     # Rename the file
