@@ -14,6 +14,7 @@ driver = webdriver.Chrome(options=chrome_options)
 driver.maximize_window()
 # download_dir = "E:\\takshil\\quantum_pdf\\"
 download_dir = "/home/ubuntu/storage/loan-applications/"
+# download_dir = "/home/ubuntu/storage/loan-applications/"
 
 # download_dir = "D:\\khushali\\pdf\\"
 driver.execute_cdp_cmd("Page.setDownloadBehavior", {
@@ -383,8 +384,10 @@ for js in jss:
         product = js['product']
         sel_product = driver.find_element(By.XPATH,f'//*[contains(text(),"{product}")]/../td[@class="selectproduct"]/input').click()
     except:
-        sel_product =driver.find_element(By.XPATH, '//*[@id="tableproducts"]/tbody/tr[1]/td[@class="selectproduct"]/input').click()
-        pass
+        try:
+            sel_product =driver.find_element(By.XPATH, '//*[@id="tableproducts"]/tbody/tr[1]/td[@class="selectproduct"]/input').click()
+        except:
+            pass
 
     try:
         fix_amount = driver.find_element(By.XPATH, '//*[@name="Broker.FixedAmount"]')
@@ -442,6 +445,11 @@ for js in jss:
 
     # Rename the file
     os.rename(new_file_path, updated_file_path)
+    id = js["id"]
+    url = f"https://www.novyyloans.com/api/applications?id={id}&filename={updated_file_name}"
 
+    response = requests.request("POST", url)
+
+    print(response.status_code)
     print('**********')
 
