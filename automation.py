@@ -9,7 +9,7 @@ from selenium.webdriver.chrome.options import Options
 import requests
 
 chrome_options = Options()
-# chrome_options.add_argument('--headless=old')
+chrome_options.add_argument('--headless=old')
 driver = webdriver.Chrome(options=chrome_options)
 driver.maximize_window()
 # download_dir = "E:\\takshil\\quantum_pdf\\"
