@@ -7,7 +7,11 @@ from selenium.webdriver.common.by import By
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 import requests
+# import test
+# import subprocess
+# subprocess.run(["python3", "test.py"])
 
+# test()
 chrome_options = Options()
 chrome_options.add_argument('--headless=old')
 driver = webdriver.Chrome(options=chrome_options)
@@ -22,7 +26,7 @@ driver.execute_cdp_cmd("Page.setDownloadBehavior", {
     "downloadPath": download_dir
 })
 
-url = "https://www.novyyloans.com/api/applications"
+url = "https://novyyloans.ntlstaging.co.uk/api/applications"
 response = requests.request("GET", url)
 jss = json.loads(response.text)
 for js in jss:
