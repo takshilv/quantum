@@ -459,7 +459,7 @@ for js in jss:
         # Rename the file
         os.rename(new_file_path, updated_file_path)
         id = js["id"]
-        url = f"https://www.novyyloans.com/api/applications?id={id}&filename={updated_file_name}"
+        url = f"https://novyyloans.ntlstaging.co.uk/api/applications?id={id}&filename={updated_file_name}"
 
         response = requests.request("POST", url)
 
@@ -467,7 +467,7 @@ for js in jss:
         print('**********')
     except Exception as e:
         print(e)
-        url = f"https://www.novyyloans.com/api/applications/logs?id={id}&email={js['email']}&message={e}"
+        url = f"https://novyyloans.ntlstaging.co.uk/api/applications/logs?id={id}&email={js['email']}&message={e}"
         payload = {}
         headers = {}
         response = requests.request("POST", url, headers=headers, data=payload)
