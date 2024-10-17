@@ -334,6 +334,7 @@ for js in jss:
             contin_btn = driver.find_element(By.XPATH, '//*[@id="requestCreditReport"]').click()
         except:
             pass
+
         #****************************************************************************************************#
 
         #********************************** (page 2) *****************************************#
@@ -467,7 +468,7 @@ for js in jss:
         print('**********')
     except Exception as e:
         print(e)
-        url = f"https://novyyloans.ntlstaging.co.uk/api/applications/logs?id={id}&email={js['email']}&message={e}"
+        url = f"https://novyyloans.ntlstaging.co.uk/api/applications/logs?id={js['id']}&email={js['email']}&message={e}"
         payload = {}
         headers = {}
         response = requests.request("POST", url, headers=headers, data=payload)
