@@ -13,7 +13,7 @@ import requests
 
 # test()
 chrome_options = Options()
-chrome_options.add_argument('--headless=old')
+# chrome_options.add_argument('--headless=old')
 driver = webdriver.Chrome(options=chrome_options)
 driver.maximize_window()
 # download_dir = "E:\\takshil\\quantum_pdf\\"
@@ -339,6 +339,8 @@ for js in jss:
         #****************************************************************************************************#
 
         #********************************** (page 2) *****************************************#
+
+        time.sleep(5)
         satisfied_default = driver.find_element(By.XPATH, '//*[contains(text(),"Satisfied Defaults")]/../..//*[contains(text(),"No defaults within last 24 months")]/../input').click()
 
         satisfied_ccjs = driver.find_element(By.XPATH, '//*[contains(text(),"Satisfied CCJs")]/../..//*[contains(text(),"No CCJs")]/../input').click()
@@ -366,7 +368,7 @@ for js in jss:
         debt_relief_orders = driver.find_element(By.XPATH, '//*[contains(text(),"Debt Relief Orders")]/../..//*[contains(text(),"No")]/../input').click()
 
         select_product = driver.find_element(By.XPATH, '//*[contains(text(),"Select product ")]').click()
-        time.sleep(5)
+        time.sleep(10)
         #*******************************************************************************************************#
 
         #********************************************* (page 3) ********************************************#
@@ -375,25 +377,25 @@ for js in jss:
             fees.send_keys(js['fees'])
         except:
             pass
-        time.sleep(8)
+        time.sleep(12)
 
         try:
             number_of_loan = driver.find_element(By.XPATH,'//*[@id="Product_NumberOfYearsToRepay"]')
             number_of_loan.clear()
-            time.sleep(6)
+            time.sleep(10)
             number_of_loan.send_keys(js['numner_of_year_to_repay'])
         except:
             pass
-        time.sleep(2)
+        time.sleep(5)
 
         try:
             repayment_type = driver.find_element(By.XPATH, '//*[@id="Product_LoanRepaymentType"]')
             # time.sleep(6)
             repayment_type.send_keys(js['repayment_type'])
-            time.sleep(6)
+            time.sleep(10)
         except:
             pass
-        time.sleep(2)
+        time.sleep(5)
 
         try:
             product = js['product']
@@ -412,20 +414,20 @@ for js in jss:
 
         try:
             general_illustration =  driver.find_element(By.XPATH, '//*[contains(text(),"Generate Illustration")]').click()
-            time.sleep(6)
+            time.sleep(12)
         except:
             pass
         try:
             general_illustration =  driver.find_element(By.XPATH, '//*[contains(text(),"Generate Illustration")]').click()
         except:
             pass
-        time.sleep(4)
+        time.sleep(8)
         #************************************************************************************************************#
         continue_application = driver.find_element(By.XPATH, '//*[contains(text(),"Continue application")]').click()
-        time.sleep(2)
+        time.sleep(5)
 
         next = driver.find_element(By.XPATH, '//*[contains(text(),"Next")]').click()
-        time.sleep(2)
+        time.sleep(5)
 
 
         unique_id_file_name = str(uuid.uuid5(uuid.NAMESPACE_DNS, js['email'] + str(datetime.datetime.now().strftime("%H:%M:%S"))))
@@ -436,7 +438,7 @@ for js in jss:
 
         # Click the download button to start downloading
         download.click()
-        time.sleep(10)
+        time.sleep(15)
 
         # Wait for a new file to appear in the download directory
         new_file_name = None
