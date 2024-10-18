@@ -33,6 +33,7 @@ for js in jss:
     print(js)
 
     driver.get('https://www.qmlsystem.co.uk/Portal/Application/DisplayForm?formName=Apply%20-%20How%20Many%20Applicants&items=OgofrOXVTjoqOqAqsFlTCJmY4LV4KEBMoZUjOJnG13tc7rmUeXAUryG4RN37o5DOO4Puo27WVw0sDKNrBPvPaMmHjVtHGruK8fHxz7%2B9t9HitYT79DCfI6gfzMZrK42oI7gWDZPweYjl1NRyn5VPcCrekyYhGfryHRpAY099Y5g%3D')
+    time.sleep(8)
     try:
         username = driver.find_element(By.ID ,'Email')
         username.send_keys('asaraff@arethacapital.com')
