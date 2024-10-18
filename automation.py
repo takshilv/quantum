@@ -13,7 +13,7 @@ import requests
 
 # test()
 chrome_options = Options()
-chrome_options.add_argument('--headless=old')
+# chrome_options.add_argument('--headless=old')
 driver = webdriver.Chrome(options=chrome_options)
 driver.maximize_window()
 # download_dir = "E:\\takshil\\quantum_pdf\\"
@@ -30,6 +30,7 @@ url = "https://novyyloans.ntlstaging.co.uk/api/applications"
 response = requests.request("GET", url)
 jss = json.loads(response.text)
 for js in jss:
+    print('Time:'+str(datetime.datetime.now().strftime("%H:%M:%S")))
     print(js)
 
     driver.get('https://www.qmlsystem.co.uk/Portal/Application/DisplayForm?formName=Apply%20-%20How%20Many%20Applicants&items=OgofrOXVTjoqOqAqsFlTCJmY4LV4KEBMoZUjOJnG13tc7rmUeXAUryG4RN37o5DOO4Puo27WVw0sDKNrBPvPaMmHjVtHGruK8fHxz7%2B9t9HitYT79DCfI6gfzMZrK42oI7gWDZPweYjl1NRyn5VPcCrekyYhGfryHRpAY099Y5g%3D')
