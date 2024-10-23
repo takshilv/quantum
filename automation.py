@@ -13,11 +13,11 @@ import requests
 
 # test()
 chrome_options = Options()
-chrome_options.add_argument('--headless=old')
+# chrome_options.add_argument('--headless=old')
 driver = webdriver.Chrome(options=chrome_options)
 driver.maximize_window()
-# download_dir = "E:\\takshil\\quantum_pdf\\"
-download_dir = "/var/www/novyy-dev/novyyloans/storage/app/public/qmlApplications/"
+download_dir = "E:\\takshil\\quantum_pdf\\"
+# download_dir = "/var/www/novyy-dev/novyyloans/storage/app/public/qmlApplications/"
 # download_dir = "/home/ubuntu/storage/loan-applications/"
 
 # download_dir = "D:\\khushali\\pdf\\"
@@ -33,21 +33,30 @@ for js in jss:
     print('Time:'+str(datetime.datetime.now().strftime("%H:%M:%S")))
     print(js)
 
-    driver.get('https://www.qmlsystem.co.uk/Portal/Application/DisplayForm?formName=Apply%20-%20How%20Many%20Applicants&items=OgofrOXVTjoqOqAqsFlTCJmY4LV4KEBMoZUjOJnG13tc7rmUeXAUryG4RN37o5DOO4Puo27WVw0sDKNrBPvPaMmHjVtHGruK8fHxz7%2B9t9HitYT79DCfI6gfzMZrK42oI7gWDZPweYjl1NRyn5VPcCrekyYhGfryHRpAY099Y5g%3D')
-    time.sleep(8)
+    driver.get('https://www.qmlsystem.co.uk/Portal/Application/DisplayForm?formName=Apply%20-%20Who%20is%20applying&items=2TnhPEhIjm8pGUhSWoIm%2B5jvt6o6pgltxGSdMUZKE2ky8vF7wyt5DSNT395nKyC%2B')
+    time.sleep(3)
     try:
         username = driver.find_element(By.ID ,'Email')
         username.send_keys('asaraff@arethacapital.com')
-        time.sleep(2)
+        time.sleep(1)
 
         password = driver.find_element(By.ID ,'Password')
         password.send_keys('X5VA5uX!tLLj4Yg')
-        time.sleep(2)
+        time.sleep(1)
 
         login = driver.find_element(By.XPATH, '//*[@type="submit"]').click()
-        time.sleep(3)
+        time.sleep(2)
     except:
         pass
+
+
+    company = js['name_of_company']
+    if company:
+        comp = driver.find_element(By.XPATH, '//*[contains(text(),"UK Limited Company, UK SPV or UK LLP")]/..').click()
+        print('company')
+    else:
+        private = driver.find_element(By.XPATH, '//*[contains(text(),"Private individual")]/..').click()
+        print('no')
 
     try:
         number_of_applicants = driver.find_element(By.XPATH, '//*[@id="Application_NumberOfApplicants"]')
@@ -103,6 +112,51 @@ for js in jss:
             service = driver.find_element(By.XPATH, '//*[contains(text(),"Information Only")]/..').click()
 
         # *************************** form start(page 1) ******************************** #
+        try:
+            company_name = driver.find_element(By.XPATH, '//*[@name="Company.RegisteredName"]')
+            company_name.send_keys(js['name_of_company'])
+        except:
+            pass
+
+        reg_no = js['company_registration_number']
+        if reg_no:
+            reg_yes = driver.find_element(By.XPATH, '//*[@for="Company_DoYouKnowRegisteredNumber"]/../div/div/div/span[2]').click()
+            time.sleep(2)
+            comp_no = driver.find_element(By.XPATH, '//*[@name="Company.RegisteredNumber"]')
+            comp_no.send_keys(js['company_registration_number'])
+        else:
+            pass
+
+        try:
+            sic_code = driver.find_element(By.XPATH, '//*[@name="Company.SICCode"]')
+            sic_code.send_keys(js['sic_code'])
+        except:
+            pass
+
+        try:
+            comp_postalcode = driver.find_element(By.XPATH, '//*[@id="Company_AddressPostCode"]')
+            comp_postalcode.send_keys(js['company_postlecode'])
+        except:
+            pass
+
+        try:
+            comp_add = driver.find_element(By.XPATH, '//*[@id="Company_AddressLine1"]')
+            comp_add.send_keys(js['company_address_line_1'])
+        except:
+            pass
+
+        try:
+            comp_city = driver.find_element(By.XPATH, '//*[@name="Company.AddressCity"]')
+            comp_city.send_keys(js['company_city'])
+        except:
+            pass
+
+        try:
+            comp_country = driver.find_element(By.XPATH, '//*[@id="Company_AddressCountry"]')
+            comp_country.send_keys(js['company_country'])
+        except:
+            pass
+
         try:
             title = driver.find_element(By.XPATH, '//*[@id="Applicant[0]_Applicant_Title"]')
             title.send_keys(js['title'])
@@ -341,7 +395,7 @@ for js in jss:
 
         #********************************** (page 2) *****************************************#
 
-        time.sleep(5)
+        time.sleep(3)
         satisfied_default = driver.find_element(By.XPATH, '//*[contains(text(),"Satisfied Defaults")]/../..//*[contains(text(),"No defaults within last 24 months")]/../input').click()
 
         satisfied_ccjs = driver.find_element(By.XPATH, '//*[contains(text(),"Satisfied CCJs")]/../..//*[contains(text(),"No CCJs")]/../input').click()
@@ -369,7 +423,7 @@ for js in jss:
         debt_relief_orders = driver.find_element(By.XPATH, '//*[contains(text(),"Debt Relief Orders")]/../..//*[contains(text(),"No")]/../input').click()
 
         select_product = driver.find_element(By.XPATH, '//*[contains(text(),"Select product ")]').click()
-        time.sleep(10)
+        time.sleep(5)
         #*******************************************************************************************************#
 
         #********************************************* (page 3) ********************************************#
@@ -378,25 +432,25 @@ for js in jss:
             fees.send_keys(js['fees'])
         except:
             pass
-        time.sleep(12)
+        time.sleep(6)
 
         try:
             number_of_loan = driver.find_element(By.XPATH,'//*[@id="Product_NumberOfYearsToRepay"]')
             number_of_loan.clear()
-            time.sleep(10)
+            time.sleep(6)
             number_of_loan.send_keys(js['numner_of_year_to_repay'])
         except:
             pass
-        time.sleep(5)
+        time.sleep(3)
 
         try:
             repayment_type = driver.find_element(By.XPATH, '//*[@id="Product_LoanRepaymentType"]')
             # time.sleep(6)
             repayment_type.send_keys(js['repayment_type'])
-            time.sleep(10)
+            time.sleep(6)
         except:
             pass
-        time.sleep(5)
+        time.sleep(3)
 
         try:
             product = js['product']
@@ -415,20 +469,20 @@ for js in jss:
 
         try:
             general_illustration =  driver.find_element(By.XPATH, '//*[contains(text(),"Generate Illustration")]').click()
-            time.sleep(12)
+            time.sleep(6)
         except:
             pass
         try:
             general_illustration =  driver.find_element(By.XPATH, '//*[contains(text(),"Generate Illustration")]').click()
         except:
             pass
-        time.sleep(8)
+        time.sleep(5)
         #************************************************************************************************************#
         continue_application = driver.find_element(By.XPATH, '//*[contains(text(),"Continue application")]').click()
-        time.sleep(5)
+        time.sleep(3)
 
         next = driver.find_element(By.XPATH, '//*[contains(text(),"Next")]').click()
-        time.sleep(5)
+        time.sleep(3)
 
 
         unique_id_file_name = str(uuid.uuid5(uuid.NAMESPACE_DNS, js['email'] + str(datetime.datetime.now().strftime("%H:%M:%S"))))
@@ -439,7 +493,7 @@ for js in jss:
 
         # Click the download button to start downloading
         download.click()
-        time.sleep(15)
+        time.sleep(8)
 
         # Wait for a new file to appear in the download directory
         new_file_name = None
