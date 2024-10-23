@@ -26,6 +26,7 @@ driver.execute_cdp_cmd("Page.setDownloadBehavior", {
     "downloadPath": download_dir
 })
 
+print('************** started ****************')
 url = "https://novyyloans.ntlstaging.co.uk/api/applications"
 response = requests.request("GET", url)
 jss = json.loads(response.text)
