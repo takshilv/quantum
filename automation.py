@@ -391,6 +391,7 @@ for js in jss:
         except:
             pass
 
+        print('****** first page done *******')
         #****************************************************************************************************#
 
         #********************************** (page 2) *****************************************#
@@ -424,6 +425,7 @@ for js in jss:
 
         select_product = driver.find_element(By.XPATH, '//*[contains(text(),"Select product ")]').click()
         time.sleep(5)
+        print('****** second page done *******')
         #*******************************************************************************************************#
 
         #********************************************* (page 3) ********************************************#
@@ -477,6 +479,7 @@ for js in jss:
         except:
             pass
         time.sleep(5)
+        print('****** third page done *******')
         #************************************************************************************************************#
         continue_application = driver.find_element(By.XPATH, '//*[contains(text(),"Continue application")]').click()
         time.sleep(3)
@@ -517,12 +520,14 @@ for js in jss:
 
         # Rename the file
         os.rename(new_file_path, updated_file_path)
+        print('****** download done *******')
         id = js["id"]
         url = f"https://novyyloans.ntlstaging.co.uk/api/applications?id={id}&filename={updated_file_name}"
 
         response = requests.request("POST", url)
 
         print(response.status_code)
+        print('****** final update done *******')
         print('**********')
     except Exception as e:
         print(e)
