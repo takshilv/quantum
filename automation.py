@@ -129,8 +129,12 @@ for js in jss:
             pass
 
         try:
-            sic_code = driver.find_element(By.XPATH, '//*[@name="Company.SICCode"]')
-            sic_code.send_keys(js['sic_code'])
+            sic_code = driver.find_element(By.XPATH, '//*[@name="Company.SICCode"]').click()
+            sic_code_js = js['sic_code']
+            deopdown = driver.find_element(By.XPATH, f'//*[contains(text(),"{sic_code_js}")]').click()
+            # print(deopdown)
+            # a = f'//*[contains(text(),"{sic_code_js}")]'
+            # print(a)
         except:
             pass
 
