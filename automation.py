@@ -488,20 +488,22 @@ for js in jss:
         #************************************************************************************************************#
         continue_application = driver.find_element(By.XPATH, '//*[contains(text(),"Continue application")]').click()
         time.sleep(3)
+        print('continue')
 
         next = driver.find_element(By.XPATH, '//*[contains(text(),"Next")]').click()
         time.sleep(3)
-
+        print('next')
 
         unique_id_file_name = str(uuid.uuid5(uuid.NAMESPACE_DNS, js['email'] + str(datetime.datetime.now().strftime("%H:%M:%S"))))
+        print(unique_id_file_name)
 
         download = driver.find_element(By.XPATH, '//*[contains(text(),"Reissue DIP")]')
-
         before_download = set(os.listdir(download_dir))
 
         # Click the download button to start downloading
         download.click()
         time.sleep(8)
+        print('download done')
 
         # Wait for a new file to appear in the download directory
         new_file_name = None
@@ -522,6 +524,7 @@ for js in jss:
         # Define the new file name
         updated_file_name = unique_id_file_name+'.pdf'  # Replace with your desired file name
         updated_file_path = os.path.join(download_dir, updated_file_name)
+        print('file update done')
 
         # Rename the file
         os.rename(new_file_path, updated_file_path)
