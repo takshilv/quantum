@@ -525,6 +525,7 @@ for js in jss:
         # Define the new file name
         updated_file_name = unique_id_file_name+'.pdf'  # Replace with your desired file name
         updated_file_path = os.path.join(download_dir, updated_file_name)
+        print(updated_file_path)
         print('file update done')
 
         # Rename the file
