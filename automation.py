@@ -511,9 +511,10 @@ for js in jss:
             time.sleep(1)  # Check every second for a new file
             after_download = set(os.listdir(download_dir))
             new_files = after_download - before_download  # Get the new file(s)
-
+            print(new_files)
             # If there's a new file, get its name
             if new_files:
+                print('get new file')
                 new_file_name = new_files.pop()
 
         # Wait until the file is fully downloaded (Chrome adds .crdownload until the download is complete)
