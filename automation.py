@@ -13,12 +13,12 @@ import requests
 
 # test()
 chrome_options = Options()
-chrome_options.add_argument('--headless=old')
+# chrome_options.add_argument('--headless=old')
 driver = webdriver.Chrome(options=chrome_options)
 driver.maximize_window()
-# download_dir = "E:\\takshil\\quantum_pdf\\"
+download_dir = "E:\\takshil\\quantum_pdf\\"
 # download_dir = "/var/www/novyy-dev/novyyloans/storage/app/public/qmlApplications/"
-download_dir = "/var/www/novyy-dev/Novyy/storage/app/public/qmlApplications/"
+# download_dir = "/var/www/novyy-dev/Novyy/storage/app/public/qmlApplications/"
 # download_dir = "/home/ubuntu/storage/loan-applications/"
 
 # download_dir = "D:\\khushali\\pdf\\"
@@ -130,9 +130,10 @@ for js in jss:
             pass
 
         try:
-            sic_code = driver.find_element(By.XPATH, '//*[@name="Company.SICCode"]').click()
+            sic_code = driver.find_element(By.XPATH, '//*[@id="Company_SICCode"]')
             sic_code_js = js['sic_code']
-            deopdown = driver.find_element(By.XPATH, f'//*[contains(text(),"{sic_code_js}")]').click()
+            sic_code.send_keys(sic_code_js)
+            # deopdown = driver.find_element(By.XPATH, f'//*[contains(text(),"{sic_code_js}")]').click()
             # print(deopdown)
             # a = f'//*[contains(text(),"{sic_code_js}")]'
             # print(a)
@@ -196,6 +197,12 @@ for js in jss:
         try:
             dob = driver.find_element(By.XPATH, '//*[@name="Applicant[0].Applicant.DateOfBirth_Date"]')
             dob.send_keys(js['dob'])
+        except:
+            pass
+
+        try:
+            city = driver.find_element(By.XPATH, '//*[@id="Applicant[0]_Applicant_AddressCity"]')
+            city.send_keys(js['city'])
         except:
             pass
 
@@ -288,6 +295,12 @@ for js in jss:
             pass
 
         try:
+            security_city = driver.find_element(By.XPATH, '//*[@name="Security.PropertyAddressCity"]')
+            security_city.send_keys(js['security_city'])
+        except:
+            pass
+
+        try:
             security_property_tenure = driver.find_element(By.XPATH, '//*[@name="Security.PropertyTenure"]')
             security_property_tenure.send_keys(js['security_property_tenure'])
         except:
@@ -308,6 +321,18 @@ for js in jss:
         try:
             security_rental_income = driver.find_element(By.XPATH, '//*[@name="Mortgage.MonthlyRentalIncome"]')
             security_rental_income.send_keys(js['security_rental_income'])
+        except:
+            pass
+
+        try:
+            security_purchace_date = driver.find_element(By.XPATH, '//*[@name="Mortgage.PurchaseDate_Date"]')
+            security_purchace_date.send_keys(js['purchace_date'])
+        except:
+            pass
+
+        try:
+            security_estimated_value_of_property = driver.find_element(By.XPATH, '//*[@name="Mortgage.EstimatedValue"]')
+            security_estimated_value_of_property.send_keys(js['security_purchase_price'])
         except:
             pass
 
@@ -344,6 +369,12 @@ for js in jss:
         try:
             previous_address = driver.find_element(By.XPATH ,'//*[@name="Applicant[0].Applicant.Previous1AddressLine1"]')
             previous_address.send_keys(js['previous_address'])
+        except:
+            pass
+
+        try:
+            previous_city = driver.find_element(By.XPATH, '//*[@name="Applicant[0].Applicant.Previous1AddressCity"]')
+            previous_city.send_keys(js['previous_city'])
         except:
             pass
 
@@ -429,9 +460,38 @@ for js in jss:
 
         debt_relief_orders = driver.find_element(By.XPATH, '//*[contains(text(),"Debt Relief Orders")]/../..//*[contains(text(),"No")]/../input').click()
 
+        try:
+            satisfied_default = driver.find_element(By.XPATH, '//*[@class="well no-padding "]//*[contains(text(),"Satisfied Defaults")]/../..//*[contains(text(),"No defaults within last 24 months")]/../input').click()
+
+            satisfied_ccjs = driver.find_element(By.XPATH, '//*[@class="well no-padding "]//*[contains(text(),"Satisfied CCJs")]/../..//*[contains(text(),"No CCJs")]/../input').click()
+
+            unsatisfied_ccjs = driver.find_element(By.XPATH, '//*[@class="well no-padding "]//*[contains(text(),"Unsatisfied CCJ/Defaults")]/../..//*[contains(text(),"None")]/../input').click()
+
+            mortgage_arrears = driver.find_element(By.XPATH, '//*[@class="well no-padding "]//*[contains(text(),"Mortgage Arrears")]/../..//*[contains(text(),"No missed mortgage")]/../input').click()
+
+            payment_arrears = driver.find_element(By.XPATH, '//*[@class="well no-padding "]//*[contains(text(),"Payment Arrears")]/../..//*[contains(text(),"No missed payments")]/../input').click()
+
+            payment_holidays = driver.find_element(By.XPATH, '//*[@class="well no-padding "]//*[contains(text(),"Payment Holidays")]/../..//*[contains(text(),"No")]/../input').click()
+
+            payday_loans = driver.find_element(By.XPATH, '//*[@class="well no-padding "]//*[contains(text(),"Payday Loans")]/../..//*[contains(text(),"None")]/../input').click()
+
+            bankruptcy = driver.find_element(By.XPATH, '//*[@class="well no-padding "]//*[contains(text(),"Bankruptcy")]/../..//*[contains(text(),"No")]/../input').click()
+
+            iva = driver.find_element(By.XPATH, '//*[@class="well no-padding "]//*[contains(text(),"IVA - Individual and Company")]/../..//*[contains(text(),"No")]/../input').click()
+
+            administration_order = driver.find_element(By.XPATH, '//*[@class="well no-padding "]//*[contains(text(),"Administration Orders")]/../..//*[contains(text(),"No")]/../input').click()
+
+            payment_arrangements = driver.find_element(By.XPATH, '//*[@class="well no-padding "]//*[contains(text(),"Payment Arrangements")]/../..//*[contains(text(),"No")]/../input').click()
+
+            repossessions = driver.find_element(By.XPATH, '//*[@class="well no-padding "]//*[contains(text(),"Repossessions")]/../..//*[contains(text(),"No")]/../input').click()
+
+            debt_relief_orders = driver.find_element(By.XPATH, '//*[@class="well no-padding "]//*[contains(text(),"Debt Relief Orders")]/../..//*[contains(text(),"No")]/../input').click()
+        except:
+            pass
         select_product = driver.find_element(By.XPATH, '//*[contains(text(),"Select product ")]').click()
         time.sleep(5)
         print('****** second page done *******')
+        # '//*[@class="well no-padding "]//*[contains(text(),"Satisfied Defaults")]/../..//*[contains(text(),"No defaults within last 24 months")]/../input'
         #*******************************************************************************************************#
 
         #********************************************* (page 3) ********************************************#
@@ -495,6 +555,520 @@ for js in jss:
         time.sleep(3)
         print('next')
 
+        main_url = driver.current_url
+        #-------------------- other income -----------------#
+        try:
+            driver.find_element(By.XPATH, '//*[contains(text(),"Other Income")]/../..').click()
+            time.sleep(3)
+
+            other_inc_next = driver.find_element(By.XPATH, '//*[@class="btn btn-default nav-button pull-right blueBtn "]').click()
+            time.sleep(3)
+            driver.get(main_url)
+            driver.refresh()
+            time.sleep(2)
+        except:
+            print('OTHER INCOME not found or error')
+            pass
+        #---------------------------------------------------#
+
+        #----------------- asset -----------------------#
+        try:
+            driver.find_element(By.XPATH, '//span[contains(text(),"Assets")]/../..').click()
+            time.sleep(3)
+            asset_next = driver.find_element(By.XPATH, '//*[@class="btn btn-default nav-button pull-right blueBtn "]').click()
+            time.sleep(3)
+            driver.get(main_url)
+            driver.refresh()
+            time.sleep(2)
+        except:
+            print('assets not found or error')
+            pass
+        #-----------------------------------------------#
+
+        #------------------ commitments -----------------#
+        try:
+            driver.find_element(By.XPATH, '//*[contains(text(),"Commitments")]/../..').click()
+            time.sleep(3)
+            commitment_next = driver.find_element(By.XPATH, '//*[@class="btn btn-default nav-button pull-right blueBtn "]').click()
+            time.sleep(3)
+            driver.get(main_url)
+            driver.refresh()
+            time.sleep(2)
+        except:
+            print('commitments not found or error')
+            pass
+        #------------------------------------------------#
+
+        #------------------- property -------------------#
+        try:
+            driver.find_element(By.XPATH, '//*[contains(text(),"Properties ")]/../..').click()
+            time.sleep(3)
+            portfolio_next = driver.find_element(By.XPATH, '//*[@class="btn btn-default nav-button pull-right blueBtn "]').click()
+            time.sleep(3)
+            driver.get(main_url)
+            driver.refresh()
+            time.sleep(2)
+        except:
+            print('property not found or error')
+            pass
+        #----------------------------------------------#
+
+        #-------------------- product ------------------#
+        try:
+            driver.find_element(By.XPATH, '//span[contains(text(),"Product")]/../..').click()
+            time.sleep(3)
+            product_next = driver.find_element(By.XPATH, '//*[@class="btn btn-default nav-button pull-right blueBtn "]').click()
+            time.sleep(3)
+            driver.get(main_url)
+            driver.refresh()
+            time.sleep(2)
+        except:
+            print('product not found or errror')
+            pass
+        #------------------------------------------------#
+
+        # -------------------- personal_details ------------------#
+        try:
+            driver.find_element(By.XPATH, '//span[contains(text(),"Personal Details ")]/../..').click()
+            time.sleep(3)
+
+            try:
+                retire_age = driver.find_element(By.XPATH, '//*[@name="Applicant.RetirementAge"]')
+                retire_age.send_keys(js['retirement_age'])
+            except:
+                pass
+
+            try:
+                merital_status = driver.find_element(By.XPATH, '//*[@name="Applicant.MaritalStatus"]')
+                merital_status.send_keys(js['marital_status'])
+            except:
+                pass
+
+            personal_details_next = driver.find_element(By.XPATH, '//*[@class="btn btn-default nav-button pull-right blueBtn "]').click()
+            time.sleep(4)
+            driver.get(main_url)
+            driver.refresh()
+            time.sleep(2)
+        except:
+            print('personal details not found or error')
+        # ------------------------------------------------#
+
+        # -------------------- property type ------------------#
+        try:
+            driver.find_element(By.XPATH, '//span[contains(text(),"Property type ")]/../..').click()
+            time.sleep(3)
+
+            try:
+                epc_rating = driver.find_element(By.XPATH, '//*[@id="Security_EnergyPerformanceCertificate"]')
+                epc_rating.send_keys(js['epc_rating'])
+            except:
+                pass
+
+            # provide_details = driver.find_element(By.XPATH, '//*[@id="Security_FullVacantPossessionDetails"]')
+            # # provide_details.send_keys('abc')
+            # provide_details.send_keys(js['share_of_freehold_details'])
+
+            try:
+                number_of_floors = driver.find_element(By.XPATH, '//*[@id="Security_HouseNumberOfFloors"]')
+                number_of_floors.clear()
+                number_of_floors.send_keys(js['number_of_floors'])
+            except:
+                pass
+
+            try:
+                number_of_bedrooms = driver.find_element(By.XPATH, '//*[@id="Security_FlatNumberOfBedrooms"]')
+                number_of_bedrooms.clear()
+                number_of_bedrooms.send_keys(js['number_of_bedrooms'])
+            except:
+                pass
+
+            try:
+                number_of_livingrooms = driver.find_element(By.XPATH, '//*[@id="Security_HouseNumberOfLivingRooms"]')
+                number_of_livingrooms.clear()
+                number_of_livingrooms.send_keys(js['number_of_living_rooms'])
+            except:
+                pass
+
+            try:
+                number_of_kitchens = driver.find_element(By.XPATH, '//*[@id="Security_HouseNumberOfKitchens"]')
+                number_of_kitchens.clear()
+                number_of_kitchens.send_keys(js['number_of_kitchens'])
+            except:
+                pass
+
+            try:
+                number_of_bathrooms = driver.find_element(By.XPATH, '//*[@id="Security_HouseNumberOfBathrooms"]')
+                number_of_bathrooms.clear()
+                number_of_bathrooms.send_keys(js['number_of_bathrooms'])
+            except:
+                pass
+
+            try:
+                number_of_tenants = driver.find_element(By.XPATH, '//*[@id="Security_TenantsOnTenancyAgreement"]')
+                number_of_tenants.clear()
+                number_of_tenants.send_keys(js['number_of_tenants'])
+            except:
+                pass
+
+            try:
+                number_of_tenancy_agreements = driver.find_element(By.XPATH, '//*[@id="Security_TenancyAgreementsGranted"]')
+                number_of_tenancy_agreements.clear()
+                number_of_tenancy_agreements.send_keys(js['number_of_tenancy_agreements'])
+            except:
+                pass
+
+            try:
+                number_of_floors_in_block = driver.find_element(By.XPATH, '//*[@id="Security_FlatNumberOfFloors"]')
+                number_of_floors_in_block.clear()
+                number_of_floors_in_block.send_keys(js['number_of_floors_in_block'])
+            except:
+                pass
+
+            try:
+                floor_number = driver.find_element(By.XPATH, '//*[@id="Security_FloorFlatSituated"]')
+                floor_number.clear()
+                floor_number.send_keys(js['floor_number'])
+            except:
+                pass
+
+            try:
+                lift = js['is_there_lift']
+                if lift == 'Yes':
+                    istherelift = driver.find_element(By.XPATH, '//*[contains(text(),"Is there a lift?")]/../div/div/div/span[2]').click()
+                else:
+                    pass
+            except:
+                pass
+
+            try:
+                garage = js['is_there_garage']
+                if garage == 'Yes':
+                    istheregarage= driver.find_element(By.XPATH, '//*[contains(text(),"Is there a Garage?")]/../div/div/div/span[2]').click()
+                else:
+                    pass
+            except:
+                pass
+
+            try:
+                balcony = js['is_flat_accessed_via_balcony']
+                if balcony == 'Yes':
+                    istherebalcony = driver.find_element(By.XPATH, '//*[contains(text(),"Is the Flat accessed via a balcony or deck?")]/../div/div/div/span[2]').click()
+                else:
+                    pass
+            except:
+                pass
+
+            try:
+                property_licence = js['local_authority_private_rented_property_licence']
+                if property_licence == 'Yes':
+                    isproperty_licence = driver.find_element(By.XPATH, "//*[contains(text(),'Local Authority Private Rented Property Licence')]/../div/div/div/span[2]").click()
+                    licence_type = driver.find_element(By.XPATH, '//*[@id="Security_PropertyLicence"]')
+                    licence_type.send_keys('property_licence')
+                else:
+                    pass
+            except:
+                pass
+
+            try:
+                commercial_premises = js['is_adjacent_to_commercial_premises']
+                if commercial_premises == 'Yes':
+                    commercial_premises = driver.find_element(By.XPATH, "//*[contains(text(),'Is the flat above or adjacent to commercial premises')]/../div/div/div/span[2]").click()
+                    commercial_premises_details = driver.find_element(By.XPATH, '//*[@id="Security_FlatAboveCommercialPremisesDetails"]')
+                    commercial_premises_details.send_keys('commercial_premises_details')
+                else:
+                    pass
+            except:
+                pass
+
+            try:
+                property_new = js['is_property_new']
+                if property_new == 'Yes':
+                    isproperty_new = driver.find_element(By.XPATH, '//*[contains(text(),"Is the Property a new Build/new Conversion?")]/../div/div/div/span[2]').click()
+                    time.sleep(1)
+                    course_construction = js['is_property_in_course_of_construction']
+                    if course_construction == 'Yes':
+                        iscourse_construction = driver.find_element(By.XPATH, '//*[contains(text(),"Is the property in the course of construction?")]/../div/div/div/span[2]').click()
+                    else:
+                        pass
+                else:
+                    pass
+            except:
+                pass
+
+            try:
+                standerd_construction = js['is_property_of_standard_construction']
+                if standerd_construction == 'No':
+                    isstanderd_construction = driver.find_element(By.XPATH, '//*[contains(text(),"Is the Property of Standard Construction?")]/../div/div/div/span[2]').click()
+                    construction_details = driver.find_element(By.XPATH, '//*[@name="Security.ConstructionDetails"]')
+                    construction_details.send_keys(js['construction_details'])
+                else:
+                    pass
+            except:
+                pass
+
+            try:
+                if js['security_property_tenure'] == 'Leasehold':
+                    service_charge = driver.find_element(By.XPATH, '//*[@name="Security.ServiceCharge"]')
+                    service_charge.send_keys(js['service_charge'])
+
+                    ground_rent = driver.find_element(By.XPATH, '//*[@name="Security.GroundRent"]')
+                    ground_rent.send_keys(js['ground_rent'])
+
+                    remaining_lease_year = driver.find_element(By.XPATH, '//*[@name="Security.UnexpiredRemainingLease"]')
+                    remaining_lease_year.send_keys(js['remaining_lease_year'])
+
+                    is_lease_extended = js['is_lease_extended']
+                    if is_lease_extended == 'Yes':
+                        is_lease_extended = driver.find_element(By.XPATH, '//*[@id="Security_IsExtendedLease"]/../span[3]').click()
+                        lease_term = driver.find_element(By.XPATH, '//*[@name="Security.ExtendedLease"]')
+                        lease_term.send_keys(js['current_lease_years'])
+                    else:
+                        pass
+
+                    purchasing_share_of_freehold = js['purchasing_share_of_freehold']
+                    if purchasing_share_of_freehold == 'Yes':
+                        purchasing_share_of_freehold = driver.find_element(By.XPATH, '//*[@id="Security_PurchaseShareOfFreehold"]/../span[3]').click()
+                        share_of_freehold_details = driver.find_element(By.XPATH, '//*[@name="Security.PurchaseShareOfFreeholdDetails"]')
+                        share_of_freehold_details.send_keys(js['share_of_freehold_details'])
+                    else:
+                        pass
+            except:
+                pass
+
+            try:
+                is_used_for_business_purposes = js['is_used_for_business_purposes']
+                if is_used_for_business_purposes == 'Yes':
+                    is_used_for_business_purposes = driver.find_element(By.XPATH, '//*[@id="Security_BusinessPurpose"]/../span[3]').click()
+                    business_purposes_details = driver.find_element(By.XPATH, '//*[@name="Security.BusinessPurposeDetails"]')
+                    business_purposes_details.send_keys(js['business_purposes_details'])
+                else:
+                    pass
+            except:
+                pass
+
+            try:
+                is_there_occupancy_restriction = js['is_there_occupancy_restriction']
+                if is_there_occupancy_restriction == 'Yes':
+                    is_there_occupancy_restriction = driver.find_element(By.XPATH, '//*[@id="Security_OccupancyRestrictions"]/../span[3]').click()
+                    occupancy_restriction_details = driver.find_element(By.XPATH, '//*[@name="Security.OccupancyRestrictionDetails"]')
+                    occupancy_restriction_details.send_keys(js['occupancy_restriction_details'])
+                else:
+                    pass
+            except:
+                pass
+
+            try:
+                is_full_vacant_possession = js['is_full_vacant_possession']
+                if is_full_vacant_possession == 'Yes':
+                    is_full_vacant_possession = driver.find_element(By.XPATH, '//*[@id="Security_FullVacantPossession"]/../span[3]').click()
+                else:
+                    pass
+                try:
+                    full_vacant_possession_details = driver.find_element(By.XPATH, '//*[@name="Security.FullVacantPossessionDetails"]')
+                    full_vacant_possession_details.send_keys(js['full_vacant_possession_details'])
+                except:
+                    pass
+            except:
+                pass
+
+            try:
+                is_used_other_than_btl_details = js['is_used_other_than_btl_details']
+                if is_used_other_than_btl_details == 'Yes':
+                    is_used_other_than_btl_details = driver.find_element(By.XPATH, '//*[@id="Security_OtherThanBTL"]/../span[3]').click()
+                    other_than_btl_details = driver.find_element(By.XPATH, '//*[@name="Security.OtherThanBTLDetails"]')
+                    other_than_btl_details.send_keys(js['other_than_btl_details'])
+                else:
+                    pass
+            except:
+                pass
+
+            try:
+                buying_under_purchase_scheme = js['buying_under_purchase_scheme']
+                if buying_under_purchase_scheme == 'yes':
+                    buying_under_purchase_scheme = driver.find_element(By.XPATH, '//*[@id="Security_BuyingUnderPurchaseScheme"]/../span[3]').click()
+                    under_purchase_scheme_details = driver.find_element(By.XPATH, '//*[@name="Security.BuyingUnderPurchaseSchemeDetails"]')
+                    under_purchase_scheme_details.send_keys(js['under_purchase_scheme_details'])
+                else:
+                    pass
+            except:
+                pass
+
+            try:
+                is_receipt_discount_details = js['is_receipt_discount_details']
+                if is_receipt_discount_details == "Yes":
+                    is_receipt_discount_details = driver.find_element(By.XPATH, '//*[@id="Security_ReceiptOfAnyDiscount"]/../span[3]').click()
+                    receipt_discount_details = driver.find_element(By.XPATH, '//*[@name="Security.ReceiptOfDiscountDetails"]')
+                    receipt_discount_details.send_keys(js['receipt_discount_details'])
+                else:
+                    pass
+            except:
+                pass
+
+            try:
+                is_let_family_member = js['is_let_family_member']
+                if is_let_family_member == 'Yes':
+                    is_let_family_member = driver.find_element(By.XPATH, '//*[@id="Security_LetToFamilyMember"]/../span[3]').click()
+                    let_family_member_details = driver.find_element(By.XPATH, '//*[@name="Security.LetToFamilyMemberDetails"]')
+                    let_family_member_details.send_keys(js['let_family_member_details'])
+                else:
+                    pass
+            except:
+                pass
+
+            try:
+                is_property_tenanted = js['is_property_tenanted']
+                if is_property_tenanted == "Yes":
+                    is_property_tenanted = driver.find_element(By.XPATH, '//*[@id="Security_IsPropertyTenanted"]/../span[3]').click()
+                else:
+                    pass
+            except:
+                pass
+
+            try:
+                notes = driver.find_element(By.XPATH, '//*[@id="Security_SecurityNotes"]')
+                notes.send_keys(js['notes'])
+            except:
+                pass
+
+            property_type_next = driver.find_element(By.XPATH, '//*[@class="btn btn-default nav-button pull-right blueBtn "]').click()
+            time.sleep(2)
+
+            driver.get(main_url)
+            driver.refresh()
+            time.sleep(2)
+        except:
+            print('property type not found or error')
+            pass
+        # ------------------------------------------------#
+
+        #-------------------- loan -----------------------#
+        try:
+            driver.find_element(By.XPATH, '//span[@class="title"][contains(text(),"Loan ")]/../..').click()
+            time.sleep(3)
+
+            try:
+                deposit_come_from = driver.find_element(By.XPATH, '//*[@id="Mortgage_DepositComeFrom"]')
+                deposit_come_from.send_keys(js['deposit_come_from'])
+            except:
+                pass
+
+            try:
+                exit_strategy = driver.find_element(By.XPATH, '//*[@id="Mortgage_ExitStrategy"]')
+                exit_strategy.send_keys(js['exit_strategy'])
+            except:
+                pass
+
+            try:
+                valuation_contact_person = driver.find_element(By.XPATH, '//*[@id="Mortgage_ValuationContact"]')
+                valuation_contact_person.send_keys(js['valuation_contact_person'])
+            except:
+                pass
+
+            try:
+                valuation_contact_person_number = driver.find_element(By.XPATH, '//*[@id="Mortgage_TelephoneNumber"]')
+                valuation_contact_person_number.send_keys(js['valuation_contact_person_number'])
+            except:
+                pass
+
+            try:
+                valuation_contact_name = driver.find_element(By.XPATH, '//*[@id="Mortgage_ContactName"]')
+                valuation_contact_name.send_keys(js['valuation_contact_name'])
+            except:
+                pass
+
+            try:
+                is_private_sale = js['is_private_sale']
+                if is_private_sale == "Yes":
+                    is_private_sale = driver.find_element(By.XPATH, '//*[@id="Mortgage_PrivateSale"]/../span[3]').click()
+                    private_sale_details = driver.find_element(By.XPATH, '//*[@id="Mortgage_PrivateSaleDetails"]')
+                    private_sale_details.send_keys(js['private_sale_details'])
+                else:
+                    pass
+            except:
+                pass
+
+            try:
+                proposed_tenants = driver.find_element(By.XPATH, '//*[@id="Mortgage_ProposedTenants"]')
+                proposed_tenants.send_keys(js['proposed_tenants'])
+            except:
+                pass
+
+            try:
+                lease_type = driver.find_element(By.XPATH, '//*[@id="Mortgage_LeaseType"]')
+                lease_type.send_keys(js['lease_type'])
+            except:
+                pass
+
+            try:
+                tenancy_agreement_months = driver.find_element(By.XPATH, '//*[@id="Mortgage_AnticipatedTenancyAgreement"]')
+                tenancy_agreement_months.clear()
+                tenancy_agreement_months.send_keys(js['tenancy_agreement_months'])
+            except:
+                pass
+
+            try:
+                is_distressed_sale = js['is_distressed_sale']
+                if is_distressed_sale == 'Yes':
+                    is_distressed_sale = driver.find_element(By.XPATH, '//*[@id="Mortgage_IsDistressedSale"]/../span[3]').click()
+                    distressed_sale_details = driver.find_element(By.XPATH, '//*[@id="Mortgage_IsDistressedSaleDetails"]')
+                    distressed_sale_details.send_keys(js['distressed_sale_details'])
+                else:
+                    pass
+            except:
+                pass
+
+            try:
+                is_purchased_below_market_value = js['is_purchased_below_market_value']
+                if is_purchased_below_market_value == "Yes":
+                    is_purchased_below_market_value = driver.find_element(By.XPATH, '//*[@id="Mortgage_IsPurchasedBelowMarketValue"]/../span[3]').click()
+                    purchased_below_market_value_details = driver.find_element(By.XPATH, '//*[@id="Mortgage_IsPurchasedBelowMarketDetails"]')
+                    purchased_below_market_value_details.send_keys(js['purchased_below_market_value_details'])
+                else:
+                    pass
+            except:
+                pass
+
+            try:
+                is_government_initiative_purchased = js['is_government_initiative_purchased']
+                if is_government_initiative_purchased == 'Yes':
+                    is_government_initiative_purchased = driver.find_element(By.XPATH, '//*[@id="Mortgage_IsGovermentInitiative"]/../span[3]').click()
+                    government_initiative_purchased_details = driver.find_element(By.XPATH, '//*[@id="Mortgage_GovernmentInitiativeDetails"]')
+                    government_initiative_purchased_details.send_keys(js['government_initiative_purchased_details'])
+                else:
+                    pass
+            except:
+                pass
+
+            try:
+                is_ready_to_let_out = js['is_ready_to_let_out']
+                if is_ready_to_let_out == 'No':
+                    is_ready_to_let_out = driver.find_element(By.XPATH, '//*[@id="Mortgage_IsReadyToSell"]/../span[3]').click()
+                    ready_to_let_out_details = driver.find_element(By.XPATH, '//*[@name="Mortgage.IsReadyToSellDetails"]')
+                    ready_to_let_out_details.send_keys(js['ready_to_let_out_details'])
+                else:
+                    pass
+            except:
+                pass
+
+            try:
+                vendor_name = driver.find_element(By.XPATH, '//*[@id="Mortgage_VendorsName"]')
+                vendor_name.send_keys(js['vendor_name'])
+            except:
+                pass
+
+            loan_next = driver.find_element(By.XPATH, '//*[@class="btn btn-default nav-button pull-right blueBtn "]').click()
+            time.sleep(3)
+            driver.get(main_url)
+            driver.refresh()
+            time.sleep(2)
+        except:
+            print('loan not found or error')
+        #-------------------------------------------------#
+
+        driver.get(main_url)
+        driver.refresh()
+        time.sleep(3)
+
         unique_id_file_name = str(uuid.uuid5(uuid.NAMESPACE_DNS, js['email'] + str(datetime.datetime.now().strftime("%H:%M:%S"))))
         print(unique_id_file_name)
 
@@ -517,6 +1091,8 @@ for js in jss:
             if new_files:
                 print('get new file')
                 new_file_name = new_files.pop()
+            else:
+                break
 
         # Wait until the file is fully downloaded (Chrome adds .crdownload until the download is complete)
         new_file_path = os.path.join(download_dir, new_file_name)
@@ -548,3 +1124,6 @@ for js in jss:
         response = requests.request("POST", url, headers=headers, data=payload)
         print(response.text)
         pass
+
+
+driver.close()
