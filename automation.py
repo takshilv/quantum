@@ -16,10 +16,10 @@ chrome_options = Options()
 # chrome_options.add_argument('--headless=old')
 driver = webdriver.Chrome(options=chrome_options)
 driver.maximize_window()
-download_dir = "E:\\takshil\\quantum_pdf\\"
+# download_dir = "E:\\takshil\\quantum_pdf\\"
 # download_dir = "/var/www/novyy-dev/novyyloans/storage/app/public/qmlApplications/"
 # download_dir = "/var/www/novyy-dev/Novyy/storage/app/public/qmlApplications/"
-# download_dir = "/home/ubuntu/storage/loan-applications/"
+download_dir = "/home/ubuntu/storage/loan-applications/"
 
 # download_dir = "D:\\khushali\\pdf\\"
 driver.execute_cdp_cmd("Page.setDownloadBehavior", {
@@ -30,6 +30,7 @@ driver.execute_cdp_cmd("Page.setDownloadBehavior", {
 print('************** started ****************')
 url = "https://novyyloans.ntlstaging.co.uk/api/applications"
 response = requests.request("GET", url)
+# jss = json.loads(response.text)
 jss = json.loads(response.text)
 for js in jss:
     print('Time:'+str(datetime.datetime.now().strftime("%H:%M:%S")))
@@ -50,7 +51,6 @@ for js in jss:
         time.sleep(2)
     except:
         pass
-
 
     company = js['name_of_company']
     if company:
@@ -74,6 +74,20 @@ for js in jss:
             located_england = driver.find_element(By.XPATH, '//*[contains(text(),"Yes")]/..').click()
         else:
             located_england = driver.find_element(By.XPATH, '//*[contains(text(),"No")]/..').click()
+        try:
+            error_log = driver.find_element(By.XPATH, '//div[@class="col-xs-12 "]//*[contains(text(), "Sorry...")]/../p[2]').text
+            print(error_log)
+        except:
+            error_log = ''
+            pass
+        if error_log:
+            print('field missing or error : ' + error_log)
+            url = f"https://novyyloans.ntlstaging.co.uk/api/applications/logs?id={js['id']}&email={js['email']}&message={'field missing or error : ' + error_log}"
+            payload = {}
+            headers = {}
+            response = requests.request("POST", url, headers=headers, data=payload)
+            print(response.text)
+            break
 
         purchace_new = js['purchace_new']
         # if purchace_new == 'Yes':
@@ -81,6 +95,20 @@ for js in jss:
             purchace_new = driver.find_element(By.XPATH, '//*[contains(text(),"PURCHASE a new property")]/..').click()
         else:
             purchace_new = driver.find_element(By.XPATH, '//*[contains(text(),"REMORTGAGE an existing property")]/..').click()
+        try:
+            error_log = driver.find_element(By.XPATH, '//div[@class="col-xs-12 "]//*[contains(text(), "Sorry...")]/../p[2]').text
+            print(error_log)
+        except:
+            error_log = ''
+            pass
+        if error_log:
+            print('field missing or error : ' + error_log)
+            url = f"https://novyyloans.ntlstaging.co.uk/api/applications/logs?id={js['id']}&email={js['email']}&message={'field missing or error : ' + error_log}"
+            payload = {}
+            headers = {}
+            response = requests.request("POST", url, headers=headers, data=payload)
+            print(response.text)
+            break
 
         first_time = js['first_time']
         # if first_time == 'Yes':
@@ -88,30 +116,69 @@ for js in jss:
             first_time = driver.find_element(By.XPATH, '//*[contains(text(),"Yes")]/..').click()
         else:
             first_time = driver.find_element(By.XPATH, '//*[contains(text(),"No")]/..').click()
+        try:
+            error_log = driver.find_element(By.XPATH, '//div[@class="col-xs-12 "]//*[contains(text(), "Sorry...")]/../p[2]').text
+            print(error_log)
+        except:
+            error_log = ''
+            pass
+        if error_log:
+            print('field missing or error : ' + error_log)
+            url = f"https://novyyloans.ntlstaging.co.uk/api/applications/logs?id={js['id']}&email={js['email']}&message={'field missing or error : ' + error_log}"
+            payload = {}
+            headers = {}
+            response = requests.request("POST", url, headers=headers, data=payload)
+            print(response.text)
+            break
 
         plan_occupy = js['plan_occupy']
         # if  plan_occupy == "yes":
-        if  'Yes' in plan_occupy:
+        if 'Yes' in plan_occupy:
             plan_occupy = driver.find_element(By.XPATH, '//*[contains(text(),"Yes")]/..').click()
         else:
             plan_occupy = driver.find_element(By.XPATH, '//*[contains(text(),"No")]/..').click()
+        try:
+            error_log = driver.find_element(By.XPATH, '//div[@class="col-xs-12 "]//*[contains(text(), "Sorry...")]/../p[2]').text
+            print(error_log)
+        except:
+            error_log = ''
+            pass
+        if error_log:
+            print('field missing or error : ' + error_log)
+            url = f"https://novyyloans.ntlstaging.co.uk/api/applications/logs?id={js['id']}&email={js['email']}&message={'field missing or error : ' + error_log}"
+            payload = {}
+            headers = {}
+            response = requests.request("POST", url, headers=headers, data=payload)
+            print(response.text)
+            break
 
         try:
-            btl_properties = js['btl_property']
-            if 'Yes' in btl_properties:
-                btl_properties = driver.find_element(By.XPATH, '//*[contains(text(),"Yes")]/..').click()
-            else:
-                btl_properties = driver.find_element(By.XPATH, '//*[contains(text(),"No")]/..').click()
+            # btl_properties = js['btl_property']
+            # if 'Yes' in btl_properties:
+            btl_properties = driver.find_element(By.XPATH, '//*[contains(text(),"Yes")]/..').click()
         except:
             pass
-
 
         service = js['service']
         # if  service == "Advised":
         if "Advised" in service:
-            service = driver.find_element(By.XPATH, '//*[contains(text(),"Advised")]/..').click()#Advised
+            service = driver.find_element(By.XPATH, '//*[contains(text(),"Advised")]/..').click()  # Advised
         else:
             service = driver.find_element(By.XPATH, '//*[contains(text(),"Information Only")]/..').click()
+        try:
+            error_log = driver.find_element(By.XPATH, '//div[@class="col-xs-12 "]//*[contains(text(), "Sorry...")]/../p[2]').text
+            print(error_log)
+        except:
+            error_log = ''
+            pass
+        if error_log:
+            print('field missing or error : ' + error_log)
+            url = f"https://novyyloans.ntlstaging.co.uk/api/applications/logs?id={js['id']}&email={js['email']}&message={'field missing or error : ' + error_log}"
+            payload = {}
+            headers = {}
+            response = requests.request("POST", url, headers=headers, data=payload)
+            print(response.text)
+            break
 
         # *************************** form start(page 1) ******************************** #
         try:
@@ -237,7 +304,8 @@ for js in jss:
             pass
 
         try:
-            date_moved_to_address = driver.find_element(By.XPATH, '//*[@name="Applicant[0].Applicant.AddressMovedDate_Date"]')
+            date_moved_to_address = driver.find_element(By.XPATH,
+                                                        '//*[@name="Applicant[0].Applicant.AddressMovedDate_Date"]')
             date_moved_to_address.send_keys(js['date_moved_to_address'])
         except:
             pass
@@ -268,7 +336,6 @@ for js in jss:
             phone_number.send_keys(js['phone_number'])
         except:
             pass
-
 
         try:
             security_property_type = driver.find_element(By.XPATH, '//*[@id="Security_PropertyType"]')
@@ -367,7 +434,7 @@ for js in jss:
             pass
 
         try:
-            previous_address = driver.find_element(By.XPATH ,'//*[@name="Applicant[0].Applicant.Previous1AddressLine1"]')
+            previous_address = driver.find_element(By.XPATH, '//*[@name="Applicant[0].Applicant.Previous1AddressLine1"]')
             previous_address.send_keys(js['previous_address'])
         except:
             pass
@@ -402,7 +469,7 @@ for js in jss:
             pass
 
         try:
-            previous2_address = driver.find_element(By.XPATH ,'//*[@name="Applicant[0].Applicant.Previous2AddressLine1"]')
+            previous2_address = driver.find_element(By.XPATH, '//*[@name="Applicant[0].Applicant.Previous2AddressLine1"]')
             previous2_address.send_keys(js['previous2_address'])
         except:
             pass
@@ -428,10 +495,25 @@ for js in jss:
         except:
             pass
 
-        print('****** first page done *******')
-        #****************************************************************************************************#
+        try:
+            error_log_page1 = driver.find_element(By.XPATH, '//*[@class="help-block"]/../label[1]').text
+            print(error_log_page1)
+        except:
+            error_log_page1 = ''
+            pass
+        if error_log_page1:
+            print('field missing or error : ' + error_log_page1)
+            url = f"https://novyyloans.ntlstaging.co.uk/api/applications/logs?id={js['id']}&email={js['email']}&message={'field missing or error : ' + error_log_page1}"
+            payload = {}
+            headers = {}
+            response = requests.request("POST", url, headers=headers, data=payload)
+            print(response.text)
+            break
 
-        #********************************** (page 2) *****************************************#
+        print('****** first page done *******')
+        # ****************************************************************************************************#
+
+        # ********************************** (page 2) *****************************************#
 
         time.sleep(3)
         satisfied_default = driver.find_element(By.XPATH, '//*[contains(text(),"Satisfied Defaults")]/../..//*[contains(text(),"No defaults within last 24 months")]/../input').click()
@@ -488,28 +570,31 @@ for js in jss:
             debt_relief_orders = driver.find_element(By.XPATH, '//*[@class="well no-padding "]//*[contains(text(),"Debt Relief Orders")]/../..//*[contains(text(),"No")]/../input').click()
         except:
             pass
+
         select_product = driver.find_element(By.XPATH, '//*[contains(text(),"Select product ")]').click()
         time.sleep(5)
+
         print('****** second page done *******')
         # '//*[@class="well no-padding "]//*[contains(text(),"Satisfied Defaults")]/../..//*[contains(text(),"No defaults within last 24 months")]/../input'
-        #*******************************************************************************************************#
+        # *******************************************************************************************************#
 
-        #********************************************* (page 3) ********************************************#
+        # ********************************************* (page 3) ********************************************#
         try:
-            fees = driver.find_element(By.XPATH, '//*[@id="Product_ProductFeePaymentType"]')
-            fees.send_keys(js['fees'])
-        except:
-            pass
-        time.sleep(6)
-
-        try:
-            number_of_loan = driver.find_element(By.XPATH,'//*[@id="Product_NumberOfYearsToRepay"]')
+            number_of_loan = driver.find_element(By.XPATH, '//*[@id="Product_NumberOfYearsToRepay"]')
             number_of_loan.clear()
             time.sleep(6)
             number_of_loan.send_keys(js['numner_of_year_to_repay'])
         except:
             pass
         time.sleep(3)
+        # driver.refresh()
+
+        try:
+            fees = driver.find_element(By.XPATH, '//*[@id="Product_ProductFeePaymentType"]')
+            fees.send_keys(js['fees'])
+        except:
+            pass
+        time.sleep(6)
 
         try:
             repayment_type = driver.find_element(By.XPATH, '//*[@id="Product_LoanRepaymentType"]')
@@ -522,10 +607,10 @@ for js in jss:
 
         try:
             product = js['product']
-            sel_product = driver.find_element(By.XPATH,f'//*[contains(text(),"{product}")]/../td[@class="selectproduct"]/input').click()
+            sel_product = driver.find_element(By.XPATH, f'//*[contains(text(),"{product}")]/../td[@class="selectproduct"]/input').click()
         except:
             try:
-                sel_product =driver.find_element(By.XPATH, '//*[@id="tableproducts"]/tbody/tr[1]/td[@class="selectproduct"]/input').click()
+                sel_product = driver.find_element(By.XPATH, '//*[@id="tableproducts"]/tbody/tr[1]/td[@class="selectproduct"]/input').click()
             except:
                 pass
 
@@ -536,17 +621,35 @@ for js in jss:
             pass
 
         try:
-            general_illustration =  driver.find_element(By.XPATH, '//*[contains(text(),"Generate Illustration")]').click()
+            general_illustration = driver.find_element(By.XPATH, '//*[contains(text(),"Generate Illustration")]').click()
             time.sleep(6)
         except:
             pass
         try:
-            general_illustration =  driver.find_element(By.XPATH, '//*[contains(text(),"Generate Illustration")]').click()
+            general_illustration = driver.find_element(By.XPATH, '//*[contains(text(),"Generate Illustration")]').click()
         except:
             pass
         time.sleep(5)
+
+        # driver.refresh()
+
+        try:
+            error_log_page3 = driver.find_element(By.XPATH, '//*[@class="help-block"][contains(text(), "This field is required.")]/../label[1]').text
+            print(error_log_page3)
+        except:
+            error_log_page3 = ''
+            pass
+        if error_log_page3:
+            print('field missing or error : ' + error_log_page3)
+            url = f"https://novyyloans.ntlstaging.co.uk/api/applications/logs?id={js['id']}&email={js['email']}&message={'field missing or error : ' + error_log_page3}"
+            payload = {}
+            headers = {}
+            response = requests.request("POST", url, headers=headers, data=payload)
+            print(response.text)
+            break
         print('****** third page done *******')
-        #************************************************************************************************************#
+        # ************************************************************************************************************#
+
         continue_application = driver.find_element(By.XPATH, '//*[contains(text(),"Continue application")]').click()
         time.sleep(3)
         print('continue')
@@ -556,22 +659,159 @@ for js in jss:
         print('next')
 
         main_url = driver.current_url
-        #-------------------- other income -----------------#
+        # -------------------- other income -----------------#
         try:
             driver.find_element(By.XPATH, '//*[contains(text(),"Other Income")]/../..').click()
             time.sleep(3)
 
+            try:
+                other_inc_details1 = driver.find_element(By.XPATH, '//*[@class="form-control otherIncome1"]')
+                other_inc_details1.send_keys(js['details'])
+            except:
+                pass
+            try:
+                other_inc_amount1 = driver.find_element(By.XPATH, '//*[@id="OtherIncome_Amount1"]')
+                other_inc_amount1.send_keys(js['amount'])
+            except:
+                pass
+            try:
+                other_inc_frequency1 = driver.find_element(By.XPATH, '//*[@id="OtherIncome_PayFrequency1"]')
+                other_inc_frequency1.send_keys(js['frequency'])
+            except:
+                pass
+            try:
+                other_inc_guarantee1 = js['guaranteed']
+                if other_inc_guarantee1 == 'Yes':
+                    other_inc_guarantee1 = driver.find_element(By.XPATH, '//*[@id="OtherIncome_Guaranteed1"]/../span[3]').click()
+                else:
+                    pass
+            except:
+                pass
+
+            try:
+                other_inc_details2 = driver.find_element(By.XPATH, '//*[@class="form-control otherIncome2"]')
+                other_inc_details2.send_keys(js['details1'])
+            except:
+                pass
+            try:
+                other_inc_amount2 = driver.find_element(By.XPATH, '//*[@id="OtherIncome_Amount2"]')
+                other_inc_amount2.send_keys(js['amount1'])
+            except:
+                pass
+            try:
+                other_inc_frequency2 = driver.find_element(By.XPATH, '//*[@id="OtherIncome_PayFrequency2"]')
+                other_inc_frequency2.send_keys(js['frequency1'])
+            except:
+                pass
+            try:
+                other_inc_guarantee2 = js['guaranteed1']
+                if other_inc_guarantee2 == 'Yes':
+                    other_inc_guarantee2 = driver.find_element(By.XPATH, '//*[@id="OtherIncome_Guaranteed2"]/../span[3]').click()
+                else:
+                    pass
+            except:
+                pass
+
+            try:
+                other_inc_details3 = driver.find_element(By.XPATH, '//*[@class="form-control otherIncome3"]')
+                other_inc_details3.send_keys(js['details2'])
+            except:
+                pass
+            try:
+                other_inc_amount3 = driver.find_element(By.XPATH, '//*[@id="OtherIncome_Amount3"]')
+                other_inc_amount3.send_keys(js['amount2'])
+            except:
+                pass
+            try:
+                other_inc_frequency3 = driver.find_element(By.XPATH, '//*[@id="OtherIncome_PayFrequency3"]')
+                other_inc_frequency3.send_keys(js['frequency2'])
+            except:
+                pass
+            try:
+                other_inc_guarantee3 = js['guaranteed2']
+                if other_inc_guarantee3 == 'Yes':
+                    other_inc_guarantee3 = driver.find_element(By.XPATH, '//*[@id="OtherIncome_Guaranteed3"]/../span[3]').click()
+                else:
+                    pass
+            except:
+                pass
+
+            try:
+                other_inc_details4 = driver.find_element(By.XPATH, '//*[@class="form-control otherIncome4"]')
+                other_inc_details4.send_keys(js['details3'])
+            except:
+                pass
+            try:
+                other_inc_amount4 = driver.find_element(By.XPATH, '//*[@id="OtherIncome_Amount4"]')
+                other_inc_amount4.send_keys(js['amount3'])
+            except:
+                pass
+            try:
+                other_inc_frequency4 = driver.find_element(By.XPATH, '//*[@id="OtherIncome_PayFrequency4"]')
+                other_inc_frequency4.send_keys(js['frequency3'])
+            except:
+                pass
+            try:
+                other_inc_guarantee4 = js['guaranteed3']
+                if other_inc_guarantee4 == 'Yes':
+                    other_inc_guarantee4 = driver.find_element(By.XPATH, '//*[@id="OtherIncome_Guaranteed4"]/../span[3]').click()
+                else:
+                    pass
+            except:
+                pass
+
+            try:
+                other_inc_details5 = driver.find_element(By.XPATH, '//*[@class="form-control otherIncome5"]')
+                other_inc_details5.send_keys(js['details4'])
+            except:
+                pass
+            try:
+                other_inc_amount5 = driver.find_element(By.XPATH, '//*[@id="OtherIncome_Amount5"]')
+                other_inc_amount5.send_keys(js['amount4'])
+            except:
+                pass
+            try:
+                other_inc_frequency5 = driver.find_element(By.XPATH, '//*[@id="OtherIncome_PayFrequency5"]')
+                other_inc_frequency5.send_keys(js['frequency4'])
+            except:
+                pass
+            try:
+                other_inc_guarantee5 = js['guaranteed4']
+                if other_inc_guarantee5 == 'Yes':
+                    other_inc_guarantee5 = driver.find_element(By.XPATH, '//*[@id="OtherIncome_Guaranteed5"]/../span[3]').click()
+                else:
+                    pass
+            except:
+                pass
+
             other_inc_next = driver.find_element(By.XPATH, '//*[@class="btn btn-default nav-button pull-right blueBtn "]').click()
             time.sleep(3)
+
+            try:
+                error_log_otherinc = driver.find_element(By.XPATH, '//*[@class="help-block"][contains(text(), "This field is required.")]/../label[1]')
+                error_log_other_inc = error_log_otherinc.get_attribute('for')
+                print(error_log_other_inc)
+            except:
+                error_log_other_inc = ''
+                pass
+            if error_log_other_inc:
+                print('field missing or error : ' + error_log_other_inc)
+                url = f"https://novyyloans.ntlstaging.co.uk/api/applications/logs?id={js['id']}&email={js['email']}&message={'field missing or error : ' + error_log_other_inc}"
+                payload = {}
+                headers = {}
+                response = requests.request("POST", url, headers=headers, data=payload)
+                print(response.text)
+                break
+
             driver.get(main_url)
             driver.refresh()
             time.sleep(2)
         except:
             print('OTHER INCOME not found or error')
             pass
-        #---------------------------------------------------#
+        # ---------------------------------------------------#
 
-        #----------------- asset -----------------------#
+        # ----------------- asset -----------------------#
         try:
             driver.find_element(By.XPATH, '//span[contains(text(),"Assets")]/../..').click()
             time.sleep(3)
@@ -583,9 +823,9 @@ for js in jss:
         except:
             print('assets not found or error')
             pass
-        #-----------------------------------------------#
+        # -----------------------------------------------#
 
-        #------------------ commitments -----------------#
+        # ------------------ commitments -----------------#
         try:
             driver.find_element(By.XPATH, '//*[contains(text(),"Commitments")]/../..').click()
             time.sleep(3)
@@ -597,23 +837,68 @@ for js in jss:
         except:
             print('commitments not found or error')
             pass
-        #------------------------------------------------#
+        # ------------------------------------------------#
 
-        #------------------- property -------------------#
+        # ------------------- property -------------------#
         try:
             driver.find_element(By.XPATH, '//*[contains(text(),"Properties ")]/../..').click()
             time.sleep(3)
+
+            driver.find_element(By.XPATH, '//*[@id="Property_HaveAnyBuyToLetProperties"]/../span[3]').click()
+
+            try:
+                number_of_own_blt_properties = driver.find_element(By.XPATH, '//*[@id="Property_NoOfBuyToLetProperties"]')
+                number_of_own_blt_properties.clear()
+                number_of_own_blt_properties.send_keys(js['number_of_own_blt_properties'])
+            except:
+                pass
+
+            try:
+                total_value_of_portfolio = driver.find_element(By.XPATH, '//*[@id="Property_TotalValueOfPortfolio"]')
+                total_value_of_portfolio.send_keys(js['total_value_of_portfolio'])
+            except:
+                pass
+
+            try:
+                total_monthly_rent = driver.find_element(By.XPATH, '//*[@id="Property_TotalMonthlyRent"]')
+                total_monthly_rent.send_keys(js['total_monthly_rent'])
+            except:
+                pass
+
+            try:
+                total_mortgage_balances_outstanding_portfolio = driver.find_element(By.XPATH, '//*[@id="Property_TotalMortgageBalance"]')
+                total_mortgage_balances_outstanding_portfolio.send_keys(
+                    js['total_mortgage_balances_outstanding_portfolio'])
+            except:
+                pass
+
             portfolio_next = driver.find_element(By.XPATH, '//*[@class="btn btn-default nav-button pull-right blueBtn "]').click()
             time.sleep(3)
+
+            try:
+                error_log_property = driver.find_element(By.XPATH, '//*[@class="help-block"][contains(text(), "This field is required.")]/../label[1]').text
+                print(error_log_property)
+            except:
+                error_log_property = ''
+                pass
+            if error_log_property:
+                print('field missing or error : ' + error_log_property)
+                url = f"https://novyyloans.ntlstaging.co.uk/api/applications/logs?id={js['id']}&email={js['email']}&message={'field missing or error : ' + error_log_property}"
+                payload = {}
+                headers = {}
+                response = requests.request("POST", url, headers=headers, data=payload)
+                print(response.text)
+                break
+
             driver.get(main_url)
             driver.refresh()
             time.sleep(2)
         except:
             print('property not found or error')
             pass
-        #----------------------------------------------#
+        # ----------------------------------------------#
 
-        #-------------------- product ------------------#
+        # -------------------- product ------------------#
         try:
             driver.find_element(By.XPATH, '//span[contains(text(),"Product")]/../..').click()
             time.sleep(3)
@@ -625,7 +910,7 @@ for js in jss:
         except:
             print('product not found or errror')
             pass
-        #------------------------------------------------#
+        # ------------------------------------------------#
 
         # -------------------- personal_details ------------------#
         try:
@@ -646,6 +931,22 @@ for js in jss:
 
             personal_details_next = driver.find_element(By.XPATH, '//*[@class="btn btn-default nav-button pull-right blueBtn "]').click()
             time.sleep(4)
+
+            try:
+                error_log_personal_details = driver.find_element(By.XPATH, '//*[@class="help-block"]/../label[1]').text
+                print(error_log_personal_details)
+            except:
+                error_log_personal_details = ''
+                pass
+            if error_log_personal_details:
+                print('field missing or error : ' + error_log_personal_details)
+                url = f"https://novyyloans.ntlstaging.co.uk/api/applications/logs?id={js['id']}&email={js['email']}&message={'field missing or error : ' + error_log_personal_details}"
+                payload = {}
+                headers = {}
+                response = requests.request("POST", url, headers=headers, data=payload)
+                print(response.text)
+                break
+
             driver.get(main_url)
             driver.refresh()
             time.sleep(2)
@@ -669,69 +970,6 @@ for js in jss:
             # provide_details.send_keys(js['share_of_freehold_details'])
 
             try:
-                number_of_floors = driver.find_element(By.XPATH, '//*[@id="Security_HouseNumberOfFloors"]')
-                number_of_floors.clear()
-                number_of_floors.send_keys(js['number_of_floors'])
-            except:
-                pass
-
-            try:
-                number_of_bedrooms = driver.find_element(By.XPATH, '//*[@id="Security_FlatNumberOfBedrooms"]')
-                number_of_bedrooms.clear()
-                number_of_bedrooms.send_keys(js['number_of_bedrooms'])
-            except:
-                pass
-
-            try:
-                number_of_livingrooms = driver.find_element(By.XPATH, '//*[@id="Security_HouseNumberOfLivingRooms"]')
-                number_of_livingrooms.clear()
-                number_of_livingrooms.send_keys(js['number_of_living_rooms'])
-            except:
-                pass
-
-            try:
-                number_of_kitchens = driver.find_element(By.XPATH, '//*[@id="Security_HouseNumberOfKitchens"]')
-                number_of_kitchens.clear()
-                number_of_kitchens.send_keys(js['number_of_kitchens'])
-            except:
-                pass
-
-            try:
-                number_of_bathrooms = driver.find_element(By.XPATH, '//*[@id="Security_HouseNumberOfBathrooms"]')
-                number_of_bathrooms.clear()
-                number_of_bathrooms.send_keys(js['number_of_bathrooms'])
-            except:
-                pass
-
-            try:
-                number_of_tenants = driver.find_element(By.XPATH, '//*[@id="Security_TenantsOnTenancyAgreement"]')
-                number_of_tenants.clear()
-                number_of_tenants.send_keys(js['number_of_tenants'])
-            except:
-                pass
-
-            try:
-                number_of_tenancy_agreements = driver.find_element(By.XPATH, '//*[@id="Security_TenancyAgreementsGranted"]')
-                number_of_tenancy_agreements.clear()
-                number_of_tenancy_agreements.send_keys(js['number_of_tenancy_agreements'])
-            except:
-                pass
-
-            try:
-                number_of_floors_in_block = driver.find_element(By.XPATH, '//*[@id="Security_FlatNumberOfFloors"]')
-                number_of_floors_in_block.clear()
-                number_of_floors_in_block.send_keys(js['number_of_floors_in_block'])
-            except:
-                pass
-
-            try:
-                floor_number = driver.find_element(By.XPATH, '//*[@id="Security_FloorFlatSituated"]')
-                floor_number.clear()
-                floor_number.send_keys(js['floor_number'])
-            except:
-                pass
-
-            try:
                 lift = js['is_there_lift']
                 if lift == 'Yes':
                     istherelift = driver.find_element(By.XPATH, '//*[contains(text(),"Is there a lift?")]/../div/div/div/span[2]').click()
@@ -743,7 +981,7 @@ for js in jss:
             try:
                 garage = js['is_there_garage']
                 if garage == 'Yes':
-                    istheregarage= driver.find_element(By.XPATH, '//*[contains(text(),"Is there a Garage?")]/../div/div/div/span[2]').click()
+                    istheregarage = driver.find_element(By.XPATH, '//*[contains(text(),"Is there a Garage?")]/../div/div/div/span[2]').click()
                 else:
                     pass
             except:
@@ -907,8 +1145,10 @@ for js in jss:
             try:
                 is_let_family_member = js['is_let_family_member']
                 if is_let_family_member == 'Yes':
-                    is_let_family_member = driver.find_element(By.XPATH, '//*[@id="Security_LetToFamilyMember"]/../span[3]').click()
-                    let_family_member_details = driver.find_element(By.XPATH, '//*[@name="Security.LetToFamilyMemberDetails"]')
+                    is_let_family_member = driver.find_element(By.XPATH,
+                                                               '//*[@id="Security_LetToFamilyMember"]/../span[3]').click()
+                    let_family_member_details = driver.find_element(By.XPATH,
+                                                                    '//*[@name="Security.LetToFamilyMemberDetails"]')
                     let_family_member_details.send_keys(js['let_family_member_details'])
                 else:
                     pass
@@ -930,18 +1170,98 @@ for js in jss:
             except:
                 pass
 
+            try:
+                number_of_floors = driver.find_element(By.XPATH, '//*[@id="Security_HouseNumberOfFloors"]')
+                number_of_floors.clear()
+                number_of_floors.send_keys(js['number_of_floors'])
+            except:
+                pass
+
+            try:
+                number_of_bedrooms = driver.find_element(By.XPATH, '//*[@id="Security_FlatNumberOfBedrooms"]')
+                number_of_bedrooms.clear()
+                number_of_bedrooms.send_keys(js['number_of_bedrooms'])
+            except:
+                pass
+
+            try:
+                number_of_livingrooms = driver.find_element(By.XPATH, '//*[@id="Security_HouseNumberOfLivingRooms"]')
+                number_of_livingrooms.clear()
+                number_of_livingrooms.send_keys(js['number_of_living_rooms'])
+            except:
+                pass
+
+            try:
+                number_of_kitchens = driver.find_element(By.XPATH, '//*[@id="Security_HouseNumberOfKitchens"]')
+                number_of_kitchens.clear()
+                number_of_kitchens.send_keys(js['number_of_kitchens'])
+            except:
+                pass
+
+            try:
+                number_of_bathrooms = driver.find_element(By.XPATH, '//*[@id="Security_HouseNumberOfBathrooms"]')
+                number_of_bathrooms.clear()
+                number_of_bathrooms.send_keys(js['number_of_bathrooms'])
+            except:
+                pass
+
+            try:
+                number_of_tenants = driver.find_element(By.XPATH, '//*[@id="Security_TenantsOnTenancyAgreement"]')
+                number_of_tenants.clear()
+                number_of_tenants.send_keys(js['number_of_tenants'])
+            except:
+                pass
+
+            try:
+                number_of_tenancy_agreements = driver.find_element(By.XPATH,
+                                                                   '//*[@id="Security_TenancyAgreementsGranted"]')
+                number_of_tenancy_agreements.clear()
+                number_of_tenancy_agreements.send_keys(js['number_of_tenancy_agreements'])
+            except:
+                pass
+
+            try:
+                number_of_floors_in_block = driver.find_element(By.XPATH, '//*[@id="Security_FlatNumberOfFloors"]')
+                number_of_floors_in_block.clear()
+                number_of_floors_in_block.send_keys(js['number_of_floors_in_block'])
+            except:
+                pass
+
+            try:
+                floor_number = driver.find_element(By.XPATH, '//*[@id="Security_FloorFlatSituated"]')
+                floor_number.clear()
+                floor_number.send_keys(js['floor_number'])
+            except:
+                pass
+
             property_type_next = driver.find_element(By.XPATH, '//*[@class="btn btn-default nav-button pull-right blueBtn "]').click()
             time.sleep(2)
+
+            try:
+                error_log_property_type = driver.find_element(By.XPATH, '//*[@class="help-block"][contains(text(), "This field is required.")]/../label[1]').text
+                print(error_log_property_type)
+            except:
+                error_log_property_type = ''
+                pass
+            if error_log_property_type:
+                print('field missing or error : ' + error_log_property_type)
+                url = f"https://novyyloans.ntlstaging.co.uk/api/applications/logs?id={js['id']}&email={js['email']}&message={'field missing or error : ' + error_log_property_type}"
+                payload = {}
+                headers = {}
+                response = requests.request("POST", url, headers=headers, data=payload)
+                print(response.text)
+                break
 
             driver.get(main_url)
             driver.refresh()
             time.sleep(2)
-        except:
+        except Exception as e:
+            print(e)
             print('property type not found or error')
             pass
         # ------------------------------------------------#
 
-        #-------------------- loan -----------------------#
+        # -------------------- loan -----------------------#
         try:
             driver.find_element(By.XPATH, '//span[@class="title"][contains(text(),"Loan ")]/../..').click()
             time.sleep(3)
@@ -1058,18 +1378,35 @@ for js in jss:
 
             loan_next = driver.find_element(By.XPATH, '//*[@class="btn btn-default nav-button pull-right blueBtn "]').click()
             time.sleep(3)
+
+            try:
+                error_log_loan = driver.find_element(By.XPATH, '//*[@class="help-block"][contains(text(), "This field is required.")]/../label[1]').text
+                print(error_log_loan)
+            except:
+                error_log_loan = ''
+                pass
+            if error_log_loan:
+                print('field missing or error : ' + error_log_loan)
+                url = f"https://novyyloans.ntlstaging.co.uk/api/applications/logs?id={js['id']}&email={js['email']}&message={'field missing or error : ' + error_log_loan}"
+                payload = {}
+                headers = {}
+                response = requests.request("POST", url, headers=headers, data=payload)
+                print(response.text)
+                break
+
             driver.get(main_url)
             driver.refresh()
             time.sleep(2)
         except:
             print('loan not found or error')
-        #-------------------------------------------------#
+        # -------------------------------------------------#
 
         driver.get(main_url)
         driver.refresh()
         time.sleep(3)
 
-        unique_id_file_name = str(uuid.uuid5(uuid.NAMESPACE_DNS, js['email'] + str(datetime.datetime.now().strftime("%H:%M:%S"))))
+        unique_id_file_name = str(
+            uuid.uuid5(uuid.NAMESPACE_DNS, js['email'] + str(datetime.datetime.now().strftime("%H:%M:%S"))))
         print(unique_id_file_name)
 
         download = driver.find_element(By.XPATH, '//*[contains(text(),"Reissue DIP")]')
@@ -1100,7 +1437,7 @@ for js in jss:
             time.sleep(1)
 
         # Define the new file name
-        updated_file_name = unique_id_file_name+'.pdf'  # Replace with your desired file name
+        updated_file_name = unique_id_file_name + '.pdf'  # Replace with your desired file name
         updated_file_path = os.path.join(download_dir, updated_file_name)
         print(updated_file_path)
         print('file update done')
@@ -1125,5 +1462,4 @@ for js in jss:
         print(response.text)
         pass
 
-
-driver.close()
+driver.quit()
