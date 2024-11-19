@@ -16,10 +16,10 @@ chrome_options = Options()
 # chrome_options.add_argument('--headless=old')
 driver = webdriver.Chrome(options=chrome_options)
 driver.maximize_window()
-# download_dir = "E:\\takshil\\quantum_pdf\\"
+download_dir = "E:\\takshil\\quantum_pdf\\"
 # download_dir = "/var/www/novyy-dev/novyyloans/storage/app/public/qmlApplications/"
 # download_dir = "/var/www/novyy-dev/Novyy/storage/app/public/qmlApplications/"
-download_dir = "/home/ubuntu/storage/loan-applications/"
+# download_dir = "/home/ubuntu/storage/loan-applications/"
 
 # download_dir = "D:\\khushali\\pdf\\"
 driver.execute_cdp_cmd("Page.setDownloadBehavior", {
@@ -32,6 +32,7 @@ url = "https://novyyloans.ntlstaging.co.uk/api/applications"
 response = requests.request("GET", url)
 # jss = json.loads(response.text)
 jss = json.loads(response.text)
+
 for js in jss:
     print('Time:'+str(datetime.datetime.now().strftime("%H:%M:%S")))
     print(js)
@@ -612,7 +613,12 @@ for js in jss:
             try:
                 sel_product = driver.find_element(By.XPATH, '//*[@id="tableproducts"]/tbody/tr[1]/td[@class="selectproduct"]/input').click()
             except:
-                pass
+                url = f"https://novyyloans.ntlstaging.co.uk/api/applications/logs?id={js['id']}&email={js['email']}&message={'field missing or error : ' + 'No product found'}"
+                payload = {}
+                headers = {}
+                response = requests.request("POST", url, headers=headers, data=payload)
+                print(response.text)
+                break
 
         try:
             fix_amount = driver.find_element(By.XPATH, '//*[@name="Broker.FixedAmount"]')
@@ -659,6 +665,76 @@ for js in jss:
         print('next')
 
         main_url = driver.current_url
+
+        # -------------------- Company ------------------#
+        try:
+            driver.find_element(By.XPATH, '//span[contains(text(),"company ")]/../..').click()
+            time.sleep(3)
+
+            try:
+                company_telephone = driver.find_element(By.XPATH, '//*[@id="Company_Telephone"]')
+                company_telephone.send_keys(js['company_telephone'])
+            except:
+                pass
+
+            try:
+                company_type = driver.find_element(By.XPATH, '//*[@id="Company_Type"]')
+                company_type.send_keys(js['company_type'])
+            except:
+                pass
+
+            try:
+                trading_postcode = driver.find_element(By.XPATH, '//*[@id="Company_TradingPostcode"]')
+                trading_postcode.send_keys(js['trading_postcode'])
+            except:
+                pass
+
+            try:
+                trading_address_line1 = driver.find_element(By.XPATH, '//*[@id="Company_TradingAddressLine1"]')
+                trading_address_line1.send_keys(js['trading_address_line1'])
+            except:
+                pass
+
+            try:
+                trading_address_line2 = driver.find_element(By.XPATH, '//*[@id="Company_TradingAddressLine2"]')
+                trading_address_line2.send_keys(js['trading_address_line2'])
+            except:
+                pass
+
+            try:
+                trading_city = driver.find_element(By.XPATH, '//*[@id="Company_TradingAddressCity"]')
+                trading_city.send_keys(js['trading_city'])
+            except:
+                pass
+
+            try:
+                trading_country = driver.find_element(By.XPATH, '//*[@id="Company_TradingAddressCountry"]')
+                trading_country.send_keys(js['trading_country'])
+            except:
+                pass
+
+            try:
+                state_your_position = driver.find_element(By.XPATH, '//*[@id="Applicant[0]_Company_DirectorShareholder"]')
+                state_your_position.send_keys(js['state_your_position'])
+            except:
+                pass
+
+            try:
+                shareholding = driver.find_element(By.XPATH, '//*[@name="Applicant[0].Company.Shareholding"]')
+                shareholding.send_keys(js['shareholding'])
+            except:
+                pass
+
+            company_next = driver.find_element(By.XPATH, '//*[@class="btn btn-default nav-button pull-right blueBtn "]').click()
+            time.sleep(3)
+            driver.get(main_url)
+            driver.refresh()
+            time.sleep(2)
+        except:
+            print('company not found or errror')
+            pass
+        # ------------------------------------------------#
+
         # -------------------- other income -----------------#
         try:
             driver.find_element(By.XPATH, '//*[contains(text(),"Other Income")]/../..').click()
@@ -1001,7 +1077,7 @@ for js in jss:
                 if property_licence == 'Yes':
                     isproperty_licence = driver.find_element(By.XPATH, "//*[contains(text(),'Local Authority Private Rented Property Licence')]/../div/div/div/span[2]").click()
                     licence_type = driver.find_element(By.XPATH, '//*[@id="Security_PropertyLicence"]')
-                    licence_type.send_keys('property_licence')
+                    licence_type.send_keys(js['property_licence'])
                 else:
                     pass
             except:
@@ -1373,6 +1449,33 @@ for js in jss:
             try:
                 vendor_name = driver.find_element(By.XPATH, '//*[@id="Mortgage_VendorsName"]')
                 vendor_name.send_keys(js['vendor_name'])
+            except:
+                pass
+
+            try:
+                purpose_of_remortgage = driver.find_element(By.XPATH, '//*[@id="Mortgage_PurposeOfMortgage"]')
+                purpose_of_remortgage.send_keys(js['purpose_of_remortgage'])
+            except:
+                pass
+
+            try:
+                full_breakdown_details = driver.find_element(By.XPATH, '//*[@id="Mortgage_RemortagePortfolioDetails"]')
+                full_breakdown_details.send_keys(js['full_breakdown_details'])
+            except:
+                full_breakdown_details = ''
+
+            try:
+                is_property_currently_mortgaged = js['is_property_currently_mortgaged']
+                if is_property_currently_mortgaged == 'Yes':
+                    is_property_currently_mortgaged = driver.find_element(By.XPATH, '//*[@id="Mortgage_CurrentlyMortgaged"]/../span[3]').click()
+                    outstanding_balance = driver.find_element(By.XPATH, '//*[@id="Mortgage_OutstandingBalance"]')
+                    outstanding_balance.send_keys(js['outstanding_balance'])
+
+                    existing_mortgage_lender = driver.find_element(By.XPATH, '//*[@id="Mortgage_ExistingMortgageLender"]')
+                    existing_mortgage_lender.send_keys(js['existing_mortgage_lender'])
+
+                    borrow_to_purchase_property = driver.find_element(By.XPATH, '//*[@id="Mortgage_OriginalAmountBorrowed"]')
+                    borrow_to_purchase_property.send_keys(js['borrow_to_purchase_property'])
             except:
                 pass
 
