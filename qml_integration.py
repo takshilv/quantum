@@ -19,6 +19,7 @@ class ApplicationProcessor:
     def init_driver(self, chrome_options=None):
         if chrome_options is None:
             chrome_options = Options()
+            chrome_options.add_argument('--headless=old')
         driver = webdriver.Chrome(options=chrome_options)
         driver.maximize_window()
         driver.execute_cdp_cmd("Page.setDownloadBehavior", {
@@ -28,10 +29,10 @@ class ApplicationProcessor:
         return driver
 
     def fetch_applications(self):
-        # response = requests.get(self.api_url)
-        # return json.loads(response.text)
-        with open('jsn.json', 'r') as json_file:
-            return json.load(json_file)
+        response = requests.get(self.api_url)
+        return json.loads(response.text)
+        # with open('jsn.json', 'r') as json_file:
+        #     return json.load(json_file)
 
     def login(self, username, password, url):
         self.driver.get(url)
@@ -1510,7 +1511,8 @@ class ApplicationProcessor:
 
 
 if __name__ == "__main__":
-    download_dir = "E:\\takshil\\quantum_pdf\\"
+    # download_dir = "E:\\takshil\\quantum_pdf\\"
+    download_dir = "/home/ubuntu/storage/loan-applications/"
     processor = ApplicationProcessor(download_dir)
     applications = processor.fetch_applications()
 
