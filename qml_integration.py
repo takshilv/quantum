@@ -19,7 +19,7 @@ class ApplicationProcessor:
     def init_driver(self, chrome_options=None):
         if chrome_options is None:
             chrome_options = Options()
-            chrome_options.add_argument('--headless=old')
+            # chrome_options.add_argument('--headless=old')
         driver = webdriver.Chrome(options=chrome_options)
         driver.maximize_window()
         driver.execute_cdp_cmd("Page.setDownloadBehavior", {
@@ -1031,7 +1031,7 @@ class ApplicationProcessor:
                     if property_licence == 'Yes':
                         isproperty_licence = self.driver.find_element(By.XPATH, "//*[contains(text(),'Local Authority Private Rented Property Licence')]/../div/div/div/span[2]").click()
                         licence_type = self.driver.find_element(By.XPATH, '//*[@id="Security_PropertyLicence"]')
-                        licence_type.send_keys('property_licence')
+                        licence_type.send_keys(application['property_licence'])
                     else:
                         pass
                 except:
@@ -1042,7 +1042,7 @@ class ApplicationProcessor:
                     if commercial_premises == 'Yes':
                         commercial_premises = self.driver.find_element(By.XPATH, "//*[contains(text(),'Is the flat above or adjacent to commercial premises')]/../div/div/div/span[2]").click()
                         commercial_premises_details = self.driver.find_element(By.XPATH, '//*[@id="Security_FlatAboveCommercialPremisesDetails"]')
-                        commercial_premises_details.send_keys('commercial_premises_details')
+                        commercial_premises_details.send_keys(application['commercial_premises_details'])
                     else:
                         pass
                 except:

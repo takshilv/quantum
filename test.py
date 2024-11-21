@@ -1077,7 +1077,7 @@ for js in jss:
                 if property_licence == 'Yes':
                     isproperty_licence = driver.find_element(By.XPATH, "//*[contains(text(),'Local Authority Private Rented Property Licence')]/../div/div/div/span[2]").click()
                     licence_type = driver.find_element(By.XPATH, '//*[@id="Security_PropertyLicence"]')
-                    licence_type.send_keys('property_licence')
+                    licence_type.send_keys(js['property_licence'])
                 else:
                     pass
             except:
