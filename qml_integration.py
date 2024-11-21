@@ -1462,6 +1462,7 @@ class ApplicationProcessor:
             before_download = set(os.listdir(self.download_dir))
             download_button.click()
             time.sleep(8)
+            print(datetime.datetime.now())
 
             new_file_name = self.wait_for_download(before_download)
             if new_file_name:
@@ -1511,6 +1512,7 @@ class ApplicationProcessor:
 
 
 if __name__ == "__main__":
+    print(str(datetime.datetime.now()))
     # download_dir = "E:\\takshil\\quantum_pdf\\"
     download_dir = "/home/ubuntu/storage/loan-applications/"
     processor = ApplicationProcessor(download_dir)
