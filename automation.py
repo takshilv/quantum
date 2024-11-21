@@ -607,6 +607,22 @@ for js in jss:
         time.sleep(3)
 
         try:
+            reason = driver.find_element(By.XPATH, '//*[@class="FailedReasons"]/li').text
+        except:
+            # print(e)
+            reason = ''
+        if reason:
+            print(reason)
+            url = f"https://novyyloans.ntlstaging.co.uk/api/applications/logs?id={js['id']}&email={js['email']}&message={reason}"
+            payload = {}
+            headers = {}
+            response = requests.request("POST", url, headers=headers, data=payload)
+            print(response.text)
+            break
+        else:
+            pass
+
+        try:
             product = js['product']
             sel_product = driver.find_element(By.XPATH, f'//*[contains(text(),"{product}")]/../td[@class="selectproduct"]/input').click()
         except:

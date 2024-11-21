@@ -577,6 +577,17 @@ class ApplicationProcessor:
             time.sleep(3)
 
             try:
+                reason = self.driver.find_element(By.XPATH, '//*[@class="FailedReasons"]/li').text
+            except:
+                reason = ''
+            if reason:
+                print('field missing or error : No product found')
+                self.log_error(application, reason)
+                sys.exit()
+            else:
+                pass
+
+            try:
                 product = application['product']
                 sel_product = self.driver.find_element(By.XPATH, f'//*[contains(text(),"{product}")]/../td[@class="selectproduct"]/input').click()
             except:
