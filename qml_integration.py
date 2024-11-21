@@ -1472,6 +1472,7 @@ class ApplicationProcessor:
                 self.driver.get(main_url)
                 self.driver.refresh()
                 time.sleep(3)
+                print('loan done')
             except:
                 print('loan not found or error')
             # -------------------------------------------------#
@@ -1488,7 +1489,7 @@ class ApplicationProcessor:
             before_download = set(os.listdir(self.download_dir))
             download_button.click()
             time.sleep(8)
-            print(datetime.datetime.now())
+            print(str(datetime.datetime.now())+'download')
 
             new_file_name = self.wait_for_download(before_download)
             if new_file_name:
@@ -1523,6 +1524,7 @@ class ApplicationProcessor:
         url = f"{self.api_url}?id={application_id}&filename={file_name}"
         response = requests.post(url)
         print(f"Upload Response: {response.status_code}")
+        print(str(datetime.datetime.now())+'finish')
 
     def log_error(self, application, message):
         url = f"{self.api_url}/logs?id={application['id']}&email={application['email']}&message={message}"
