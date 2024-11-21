@@ -737,21 +737,21 @@ class ApplicationProcessor:
 
                 try:
                     other_inc_details2 = self.driver.find_element(By.XPATH, '//*[@class="form-control otherIncome2"]')
-                    other_inc_details2.send_keys(application['details1'])
+                    other_inc_details2.send_keys(application['details2'])
                 except:
                     pass
                 try:
                     other_inc_amount2 = self.driver.find_element(By.XPATH, '//*[@id="OtherIncome_Amount2"]')
-                    other_inc_amount2.send_keys(application['amount1'])
+                    other_inc_amount2.send_keys(application['amount2'])
                 except:
                     pass
                 try:
                     other_inc_frequency2 = self.driver.find_element(By.XPATH, '//*[@id="OtherIncome_PayFrequency2"]')
-                    other_inc_frequency2.send_keys(application['frequency1'])
+                    other_inc_frequency2.send_keys(application['frequency2'])
                 except:
                     pass
                 try:
-                    other_inc_guarantee2 = application['guaranteed1']
+                    other_inc_guarantee2 = application['guaranteed2']
                     if other_inc_guarantee2 == 'Yes':
                         other_inc_guarantee2 = self.driver.find_element(By.XPATH, '//*[@id="OtherIncome_Guaranteed2"]/../span[3]').click()
                     else:
@@ -761,21 +761,21 @@ class ApplicationProcessor:
 
                 try:
                     other_inc_details3 = self.driver.find_element(By.XPATH, '//*[@class="form-control otherIncome3"]')
-                    other_inc_details3.send_keys(application['details2'])
+                    other_inc_details3.send_keys(application['details3'])
                 except:
                     pass
                 try:
                     other_inc_amount3 = self.driver.find_element(By.XPATH, '//*[@id="OtherIncome_Amount3"]')
-                    other_inc_amount3.send_keys(application['amount2'])
+                    other_inc_amount3.send_keys(application['amount3'])
                 except:
                     pass
                 try:
                     other_inc_frequency3 = self.driver.find_element(By.XPATH, '//*[@id="OtherIncome_PayFrequency3"]')
-                    other_inc_frequency3.send_keys(application['frequency2'])
+                    other_inc_frequency3.send_keys(application['frequency3'])
                 except:
                     pass
                 try:
-                    other_inc_guarantee3 = application['guaranteed2']
+                    other_inc_guarantee3 = application['guaranteed3']
                     if other_inc_guarantee3 == 'Yes':
                         other_inc_guarantee3 = self.driver.find_element(By.XPATH, '//*[@id="OtherIncome_Guaranteed3"]/../span[3]').click()
                     else:
@@ -785,21 +785,21 @@ class ApplicationProcessor:
 
                 try:
                     other_inc_details4 = self.driver.find_element(By.XPATH, '//*[@class="form-control otherIncome4"]')
-                    other_inc_details4.send_keys(application['details3'])
+                    other_inc_details4.send_keys(application['details4'])
                 except:
                     pass
                 try:
                     other_inc_amount4 = self.driver.find_element(By.XPATH, '//*[@id="OtherIncome_Amount4"]')
-                    other_inc_amount4.send_keys(application['amount3'])
+                    other_inc_amount4.send_keys(application['amount4'])
                 except:
                     pass
                 try:
                     other_inc_frequency4 = self.driver.find_element(By.XPATH, '//*[@id="OtherIncome_PayFrequency4"]')
-                    other_inc_frequency4.send_keys(application['frequency3'])
+                    other_inc_frequency4.send_keys(application['frequency4'])
                 except:
                     pass
                 try:
-                    other_inc_guarantee4 = application['guaranteed3']
+                    other_inc_guarantee4 = application['guaranteed4']
                     if other_inc_guarantee4 == 'Yes':
                         other_inc_guarantee4 = self.driver.find_element(By.XPATH,
                                                                    '//*[@id="OtherIncome_Guaranteed4"]/../span[3]').click()
@@ -810,21 +810,21 @@ class ApplicationProcessor:
 
                 try:
                     other_inc_details5 = self.driver.find_element(By.XPATH, '//*[@class="form-control otherIncome5"]')
-                    other_inc_details5.send_keys(application['details4'])
+                    other_inc_details5.send_keys(application['details5'])
                 except:
                     pass
                 try:
                     other_inc_amount5 = self.driver.find_element(By.XPATH, '//*[@id="OtherIncome_Amount5"]')
-                    other_inc_amount5.send_keys(application['amount4'])
+                    other_inc_amount5.send_keys(application['amount5'])
                 except:
                     pass
                 try:
                     other_inc_frequency5 = self.driver.find_element(By.XPATH, '//*[@id="OtherIncome_PayFrequency5"]')
-                    other_inc_frequency5.send_keys(application['frequency4'])
+                    other_inc_frequency5.send_keys(application['frequency5'])
                 except:
                     pass
                 try:
-                    other_inc_guarantee5 = application['guaranteed4']
+                    other_inc_guarantee5 = application['guaranteed5']
                     if other_inc_guarantee5 == 'Yes':
                         other_inc_guarantee5 = self.driver.find_element(By.XPATH, '//*[@id="OtherIncome_Guaranteed5"]/../span[3]').click()
                     else:

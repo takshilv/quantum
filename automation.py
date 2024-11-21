@@ -766,21 +766,21 @@ for js in jss:
 
             try:
                 other_inc_details2 = driver.find_element(By.XPATH, '//*[@class="form-control otherIncome2"]')
-                other_inc_details2.send_keys(js['details1'])
+                other_inc_details2.send_keys(js['details2'])
             except:
                 pass
             try:
                 other_inc_amount2 = driver.find_element(By.XPATH, '//*[@id="OtherIncome_Amount2"]')
-                other_inc_amount2.send_keys(js['amount1'])
+                other_inc_amount2.send_keys(js['amount2'])
             except:
                 pass
             try:
                 other_inc_frequency2 = driver.find_element(By.XPATH, '//*[@id="OtherIncome_PayFrequency2"]')
-                other_inc_frequency2.send_keys(js['frequency1'])
+                other_inc_frequency2.send_keys(js['frequency2'])
             except:
                 pass
             try:
-                other_inc_guarantee2 = js['guaranteed1']
+                other_inc_guarantee2 = js['guaranteed2']
                 if other_inc_guarantee2 == 'Yes':
                     other_inc_guarantee2 = driver.find_element(By.XPATH, '//*[@id="OtherIncome_Guaranteed2"]/../span[3]').click()
                 else:
@@ -790,21 +790,21 @@ for js in jss:
 
             try:
                 other_inc_details3 = driver.find_element(By.XPATH, '//*[@class="form-control otherIncome3"]')
-                other_inc_details3.send_keys(js['details2'])
+                other_inc_details3.send_keys(js['details3'])
             except:
                 pass
             try:
                 other_inc_amount3 = driver.find_element(By.XPATH, '//*[@id="OtherIncome_Amount3"]')
-                other_inc_amount3.send_keys(js['amount2'])
+                other_inc_amount3.send_keys(js['amount3'])
             except:
                 pass
             try:
                 other_inc_frequency3 = driver.find_element(By.XPATH, '//*[@id="OtherIncome_PayFrequency3"]')
-                other_inc_frequency3.send_keys(js['frequency2'])
+                other_inc_frequency3.send_keys(js['frequency3'])
             except:
                 pass
             try:
-                other_inc_guarantee3 = js['guaranteed2']
+                other_inc_guarantee3 = js['guaranteed3']
                 if other_inc_guarantee3 == 'Yes':
                     other_inc_guarantee3 = driver.find_element(By.XPATH, '//*[@id="OtherIncome_Guaranteed3"]/../span[3]').click()
                 else:
@@ -814,21 +814,21 @@ for js in jss:
 
             try:
                 other_inc_details4 = driver.find_element(By.XPATH, '//*[@class="form-control otherIncome4"]')
-                other_inc_details4.send_keys(js['details3'])
+                other_inc_details4.send_keys(js['details4'])
             except:
                 pass
             try:
                 other_inc_amount4 = driver.find_element(By.XPATH, '//*[@id="OtherIncome_Amount4"]')
-                other_inc_amount4.send_keys(js['amount3'])
+                other_inc_amount4.send_keys(js['amount4'])
             except:
                 pass
             try:
                 other_inc_frequency4 = driver.find_element(By.XPATH, '//*[@id="OtherIncome_PayFrequency4"]')
-                other_inc_frequency4.send_keys(js['frequency3'])
+                other_inc_frequency4.send_keys(js['frequency4'])
             except:
                 pass
             try:
-                other_inc_guarantee4 = js['guaranteed3']
+                other_inc_guarantee4 = js['guaranteed4']
                 if other_inc_guarantee4 == 'Yes':
                     other_inc_guarantee4 = driver.find_element(By.XPATH, '//*[@id="OtherIncome_Guaranteed4"]/../span[3]').click()
                 else:
@@ -838,21 +838,21 @@ for js in jss:
 
             try:
                 other_inc_details5 = driver.find_element(By.XPATH, '//*[@class="form-control otherIncome5"]')
-                other_inc_details5.send_keys(js['details4'])
+                other_inc_details5.send_keys(js['details5'])
             except:
                 pass
             try:
                 other_inc_amount5 = driver.find_element(By.XPATH, '//*[@id="OtherIncome_Amount5"]')
-                other_inc_amount5.send_keys(js['amount4'])
+                other_inc_amount5.send_keys(js['amount5'])
             except:
                 pass
             try:
                 other_inc_frequency5 = driver.find_element(By.XPATH, '//*[@id="OtherIncome_PayFrequency5"]')
-                other_inc_frequency5.send_keys(js['frequency4'])
+                other_inc_frequency5.send_keys(js['frequency5'])
             except:
                 pass
             try:
-                other_inc_guarantee5 = js['guaranteed4']
+                other_inc_guarantee5 = js['guaranteed5']
                 if other_inc_guarantee5 == 'Yes':
                     other_inc_guarantee5 = driver.find_element(By.XPATH, '//*[@id="OtherIncome_Guaranteed5"]/../span[3]').click()
                 else:
