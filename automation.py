@@ -375,6 +375,12 @@ for js in jss:
             pass
 
         try:
+            remaining_lease_year = driver.find_element(By.XPATH, '//*[@name="Security.UnexpiredRemainingLease"]')
+            remaining_lease_year.send_keys(js['remaining_lease_year'])
+        except:
+            pass
+
+        try:
             security_purchase_price = driver.find_element(By.XPATH, '//*[@name="Mortgage.PurchasePrice"]')
             security_purchase_price.send_keys(js['security_purchase_price'])
         except:
@@ -1144,8 +1150,8 @@ for js in jss:
                     ground_rent = driver.find_element(By.XPATH, '//*[@name="Security.GroundRent"]')
                     ground_rent.send_keys(js['ground_rent'])
 
-                    remaining_lease_year = driver.find_element(By.XPATH, '//*[@name="Security.UnexpiredRemainingLease"]')
-                    remaining_lease_year.send_keys(js['remaining_lease_year'])
+                    # remaining_lease_year = driver.find_element(By.XPATH, '//*[@name="Security.UnexpiredRemainingLease"]')
+                    # remaining_lease_year.send_keys(js['remaining_lease_year'])
 
                     is_lease_extended = js['is_lease_extended']
                     if is_lease_extended == 'Yes':

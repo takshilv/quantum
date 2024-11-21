@@ -352,6 +352,12 @@ class ApplicationProcessor:
                 pass
 
             try:
+                remaining_lease_year = self.driver.find_element(By.XPATH, '//*[@name="Security.UnexpiredRemainingLease"]')
+                remaining_lease_year.send_keys(application['remaining_lease_year'])
+            except:
+                pass
+
+            try:
                 security_purchase_price = self.driver.find_element(By.XPATH, '//*[@name="Mortgage.PurchasePrice"]')
                 security_purchase_price.send_keys(application['security_purchase_price'])
             except:
@@ -1087,29 +1093,38 @@ class ApplicationProcessor:
 
                 try:
                     if application['security_property_tenure'] == 'Leasehold':
-                        service_charge = self.driver.find_element(By.XPATH, '//*[@name="Security.ServiceCharge"]')
-                        service_charge.send_keys(application['service_charge'])
-
-                        ground_rent = self.driver.find_element(By.XPATH, '//*[@name="Security.GroundRent"]')
-                        ground_rent.send_keys(application['ground_rent'])
-
-                        remaining_lease_year = self.driver.find_element(By.XPATH, '//*[@name="Security.UnexpiredRemainingLease"]')
-                        remaining_lease_year.send_keys(application['remaining_lease_year'])
-
-                        is_lease_extended = application['is_lease_extended']
-                        if is_lease_extended == 'Yes':
-                            is_lease_extended = self.driver.find_element(By.XPATH, '//*[@id="Security_IsExtendedLease"]/../span[3]').click()
-                            lease_term = self.driver.find_element(By.XPATH, '//*[@name="Security.ExtendedLease"]')
-                            lease_term.send_keys(application['current_lease_years'])
-                        else:
+                        try:
+                            service_charge = self.driver.find_element(By.XPATH, '//*[@name="Security.ServiceCharge"]')
+                            service_charge.send_keys(application['service_charge'])
+                        except:
                             pass
 
-                        purchasing_share_of_freehold = application['purchasing_share_of_freehold']
-                        if purchasing_share_of_freehold == 'Yes':
-                            purchasing_share_of_freehold = self.driver.find_element(By.XPATH, '//*[@id="Security_PurchaseShareOfFreehold"]/../span[3]').click()
-                            share_of_freehold_details = self.driver.find_element(By.XPATH, '//*[@name="Security.PurchaseShareOfFreeholdDetails"]')
-                            share_of_freehold_details.send_keys(application['share_of_freehold_details'])
-                        else:
+                        try:
+                            ground_rent = self.driver.find_element(By.XPATH, '//*[@name="Security.GroundRent"]')
+                            ground_rent.send_keys(application['ground_rent'])
+                        except:
+                            pass
+
+                        try:
+                            is_lease_extended = application['is_lease_extended']
+                            if is_lease_extended == 'Yes':
+                                is_lease_extended = self.driver.find_element(By.XPATH, '//*[@id="Security_IsExtendedLease"]/../span[3]').click()
+                                lease_term = self.driver.find_element(By.XPATH, '//*[@name="Security.ExtendedLease"]')
+                                lease_term.send_keys(application['current_lease_years'])
+                            else:
+                                pass
+                        except:
+                            pass
+
+                        try:
+                            purchasing_share_of_freehold = application['purchasing_share_of_freehold']
+                            if purchasing_share_of_freehold == 'Yes':
+                                purchasing_share_of_freehold = self.driver.find_element(By.XPATH, '//*[@id="Security_PurchaseShareOfFreehold"]/../span[3]').click()
+                                share_of_freehold_details = self.driver.find_element(By.XPATH, '//*[@name="Security.PurchaseShareOfFreeholdDetails"]')
+                                share_of_freehold_details.send_keys(application['share_of_freehold_details'])
+                            else:
+                                pass
+                        except:
                             pass
                 except:
                     pass
