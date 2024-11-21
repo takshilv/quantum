@@ -1514,6 +1514,7 @@ class ApplicationProcessor:
         print(url)
         requests.post(url)
         print(f"Logged Error for {application['id']}")
+        print(str(datetime.datetime.now()))
         self.driver.quit()
         sys.exit()
 
