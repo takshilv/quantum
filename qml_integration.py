@@ -1543,8 +1543,8 @@ class ApplicationProcessor:
 if __name__ == "__main__":
     print(str(datetime.datetime.now()))
     # download_dir = "E:\\takshil\\quantum_pdf\\"
-    # download_dir = "/home/ubuntu/storage/loan-applications/"
-    download_dir = "/var/www/novyy-dev/Novyy/storage/app/public/qmlApplications/"
+    download_dir = "/home/ubuntu/storage/loan-applications/"
+    # download_dir = "/var/www/novyy-dev/Novyy/storage/app/public/qmlApplications/"
     processor = ApplicationProcessor(download_dir)
     applications = processor.fetch_applications()
 
