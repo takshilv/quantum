@@ -1541,6 +1541,7 @@ class ApplicationProcessor:
 
 
 if __name__ == "__main__":
+    print('*******************************************  STARTED ***********************************************')
     print(str(datetime.datetime.now()))
     # download_dir = "E:\\takshil\\quantum_pdf\\"
     # download_dir = "/home/ubuntu/storage/loan-applications/"
@@ -1557,3 +1558,7 @@ if __name__ == "__main__":
         processor.process_application(app)
 
     processor.close()
+
+
+
+#/home/ubuntu/quantum/quantum/myenv/bin/python3 -u /home/ubuntu/quantum/quantum/qml_integration.py >> /home/ubuntu/quantum/quantum/logfile.log
