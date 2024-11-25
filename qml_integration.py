@@ -14,7 +14,7 @@ class ApplicationProcessor:
     def __init__(self, download_dir, chrome_options=None):
         self.download_dir = download_dir
         self.driver = self.init_driver(chrome_options)
-        self.api_url = "https://novyyloans.ntlstaging.co.uk/api/applications"
+        self.api_url = "https://www.novyyloans.com/api/applications"
 
     def init_driver(self, chrome_options=None):
         if chrome_options is None:
