@@ -1560,7 +1560,7 @@ if __name__ == "__main__":
     processor = ApplicationProcessor(download_dir)
     applications = processor.fetch_applications()
 
-    processor.login('asaraff@arethacapital.com', 'X5VA5uX!tLLj4Yg',
+    processor.login('loans@novyy.com', 'R6Kgi5pW@c7Jrf',
                     'https://www.qmlsystem.co.uk/Portal/Application/DisplayForm?formName=Apply%20-%20Who%20is%20applying&items=2TnhPEhIjm8pGUhSWoIm%2B5jvt6o6pgltxGSdMUZKE2ky8vF7wyt5DSNT395nKyC%2B')
 
     for app in applications:
