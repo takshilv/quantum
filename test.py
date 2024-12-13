@@ -630,10 +630,12 @@ for js in jss:
 
         try:
             product = js['product']
-            sel_product = driver.find_element(By.XPATH,f'//*[contains(text(),"{product}")]/../td[@class="selectproduct"]/input').click()
+            sel_product = driver.find_element(By.XPATH, f'//*[contains(text(),"{product}")]/../td[@class="selectproduct"]/input').click()
+            sel_prod = True
         except:
             try:
                 sel_product =driver.find_element(By.XPATH, '//*[@id="tableproducts"]/tbody/tr[1]/td[@class="selectproduct"]/input').click()
+                sel_prod = False
             except:
                 url = f"https://novyyloans.ntlstaging.co.uk/api/applications/logs?id={js['id']}&email={js['email']}&message={'field missing or error : ' + 'No product found'}"
                 payload = {}
@@ -653,6 +655,33 @@ for js in jss:
             time.sleep(6)
         except:
             pass
+
+        if sel_prod == False:
+            erc = driver.find_element(By.XPATH, '//*[@id="tableproducts"]/tbody/tr[1]/td[2]').text
+            initial_rate  = driver.find_element(By.XPATH, '//*[@id="tableproducts"]/tbody/tr[1]/td[@id="RateText"]/span').text
+            reversion_rate = driver.find_element(By.XPATH, '//*[@id="tableproducts"]/tbody/tr[1]/td[4]').text
+            apr = driver.find_element(By.XPATH, '//*[@id="tableproducts"]/tbody/tr[1]/td[5]').text
+            monthly_payment = driver.find_element(By.XPATH, '//*[@id="tableproducts"]/tbody/tr[1]/td[6]').text
+        else:
+            erc = driver.find_element(By.XPATH, f'//*[contains(text(),"{product}")]/../td[2]').text
+            initial_rate = driver.find_element(By.XPATH, f'//*[contains(text(),"{product}")]/../td[@id="RateText"]/span').text
+            reversion_rate = driver.find_element(By.XPATH, f'//*[contains(text(),"{product}")]/../td[4]').text
+            apr = driver.find_element(By.XPATH, f'//*[contains(text(),"{product}")]/../td[5]').text
+            monthly_payment = driver.find_element(By.XPATH, f'//*[contains(text(),"{product}")]/../td[6]').text
+
+        ltv = driver.find_element(By.XPATH, '//*[@data-field="LTV"]').text
+        rental_coverage = driver.find_element(By.XPATH, '//*[@data-field="RentalCoverage"]').text
+
+        product_fee = driver.find_element(By.XPATH, '//*[@class="ProductFeeText"]').text
+        redemption_admin_fee = driver.find_element(By.XPATH, '//*[@class="RedemptionAdminFeeText"]').text
+        estimated_solicitor_fee = driver.find_element(By.XPATH, '//*[@class="SolicitorFeeText"]').text
+        broker_fee_payable_by_borrower = driver.find_element(By.XPATH, '//*[@class="brokrageByBorrower"]').text
+        valuation_fee = driver.find_element(By.XPATH, '//*[@id="ValuationFeeText"]').text
+        funds_release_fee = driver.find_element(By.XPATH, '//*[@class="FundReleaseFeeText"]').text
+        building_insurance_admin_fee = driver.find_element(By.XPATH, '//*[@class="BuildingsInsuranceAdminFeeText"]').text
+        application_fee = driver.find_element(By.XPATH, '//*[@class="ApplicationFeeText"]').text
+
+
         try:
             general_illustration =  driver.find_element(By.XPATH, '//*[contains(text(),"Generate Illustration")]').click()
         except:
@@ -685,6 +714,8 @@ for js in jss:
         next = driver.find_element(By.XPATH, '//*[contains(text(),"Next")]').click()
         time.sleep(3)
         print('next')
+
+        refrence_number = driver.find_element(By.XPATH, '//strong[contains(text(),"Ref: ")]/../text()').text
 
         main_url = driver.current_url
 

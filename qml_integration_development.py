@@ -19,7 +19,7 @@ class ApplicationProcessor:
     def init_driver(self, chrome_options=None):
         if chrome_options is None:
             chrome_options = Options()
-            chrome_options.add_argument('--headless=old')
+            # chrome_options.add_argument('--headless=old')
         driver = webdriver.Chrome(options=chrome_options)
         driver.maximize_window()
         driver.execute_cdp_cmd("Page.setDownloadBehavior", {
@@ -45,11 +45,12 @@ class ApplicationProcessor:
         except Exception as e:
             print(f"Login Error: {e}")
 
-    def process_application(self, application):
+    def process_application(self,application):
         try:
             self.select_applicant_type(application)
-            self.fill_form(application)
-            self.download_and_upload(application)
+            # self.fill_form(application)
+            value1 = self.fill_form(application)
+            self.download_and_upload(application, value1)
         except Exception as e:
             self.log_error(application, str(e))
 
@@ -64,6 +65,7 @@ class ApplicationProcessor:
 
     def fill_form(self, application):
         try:
+
             # Example filling in a field, repeat for other fields
             number_of_applicants = self.driver.find_element(By.XPATH, '//*[@id="Application_NumberOfApplicants"]')
             number_of_applicants.clear()
@@ -596,9 +598,11 @@ class ApplicationProcessor:
             try:
                 product = application['product']
                 sel_product = self.driver.find_element(By.XPATH, f'//*[contains(text(),"{product}")]/../td[@class="selectproduct"]/input').click()
+                sel_prod = True
             except:
                 try:
                     sel_product = self.driver.find_element(By.XPATH, '//*[@id="tableproducts"]/tbody/tr[1]/td[@class="selectproduct"]/input').click()
+                    sel_prod = False
                 except:
                     print('field missing or error : No product found')
                     self.log_error(application, 'field missing or error : No product found')
@@ -615,6 +619,40 @@ class ApplicationProcessor:
                 time.sleep(6)
             except:
                 pass
+
+            if sel_prod == False:
+                name = self.driver.find_element(By.XPATH, '//*[@id="tableproducts"]/tbody/tr[1]/td[1]').text
+                try:
+                    erc = self.driver.find_element(By.XPATH, '//*[@id="tableproducts"]/tbody/tr[1]/td[2]').text
+                except:
+                    erc = ''
+                initial_rate = self.driver.find_element(By.XPATH, '//*[@id="tableproducts"]/tbody/tr[1]/td[@id="RateText"]/span').text
+                reversion_rate = self.driver.find_element(By.XPATH, '//*[@id="tableproducts"]/tbody/tr[1]/td[4]').text
+                apr = self.driver.find_element(By.XPATH, '//*[@id="tableproducts"]/tbody/tr[1]/td[5]').text
+                monthly_payment = self.driver.find_element(By.XPATH, '//*[@id="tableproducts"]/tbody/tr[1]/td[6]').text
+            else:
+                name = self.driver.find_element(By.XPATH, f'//*[contains(text(),"{product}")]/../td[1]').text
+                try:
+                    erc = self.driver.find_element(By.XPATH, f'//*[contains(text(),"{product}")]/../td[2]').text
+                except:
+                    erc = ''
+                initial_rate = self.driver.find_element(By.XPATH, f'//*[contains(text(),"{product}")]/../td[@id="RateText"]/span').text
+                reversion_rate = self.driver.find_element(By.XPATH, f'//*[contains(text(),"{product}")]/../td[4]').text
+                apr = self.driver.find_element(By.XPATH, f'//*[contains(text(),"{product}")]/../td[5]').text
+                monthly_payment = self.driver.find_element(By.XPATH, f'//*[contains(text(),"{product}")]/../td[6]').text
+
+            ltv = self.driver.find_element(By.XPATH, '//*[@data-field="LTV"]').text
+            rental_coverage = self.driver.find_element(By.XPATH, '//*[@data-field="RentalCoverage"]').text
+
+            product_fee = self.driver.find_element(By.XPATH, '//*[@class="ProductFeeText"]').text
+            redemption_admin_fee = self.driver.find_element(By.XPATH, '//*[@class="RedemptionAdminFeeText"]').text
+            estimated_solicitor_fee = self.driver.find_element(By.XPATH, '//*[@class="SolicitorFeeText"]').text
+            broker_fee_payable_by_borrower = self.driver.find_element(By.XPATH, '//*[@class="brokrageByBorrower"]').text
+            valuation_fee = self.driver.find_element(By.XPATH, '//*[@id="ValuationFeeText"]').text
+            funds_release_fee = self.driver.find_element(By.XPATH, '//*[@class="FundReleaseFeeText"]').text
+            building_insurance_admin_fee = self.driver.find_element(By.XPATH, '//*[@class="BuildingsInsuranceAdminFeeText"]').text
+            application_fee = self.driver.find_element(By.XPATH, '//*[@class="ApplicationFeeText"]').text
+
             try:
                 general_illustration = self.driver.find_element(By.XPATH, '//*[contains(text(),"Generate Illustration")]').click()
             except:
@@ -641,6 +679,12 @@ class ApplicationProcessor:
             next = self.driver.find_element(By.XPATH, '//*[contains(text(),"Next")]').click()
             time.sleep(3)
             print('next')
+
+            try:
+                refrence_number1 = self.driver.find_element(By.XPATH, '//strong[contains(text(),"Ref: ")]/..').text
+                refrence_number = ''.join(refrence_number1.replace('Ref: ',''))
+            except:
+                refrence_number = ''
 
             main_url = self.driver.current_url
             # -------------------- Company ------------------#
@@ -955,6 +999,12 @@ class ApplicationProcessor:
             try:
                 self.driver.find_element(By.XPATH, '//span[contains(text(),"Product")]/../..').click()
                 time.sleep(3)
+
+                try:
+                    procuration_fee = self.driver.find_element(By.XPATH, '//label[contains(text(),"Procuration Fee")]/../../div[2]/div').text
+                except:
+                    procuration_fee = 0
+
                 product_next = self.driver.find_element(By.XPATH, '//*[@class="btn btn-default nav-button pull-right blueBtn "]').click()
                 time.sleep(3)
                 self.driver.get(main_url)
@@ -1473,6 +1523,32 @@ class ApplicationProcessor:
                 self.driver.refresh()
                 time.sleep(3)
                 print('loan done')
+
+                # my_dict = {"key1": "value1", "key2": "value2"}
+
+                # value1 = {'erc': erc, 'initial_rate': initial_rate}
+                value1 = {}
+                value1["name"] = name
+                value1["erc"] = erc
+                value1["initial_rate"] = initial_rate
+                value1["reversion_rate"] = reversion_rate
+                value1["apr"] = apr
+                value1["monthly_payment"] = monthly_payment
+                value1["ltv"] = ltv
+                value1["rental_coverage"] = rental_coverage
+                value1["product_fee"] = product_fee
+                value1["redemption_admin_fee"] = redemption_admin_fee
+                value1["estimated_solicitor_fee"] = estimated_solicitor_fee
+                value1["broker_fee_payable_by_borrower"] = broker_fee_payable_by_borrower
+                value1["valuation_fee"] = valuation_fee
+                value1["funds_release_fee"] = funds_release_fee
+                value1["building_insurance_admin_fee"] = building_insurance_admin_fee
+                value1["application_fee"] = application_fee
+                value1["refrence_number"] = refrence_number
+                value1["procuration_fee"] = procuration_fee
+                return value1
+
+
             except:
                 print('loan not found or error')
             # -------------------------------------------------#
@@ -1483,8 +1559,10 @@ class ApplicationProcessor:
             print(f"Form Filling Error: {e}")
             raise
 
-    def download_and_upload(self, application):
+    def download_and_upload(self, application, value1):
         try:
+            print(value1)
+            # print(value1["initial_rate"])
             download_button = self.driver.find_element(By.XPATH, '//*[contains(text(),"Reissue DIP")]')
             before_download = set(os.listdir(self.download_dir))
             download_button.click()
@@ -1494,7 +1572,7 @@ class ApplicationProcessor:
             new_file_name = self.wait_for_download(before_download)
             if new_file_name:
                 updated_file_name = self.rename_downloaded_file(new_file_name)
-                self.upload_file(application['id'], updated_file_name)
+                self.upload_file(application['id'], updated_file_name, value1)
             else:
                 raise Exception("File download failed.")
         except Exception as e:
@@ -1520,10 +1598,35 @@ class ApplicationProcessor:
         )
         return updated_file_name
 
-    def upload_file(self, application_id, file_name):
+    def upload_file(self, application_id, file_name, value1):
+        print(value1)
         url = f"{self.api_url}?id={application_id}&filename={file_name}"
         response = requests.post(url)
         print(f"Upload Response: {response.status_code}")
+
+        name = value1["name"]
+        erc = value1["erc"].replace('£ ','')
+        initial_rate = value1["initial_rate"].replace('£ ','').replace('%','')
+        procuration_fee = value1["procuration_fee"].replace('£ ','').replace('%','')
+        reversion_rate = value1["reversion_rate"].replace('£ ','')
+        apr = value1["apr"].replace('£ ','').replace('%','')
+        monthly_payment = value1["monthly_payment"].replace('£ ','')
+        ltv = value1["ltv"].replace('£ ','').replace('%','')
+        rental_coverage = value1["rental_coverage"].replace('£ ','').replace('%','')
+        product_fee = value1["product_fee"].replace('£ ','')
+        redemption_admin_fee = value1["redemption_admin_fee"].replace('£ ','')
+        estimated_solicitor_fee = value1["estimated_solicitor_fee"].replace('£ ','')
+        broker_fee_payable_by_borrower = value1["broker_fee_payable_by_borrower"].replace('£ ','')
+        valuation_fee = value1["valuation_fee"].replace('£ ','')
+        funds_release_fee = value1["funds_release_fee"].replace('£ ','')
+        building_insurance_admin_fee = value1["building_insurance_admin_fee"].replace('£ ','')
+        application_fee = value1["application_fee"].replace('£ ','')
+        refrence_number = value1["refrence_number"].replace('£ ','')
+
+        url1 = f"{self.api_url}/product?id={application_id}&name={name}&erc={erc}&initial_rate={initial_rate}&reversion_rate={reversion_rate}&monthly_payment={monthly_payment}&ltv={ltv}&procuration_fee={procuration_fee}&product_fee={product_fee}&reference_number={refrence_number}&token=YRcwnMgyrR&rental_coverage={rental_coverage}&redemption_admin_fee={redemption_admin_fee}&estimated_solicitor_fee={estimated_solicitor_fee}&broker_fee_payable_by_borrower={broker_fee_payable_by_borrower}&valuation_fee={valuation_fee}&funds_release_fee={funds_release_fee}&buildings_insurance_admin_fee={building_insurance_admin_fee}&application_fee={application_fee}&apr={apr}"
+        response1 = requests.post(url1)
+        print(f"Upload Response: {response1.status_code}")
+
         print(str(datetime.datetime.now())+'finish')
 
     def log_error(self, application, message):
@@ -1543,8 +1646,8 @@ class ApplicationProcessor:
 if __name__ == "__main__":
     print('*******************************************  STARTED ***********************************************')
     print(str(datetime.datetime.now()))
-    # download_dir = "E:\\takshil\\quantum_pdf\\"
-    download_dir = "/home/ubuntu/storage/loan-applications/"
+    download_dir = "E:\\takshil\\quantum_pdf\\"
+    # download_dir = "/home/ubuntu/storage/loan-applications/"
     # download_dir = "/var/www/novyy-dev/Novyy/storage/app/public/qmlApplications/"
     # download_dir = "/var/www/novyy-dev/novyyloans/storage/app/public/qmlApplications/"
 
