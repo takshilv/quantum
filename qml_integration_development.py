@@ -19,7 +19,7 @@ class ApplicationProcessor:
     def init_driver(self, chrome_options=None):
         if chrome_options is None:
             chrome_options = Options()
-            # chrome_options.add_argument('--headless=old')
+            chrome_options.add_argument('--headless=old')
         driver = webdriver.Chrome(options=chrome_options)
         driver.maximize_window()
         driver.execute_cdp_cmd("Page.setDownloadBehavior", {
