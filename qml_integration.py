@@ -57,8 +57,9 @@ class ApplicationProcessor:
     def process_application(self, application):
         try:
             self.select_applicant_type(application)
-            self.fill_form(application)
-            self.download_and_upload(application)
+            # self.fill_form(application)
+            value1 = self.fill_form(application)
+            self.download_and_upload(application, value1)
         except Exception as e:
             self.log_error(application, str(e))
 
@@ -73,6 +74,7 @@ class ApplicationProcessor:
 
     def fill_form(self, application):
         try:
+
             # Example filling in a field, repeat for other fields
             number_of_applicants = self.driver.find_element(By.XPATH, '//*[@id="Application_NumberOfApplicants"]')
             number_of_applicants.clear()
@@ -88,7 +90,8 @@ class ApplicationProcessor:
             else:
                 located_england = self.driver.find_element(By.XPATH, '//*[contains(text(),"No")]/..').click()
             try:
-                error_log = self.driver.find_element(By.XPATH, '//div[@class="col-xs-12 "]//*[contains(text(), "Sorry...")]/../p[2]').text
+                error_log = self.driver.find_element(By.XPATH,
+                                                     '//div[@class="col-xs-12 "]//*[contains(text(), "Sorry...")]/../p[2]').text
                 print(error_log)
             except:
                 error_log = ''
@@ -101,11 +104,14 @@ class ApplicationProcessor:
             purchace_new = application['purchace_new']
             # if purchace_new == 'Yes':
             if 'Yes' in purchace_new:
-                purchace_new = self.driver.find_element(By.XPATH, '//*[contains(text(),"PURCHASE a new property")]/..').click()
+                purchace_new = self.driver.find_element(By.XPATH,
+                                                        '//*[contains(text(),"PURCHASE a new property")]/..').click()
             else:
-                purchace_new = self.driver.find_element(By.XPATH, '//*[contains(text(),"REMORTGAGE an existing property")]/..').click()
+                purchace_new = self.driver.find_element(By.XPATH,
+                                                        '//*[contains(text(),"REMORTGAGE an existing property")]/..').click()
             try:
-                error_log = self.driver.find_element(By.XPATH, '//div[@class="col-xs-12 "]//*[contains(text(), "Sorry...")]/../p[2]').text
+                error_log = self.driver.find_element(By.XPATH,
+                                                     '//div[@class="col-xs-12 "]//*[contains(text(), "Sorry...")]/../p[2]').text
                 print(error_log)
             except:
                 error_log = ''
@@ -122,7 +128,8 @@ class ApplicationProcessor:
             else:
                 first_time = self.driver.find_element(By.XPATH, '//*[contains(text(),"No")]/..').click()
             try:
-                error_log = self.driver.find_element(By.XPATH, '//div[@class="col-xs-12 "]//*[contains(text(), "Sorry...")]/../p[2]').text
+                error_log = self.driver.find_element(By.XPATH,
+                                                     '//div[@class="col-xs-12 "]//*[contains(text(), "Sorry...")]/../p[2]').text
                 print(error_log)
             except:
                 error_log = ''
@@ -139,7 +146,8 @@ class ApplicationProcessor:
             else:
                 plan_occupy = self.driver.find_element(By.XPATH, '//*[contains(text(),"No")]/..').click()
             try:
-                error_log = self.driver.find_element(By.XPATH, '//div[@class="col-xs-12 "]//*[contains(text(), "Sorry...")]/../p[2]').text
+                error_log = self.driver.find_element(By.XPATH,
+                                                     '//div[@class="col-xs-12 "]//*[contains(text(), "Sorry...")]/../p[2]').text
                 print(error_log)
             except:
                 error_log = ''
@@ -161,7 +169,8 @@ class ApplicationProcessor:
             else:
                 service = self.driver.find_element(By.XPATH, '//*[contains(text(),"Information Only")]/..').click()
             try:
-                error_log = self.driver.find_element(By.XPATH, '//div[@class="col-xs-12 "]//*[contains(text(), "Sorry...")]/../p[2]').text
+                error_log = self.driver.find_element(By.XPATH,
+                                                     '//div[@class="col-xs-12 "]//*[contains(text(), "Sorry...")]/../p[2]').text
                 print(error_log)
             except:
                 error_log = ''
@@ -180,7 +189,8 @@ class ApplicationProcessor:
 
             reg_no = application['company_registration_number']
             if reg_no:
-                reg_yes = self.driver.find_element(By.XPATH, '//*[@for="Company_DoYouKnowRegisteredNumber"]/../div/div/div/span[2]').click()
+                reg_yes = self.driver.find_element(By.XPATH,
+                                                   '//*[@for="Company_DoYouKnowRegisteredNumber"]/../div/div/div/span[2]').click()
                 time.sleep(2)
                 comp_no = self.driver.find_element(By.XPATH, '//*[@name="Company.RegisteredNumber"]')
                 comp_no.send_keys(application['company_registration_number'])
@@ -273,26 +283,29 @@ class ApplicationProcessor:
                 country = ''
 
             try:
-                employment_status = self.driver.find_element(By.XPATH, '//*[@id="Applicant[0]_Applicant_EmploymentClass"]')
+                employment_status = self.driver.find_element(By.XPATH,
+                                                             '//*[@id="Applicant[0]_Applicant_EmploymentClass"]')
                 employment_status.send_keys(application['employment_status'])
             except:
                 pass
 
             try:
-                residential_status = self.driver.find_element(By.XPATH, '//*[@id="Applicant[0]_Applicant_ResidentialStatus"]')
+                residential_status = self.driver.find_element(By.XPATH,
+                                                              '//*[@id="Applicant[0]_Applicant_ResidentialStatus"]')
                 residential_status.send_keys(application['residential_status'])
             except:
                 pass
 
             try:
-                anual_income = self.driver.find_element(By.XPATH, '//*[@name="Applicant[0].Employment.BasicGrossIncome"]')
+                anual_income = self.driver.find_element(By.XPATH,
+                                                        '//*[@name="Applicant[0].Employment.BasicGrossIncome"]')
                 anual_income.send_keys(application['anual_income'])
             except:
                 pass
 
             try:
                 date_moved_to_address = self.driver.find_element(By.XPATH,
-                                                            '//*[@name="Applicant[0].Applicant.AddressMovedDate_Date"]')
+                                                                 '//*[@name="Applicant[0].Applicant.AddressMovedDate_Date"]')
                 date_moved_to_address.send_keys(application['date_moved_to_address'])
             except:
                 pass
@@ -306,7 +319,8 @@ class ApplicationProcessor:
             try:
                 existing_borrower = application['existing_borrower']
                 if existing_borrower == 'Yes':
-                    existing_borrower = self.driver.find_element(By.XPATH, '//*[@for="Applicant[0]_Applicant_ExistingLenderRelationship"]/../div/div/div//*[contains(text(),"No")]').click()
+                    existing_borrower = self.driver.find_element(By.XPATH,
+                                                                 '//*[@for="Applicant[0]_Applicant_ExistingLenderRelationship"]/../div/div/div//*[contains(text(),"No")]').click()
                 else:
                     pass
             except:
@@ -319,7 +333,8 @@ class ApplicationProcessor:
                 pass
 
             try:
-                phone_number = self.driver.find_element(By.XPATH, '//*[@name="Applicant[0].Applicant.MobileNumber_Phone"]')
+                phone_number = self.driver.find_element(By.XPATH,
+                                                        '//*[@name="Applicant[0].Applicant.MobileNumber_Phone"]')
                 phone_number.send_keys(application['phone_number'])
             except:
                 pass
@@ -337,7 +352,8 @@ class ApplicationProcessor:
                 pass
 
             try:
-                security_postalcode = self.driver.find_element(By.XPATH, '//*[@name="Security.PropertyAddressPostCode"]')
+                security_postalcode = self.driver.find_element(By.XPATH,
+                                                               '//*[@name="Security.PropertyAddressPostCode"]')
                 security_postalcode.send_keys(application['security_postalcode'])
             except:
                 pass
@@ -361,7 +377,8 @@ class ApplicationProcessor:
                 pass
 
             try:
-                remaining_lease_year = self.driver.find_element(By.XPATH, '//*[@name="Security.UnexpiredRemainingLease"]')
+                remaining_lease_year = self.driver.find_element(By.XPATH,
+                                                                '//*[@name="Security.UnexpiredRemainingLease"]')
                 remaining_lease_year.send_keys(application['remaining_lease_year'])
             except:
                 pass
@@ -391,13 +408,15 @@ class ApplicationProcessor:
                 pass
 
             try:
-                security_estimated_value_of_property = self.driver.find_element(By.XPATH, '//*[@name="Mortgage.EstimatedValue"]')
+                security_estimated_value_of_property = self.driver.find_element(By.XPATH,
+                                                                                '//*[@name="Mortgage.EstimatedValue"]')
                 security_estimated_value_of_property.send_keys(application['security_purchase_price'])
             except:
                 pass
 
             try:
-                security_sector_experience = self.driver.find_element(By.XPATH, '//*[@name="Security.SectorExperience"]')
+                security_sector_experience = self.driver.find_element(By.XPATH,
+                                                                      '//*[@name="Security.SectorExperience"]')
                 security_sector_experience.send_keys(application['security_sector_experience'])
             except:
                 pass
@@ -421,31 +440,36 @@ class ApplicationProcessor:
                 pass
 
             try:
-                previous_postalcode = self.driver.find_element(By.XPATH, '//*[@name="Applicant[0].Applicant.Previous1AddressPostCode"]')
+                previous_postalcode = self.driver.find_element(By.XPATH,
+                                                               '//*[@name="Applicant[0].Applicant.Previous1AddressPostCode"]')
                 previous_postalcode.send_keys(application['previous_postalcode'])
             except:
                 pass
 
             try:
-                previous_address = self.driver.find_element(By.XPATH, '//*[@name="Applicant[0].Applicant.Previous1AddressLine1"]')
+                previous_address = self.driver.find_element(By.XPATH,
+                                                            '//*[@name="Applicant[0].Applicant.Previous1AddressLine1"]')
                 previous_address.send_keys(application['previous_address'])
             except:
                 pass
 
             try:
-                previous_city = self.driver.find_element(By.XPATH, '//*[@name="Applicant[0].Applicant.Previous1AddressCity"]')
+                previous_city = self.driver.find_element(By.XPATH,
+                                                         '//*[@name="Applicant[0].Applicant.Previous1AddressCity"]')
                 previous_city.send_keys(application['previous_city'])
             except:
                 pass
 
             try:
-                previous_country = self.driver.find_element(By.XPATH, '//*[@id="Applicant[0]_Applicant_Previous1AddressCountry"]')
+                previous_country = self.driver.find_element(By.XPATH,
+                                                            '//*[@id="Applicant[0]_Applicant_Previous1AddressCountry"]')
                 previous_country.send_keys(application['previous_country'])
             except:
                 pass
 
             try:
-                previous_date_moved_to_address = self.driver.find_element(By.XPATH, '//*[@name="Applicant[0].Applicant.Previous1AddressMovedDate_Date"]')
+                previous_date_moved_to_address = self.driver.find_element(By.XPATH,
+                                                                          '//*[@name="Applicant[0].Applicant.Previous1AddressMovedDate_Date"]')
                 previous_date_moved_to_address.send_keys(application['previous_date_moved_to_address'])
             except:
                 pass
@@ -456,25 +480,29 @@ class ApplicationProcessor:
                 pass
 
             try:
-                previous2_postalcode = self.driver.find_element(By.XPATH, '//*[@name="Applicant[0].Applicant.Previous2AddressPostCode"]')
+                previous2_postalcode = self.driver.find_element(By.XPATH,
+                                                                '//*[@name="Applicant[0].Applicant.Previous2AddressPostCode"]')
                 previous2_postalcode.send_keys(application['previous2_postalcode'])
             except:
                 pass
 
             try:
-                previous2_address = self.driver.find_element(By.XPATH, '//*[@name="Applicant[0].Applicant.Previous2AddressLine1"]')
+                previous2_address = self.driver.find_element(By.XPATH,
+                                                             '//*[@name="Applicant[0].Applicant.Previous2AddressLine1"]')
                 previous2_address.send_keys(application['previous2_address'])
             except:
                 pass
 
             try:
-                previous2_country = self.driver.find_element(By.XPATH, '//*[@id="Applicant[0]_Applicant_Previous2AddressCountry"]')
+                previous2_country = self.driver.find_element(By.XPATH,
+                                                             '//*[@id="Applicant[0]_Applicant_Previous2AddressCountry"]')
                 previous2_country.send_keys(application['previous2_country'])
             except:
                 pass
 
             try:
-                previous2_date_moved_to_address = self.driver.find_element(By.XPATH, '//*[@name="Applicant[0].Applicant.Previous2AddressMovedDate_Date"]')
+                previous2_date_moved_to_address = self.driver.find_element(By.XPATH,
+                                                                           '//*[@name="Applicant[0].Applicant.Previous2AddressMovedDate_Date"]')
                 previous2_date_moved_to_address.send_keys(application['previous2_date_moved_to_address'])
             except:
                 pass
@@ -496,7 +524,7 @@ class ApplicationProcessor:
                 pass
             if error_log:
                 print('field missing or error : ' + error_log)
-                self.log_error(application, 'field missing or error : '+error_log)
+                self.log_error(application, 'field missing or error : ' + error_log)
                 sys.exit()
 
             print('****** first page done *******')
@@ -505,58 +533,84 @@ class ApplicationProcessor:
             # ********************************** (page 2) *****************************************#
 
             time.sleep(3)
-            satisfied_default = self.driver.find_element(By.XPATH, '//*[contains(text(),"Satisfied Defaults")]/../..//*[contains(text(),"No defaults within last 24 months")]/../input').click()
+            satisfied_default = self.driver.find_element(By.XPATH,
+                                                         '//*[contains(text(),"Satisfied Defaults")]/../..//*[contains(text(),"No defaults within last 24 months")]/../input').click()
 
-            satisfied_ccjs = self.driver.find_element(By.XPATH, '//*[contains(text(),"Satisfied CCJs")]/../..//*[contains(text(),"No CCJs")]/../input').click()
+            satisfied_ccjs = self.driver.find_element(By.XPATH,
+                                                      '//*[contains(text(),"Satisfied CCJs")]/../..//*[contains(text(),"No CCJs")]/../input').click()
 
-            unsatisfied_ccjs = self.driver.find_element(By.XPATH, '//*[contains(text(),"Unsatisfied CCJ’s/Defaults")]/../..//*[contains(text(),"None")]/../input').click()
+            unsatisfied_ccjs = self.driver.find_element(By.XPATH,
+                                                        '//*[contains(text(),"Unsatisfied CCJ’s/Defaults")]/../..//*[contains(text(),"None")]/../input').click()
 
-            mortgage_arrears = self.driver.find_element(By.XPATH, '//*[contains(text(),"Mortgage Arrears")]/../..//*[contains(text(),"No missed mortgage")]/../input').click()
+            mortgage_arrears = self.driver.find_element(By.XPATH,
+                                                        '//*[contains(text(),"Mortgage Arrears")]/../..//*[contains(text(),"No missed mortgage")]/../input').click()
 
-            payment_arrears = self.driver.find_element(By.XPATH, '//*[contains(text(),"Payment Arrears")]/../..//*[contains(text(),"No missed payments")]/../input').click()
+            payment_arrears = self.driver.find_element(By.XPATH,
+                                                       '//*[contains(text(),"Payment Arrears")]/../..//*[contains(text(),"No missed payments")]/../input').click()
 
-            payment_holidays = self.driver.find_element(By.XPATH, '//*[contains(text(),"Payment Holidays")]/../..//*[contains(text(),"No")]/../input').click()
+            payment_holidays = self.driver.find_element(By.XPATH,
+                                                        '//*[contains(text(),"Payment Holidays")]/../..//*[contains(text(),"No")]/../input').click()
 
-            payday_loans = self.driver.find_element(By.XPATH, '//*[contains(text(),"Payday Loans")]/../..//*[contains(text(),"None")]/../input').click()
+            payday_loans = self.driver.find_element(By.XPATH,
+                                                    '//*[contains(text(),"Payday Loans")]/../..//*[contains(text(),"None")]/../input').click()
 
-            bankruptcy = self.driver.find_element(By.XPATH, '//*[contains(text(),"Bankruptcy")]/../..//*[contains(text(),"No")]/../input').click()
+            bankruptcy = self.driver.find_element(By.XPATH,
+                                                  '//*[contains(text(),"Bankruptcy")]/../..//*[contains(text(),"No")]/../input').click()
 
-            iva = self.driver.find_element(By.XPATH, '//*[contains(text(),"IVA - Individual and Company")]/../..//*[contains(text(),"No")]/../input').click()
+            iva = self.driver.find_element(By.XPATH,
+                                           '//*[contains(text(),"IVA - Individual and Company")]/../..//*[contains(text(),"No")]/../input').click()
 
-            administration_order = self.driver.find_element(By.XPATH, '//*[contains(text(),"Administration Orders")]/../..//*[contains(text(),"No")]/../input').click()
+            administration_order = self.driver.find_element(By.XPATH,
+                                                            '//*[contains(text(),"Administration Orders")]/../..//*[contains(text(),"No")]/../input').click()
 
-            payment_arrangements = self.driver.find_element(By.XPATH, '//*[contains(text(),"Payment Arrangements")]/../..//*[contains(text(),"No")]/../input').click()
+            payment_arrangements = self.driver.find_element(By.XPATH,
+                                                            '//*[contains(text(),"Payment Arrangements")]/../..//*[contains(text(),"No")]/../input').click()
 
-            repossessions = self.driver.find_element(By.XPATH, '//*[contains(text(),"Repossessions")]/../..//*[contains(text(),"No")]/../input').click()
+            repossessions = self.driver.find_element(By.XPATH,
+                                                     '//*[contains(text(),"Repossessions")]/../..//*[contains(text(),"No")]/../input').click()
 
-            debt_relief_orders = self.driver.find_element(By.XPATH, '//*[contains(text(),"Debt Relief Orders")]/../..//*[contains(text(),"No")]/../input').click()
+            debt_relief_orders = self.driver.find_element(By.XPATH,
+                                                          '//*[contains(text(),"Debt Relief Orders")]/../..//*[contains(text(),"No")]/../input').click()
 
             try:
-                satisfied_default = self.driver.find_element(By.XPATH, '//*[@class="well no-padding "]//*[contains(text(),"Satisfied Defaults")]/../..//*[contains(text(),"No defaults within last 24 months")]/../input').click()
+                satisfied_default = self.driver.find_element(By.XPATH,
+                                                             '//*[@class="well no-padding "]//*[contains(text(),"Satisfied Defaults")]/../..//*[contains(text(),"No defaults within last 24 months")]/../input').click()
 
-                satisfied_ccjs = self.driver.find_element(By.XPATH, '//*[@class="well no-padding "]//*[contains(text(),"Satisfied CCJs")]/../..//*[contains(text(),"No CCJs")]/../input').click()
+                satisfied_ccjs = self.driver.find_element(By.XPATH,
+                                                          '//*[@class="well no-padding "]//*[contains(text(),"Satisfied CCJs")]/../..//*[contains(text(),"No CCJs")]/../input').click()
 
-                unsatisfied_ccjs = self.driver.find_element(By.XPATH, '//*[@class="well no-padding "]//*[contains(text(),"Unsatisfied CCJ/Defaults")]/../..//*[contains(text(),"None")]/../input').click()
+                unsatisfied_ccjs = self.driver.find_element(By.XPATH,
+                                                            '//*[@class="well no-padding "]//*[contains(text(),"Unsatisfied CCJ/Defaults")]/../..//*[contains(text(),"None")]/../input').click()
 
-                mortgage_arrears = self.driver.find_element(By.XPATH, '//*[@class="well no-padding "]//*[contains(text(),"Mortgage Arrears")]/../..//*[contains(text(),"No missed mortgage")]/../input').click()
+                mortgage_arrears = self.driver.find_element(By.XPATH,
+                                                            '//*[@class="well no-padding "]//*[contains(text(),"Mortgage Arrears")]/../..//*[contains(text(),"No missed mortgage")]/../input').click()
 
-                payment_arrears = self.driver.find_element(By.XPATH, '//*[@class="well no-padding "]//*[contains(text(),"Payment Arrears")]/../..//*[contains(text(),"No missed payments")]/../input').click()
+                payment_arrears = self.driver.find_element(By.XPATH,
+                                                           '//*[@class="well no-padding "]//*[contains(text(),"Payment Arrears")]/../..//*[contains(text(),"No missed payments")]/../input').click()
 
-                payment_holidays = self.driver.find_element(By.XPATH, '//*[@class="well no-padding "]//*[contains(text(),"Payment Holidays")]/../..//*[contains(text(),"No")]/../input').click()
+                payment_holidays = self.driver.find_element(By.XPATH,
+                                                            '//*[@class="well no-padding "]//*[contains(text(),"Payment Holidays")]/../..//*[contains(text(),"No")]/../input').click()
 
-                payday_loans = self.driver.find_element(By.XPATH, '//*[@class="well no-padding "]//*[contains(text(),"Payday Loans")]/../..//*[contains(text(),"None")]/../input').click()
+                payday_loans = self.driver.find_element(By.XPATH,
+                                                        '//*[@class="well no-padding "]//*[contains(text(),"Payday Loans")]/../..//*[contains(text(),"None")]/../input').click()
 
-                bankruptcy = self.driver.find_element(By.XPATH, '//*[@class="well no-padding "]//*[contains(text(),"Bankruptcy")]/../..//*[contains(text(),"No")]/../input').click()
+                bankruptcy = self.driver.find_element(By.XPATH,
+                                                      '//*[@class="well no-padding "]//*[contains(text(),"Bankruptcy")]/../..//*[contains(text(),"No")]/../input').click()
 
-                iva = self.driver.find_element(By.XPATH, '//*[@class="well no-padding "]//*[contains(text(),"IVA - Individual and Company")]/../..//*[contains(text(),"No")]/../input').click()
+                iva = self.driver.find_element(By.XPATH,
+                                               '//*[@class="well no-padding "]//*[contains(text(),"IVA - Individual and Company")]/../..//*[contains(text(),"No")]/../input').click()
 
-                administration_order = self.driver.find_element(By.XPATH, '//*[@class="well no-padding "]//*[contains(text(),"Administration Orders")]/../..//*[contains(text(),"No")]/../input').click()
+                administration_order = self.driver.find_element(By.XPATH,
+                                                                '//*[@class="well no-padding "]//*[contains(text(),"Administration Orders")]/../..//*[contains(text(),"No")]/../input').click()
 
-                payment_arrangements = self.driver.find_element(By.XPATH, '//*[@class="well no-padding "]//*[contains(text(),"Payment Arrangements")]/../..//*[contains(text(),"No")]/../input').click()
+                payment_arrangements = self.driver.find_element(By.XPATH,
+                                                                '//*[@class="well no-padding "]//*[contains(text(),"Payment Arrangements")]/../..//*[contains(text(),"No")]/../input').click()
 
-                repossessions = self.driver.find_element(By.XPATH, '//*[@class="well no-padding "]//*[contains(text(),"Repossessions")]/../..//*[contains(text(),"No")]/../input').click()
+                repossessions = self.driver.find_element(By.XPATH,
+                                                         '//*[@class="well no-padding "]//*[contains(text(),"Repossessions")]/../..//*[contains(text(),"No")]/../input').click()
 
-                debt_relief_orders = self.driver.find_element(By.XPATH, '//*[@class="well no-padding "]//*[contains(text(),"Debt Relief Orders")]/../..//*[contains(text(),"No")]/../input').click()
+                debt_relief_orders = self.driver.find_element(By.XPATH,
+                                                              '//*[@class="well no-padding "]//*[contains(text(),"Debt Relief Orders")]/../..//*[contains(text(),"No")]/../input').click()
             except:
                 pass
 
@@ -604,10 +658,14 @@ class ApplicationProcessor:
 
             try:
                 product = application['product']
-                sel_product = self.driver.find_element(By.XPATH, f'//*[contains(text(),"{product}")]/../td[@class="selectproduct"]/input').click()
+                sel_product = self.driver.find_element(By.XPATH,
+                                                       f'//*[contains(text(),"{product}")]/../td[@class="selectproduct"]/input').click()
+                sel_prod = True
             except:
                 try:
-                    sel_product = self.driver.find_element(By.XPATH, '//*[@id="tableproducts"]/tbody/tr[1]/td[@class="selectproduct"]/input').click()
+                    sel_product = self.driver.find_element(By.XPATH,
+                                                           '//*[@id="tableproducts"]/tbody/tr[1]/td[@class="selectproduct"]/input').click()
+                    sel_prod = False
                 except:
                     print('field missing or error : No product found')
                     self.log_error(application, 'field missing or error : No product found')
@@ -620,18 +678,58 @@ class ApplicationProcessor:
                 pass
 
             try:
-                general_illustration = self.driver.find_element(By.XPATH, '//*[contains(text(),"Generate Illustration")]').click()
+                general_illustration = self.driver.find_element(By.XPATH,
+                                                                '//*[contains(text(),"Generate Illustration")]').click()
                 time.sleep(6)
             except:
                 pass
+
+            if sel_prod == False:
+                name = self.driver.find_element(By.XPATH, '//*[@id="tableproducts"]/tbody/tr[1]/td[1]').text
+                try:
+                    erc = self.driver.find_element(By.XPATH, '//*[@id="tableproducts"]/tbody/tr[1]/td[2]').text
+                except:
+                    erc = ''
+                initial_rate = self.driver.find_element(By.XPATH,
+                                                        '//*[@id="tableproducts"]/tbody/tr[1]/td[@id="RateText"]/span').text
+                reversion_rate = self.driver.find_element(By.XPATH, '//*[@id="tableproducts"]/tbody/tr[1]/td[4]').text
+                apr = self.driver.find_element(By.XPATH, '//*[@id="tableproducts"]/tbody/tr[1]/td[5]').text
+                monthly_payment = self.driver.find_element(By.XPATH, '//*[@id="tableproducts"]/tbody/tr[1]/td[6]').text
+            else:
+                name = self.driver.find_element(By.XPATH, f'//*[contains(text(),"{product}")]/../td[1]').text
+                try:
+                    erc = self.driver.find_element(By.XPATH, f'//*[contains(text(),"{product}")]/../td[2]').text
+                except:
+                    erc = ''
+                initial_rate = self.driver.find_element(By.XPATH,
+                                                        f'//*[contains(text(),"{product}")]/../td[@id="RateText"]/span').text
+                reversion_rate = self.driver.find_element(By.XPATH, f'//*[contains(text(),"{product}")]/../td[4]').text
+                apr = self.driver.find_element(By.XPATH, f'//*[contains(text(),"{product}")]/../td[5]').text
+                monthly_payment = self.driver.find_element(By.XPATH, f'//*[contains(text(),"{product}")]/../td[6]').text
+
+            ltv = self.driver.find_element(By.XPATH, '//*[@data-field="LTV"]').text
+            rental_coverage = self.driver.find_element(By.XPATH, '//*[@data-field="RentalCoverage"]').text
+
+            product_fee = self.driver.find_element(By.XPATH, '//*[@class="ProductFeeText"]').text
+            redemption_admin_fee = self.driver.find_element(By.XPATH, '//*[@class="RedemptionAdminFeeText"]').text
+            estimated_solicitor_fee = self.driver.find_element(By.XPATH, '//*[@class="SolicitorFeeText"]').text
+            broker_fee_payable_by_borrower = self.driver.find_element(By.XPATH, '//*[@class="brokrageByBorrower"]').text
+            valuation_fee = self.driver.find_element(By.XPATH, '//*[@id="ValuationFeeText"]').text
+            funds_release_fee = self.driver.find_element(By.XPATH, '//*[@class="FundReleaseFeeText"]').text
+            building_insurance_admin_fee = self.driver.find_element(By.XPATH,
+                                                                    '//*[@class="BuildingsInsuranceAdminFeeText"]').text
+            application_fee = self.driver.find_element(By.XPATH, '//*[@class="ApplicationFeeText"]').text
+
             try:
-                general_illustration = self.driver.find_element(By.XPATH, '//*[contains(text(),"Generate Illustration")]').click()
+                general_illustration = self.driver.find_element(By.XPATH,
+                                                                '//*[contains(text(),"Generate Illustration")]').click()
             except:
                 pass
             time.sleep(5)
 
             try:
-                error_log = self.driver.find_element(By.XPATH, '//*[@class="help-block"][contains(text(), "This field is required.")]/../label[1]').text
+                error_log = self.driver.find_element(By.XPATH,
+                                                     '//*[@class="help-block"][contains(text(), "This field is required.")]/../label[1]').text
                 print(error_log)
             except:
                 error_log = ''
@@ -643,13 +741,20 @@ class ApplicationProcessor:
 
             print('****** third page done *******')
             # ************************************************************************************************************#
-            continue_application = self.driver.find_element(By.XPATH, '//*[contains(text(),"Continue application")]').click()
+            continue_application = self.driver.find_element(By.XPATH,
+                                                            '//*[contains(text(),"Continue application")]').click()
             time.sleep(3)
             print('continue')
 
             next = self.driver.find_element(By.XPATH, '//*[contains(text(),"Next")]').click()
             time.sleep(3)
             print('next')
+
+            try:
+                refrence_number1 = self.driver.find_element(By.XPATH, '//strong[contains(text(),"Ref: ")]/..').text
+                refrence_number = ''.join(refrence_number1.replace('Ref: ', ''))
+            except:
+                refrence_number = ''
 
             main_url = self.driver.current_url
             # -------------------- Company ------------------#
@@ -701,7 +806,7 @@ class ApplicationProcessor:
 
                 try:
                     state_your_position = self.driver.find_element(By.XPATH,
-                                                              '//*[@id="Applicant[0]_Company_DirectorShareholder"]')
+                                                                   '//*[@id="Applicant[0]_Company_DirectorShareholder"]')
                     state_your_position.send_keys(application['state_your_position'])
                 except:
                     pass
@@ -712,14 +817,16 @@ class ApplicationProcessor:
                 except:
                     pass
 
-                company_next = self.driver.find_element(By.XPATH, '//*[@class="btn btn-default nav-button pull-right blueBtn "]').click()
+                company_next = self.driver.find_element(By.XPATH,
+                                                        '//*[@class="btn btn-default nav-button pull-right blueBtn "]').click()
                 time.sleep(3)
                 self.driver.get(main_url)
                 self.driver.refresh()
                 time.sleep(2)
 
                 try:
-                    error_log = self.driver.find_element(By.XPATH, '//*[@class="help-block"][contains(text(), "This field is required.")]/../label[1]').text
+                    error_log = self.driver.find_element(By.XPATH,
+                                                         '//*[@class="help-block"][contains(text(), "This field is required.")]/../label[1]').text
                     print(error_log)
                 except:
                     error_log = ''
@@ -755,7 +862,8 @@ class ApplicationProcessor:
                 try:
                     other_inc_guarantee1 = application['guaranteed']
                     if other_inc_guarantee1 == 'Yes':
-                        other_inc_guarantee1 = self.driver.find_element(By.XPATH, '//*[@id="OtherIncome_Guaranteed1"]/../span[3]').click()
+                        other_inc_guarantee1 = self.driver.find_element(By.XPATH,
+                                                                        '//*[@id="OtherIncome_Guaranteed1"]/../span[3]').click()
                     else:
                         pass
                 except:
@@ -779,7 +887,8 @@ class ApplicationProcessor:
                 try:
                     other_inc_guarantee2 = application['guaranteed2']
                     if other_inc_guarantee2 == 'Yes':
-                        other_inc_guarantee2 = self.driver.find_element(By.XPATH, '//*[@id="OtherIncome_Guaranteed2"]/../span[3]').click()
+                        other_inc_guarantee2 = self.driver.find_element(By.XPATH,
+                                                                        '//*[@id="OtherIncome_Guaranteed2"]/../span[3]').click()
                     else:
                         pass
                 except:
@@ -803,7 +912,8 @@ class ApplicationProcessor:
                 try:
                     other_inc_guarantee3 = application['guaranteed3']
                     if other_inc_guarantee3 == 'Yes':
-                        other_inc_guarantee3 = self.driver.find_element(By.XPATH, '//*[@id="OtherIncome_Guaranteed3"]/../span[3]').click()
+                        other_inc_guarantee3 = self.driver.find_element(By.XPATH,
+                                                                        '//*[@id="OtherIncome_Guaranteed3"]/../span[3]').click()
                     else:
                         pass
                 except:
@@ -828,7 +938,7 @@ class ApplicationProcessor:
                     other_inc_guarantee4 = application['guaranteed4']
                     if other_inc_guarantee4 == 'Yes':
                         other_inc_guarantee4 = self.driver.find_element(By.XPATH,
-                                                                   '//*[@id="OtherIncome_Guaranteed4"]/../span[3]').click()
+                                                                        '//*[@id="OtherIncome_Guaranteed4"]/../span[3]').click()
                     else:
                         pass
                 except:
@@ -852,17 +962,20 @@ class ApplicationProcessor:
                 try:
                     other_inc_guarantee5 = application['guaranteed5']
                     if other_inc_guarantee5 == 'Yes':
-                        other_inc_guarantee5 = self.driver.find_element(By.XPATH, '//*[@id="OtherIncome_Guaranteed5"]/../span[3]').click()
+                        other_inc_guarantee5 = self.driver.find_element(By.XPATH,
+                                                                        '//*[@id="OtherIncome_Guaranteed5"]/../span[3]').click()
                     else:
                         pass
                 except:
                     pass
 
-                other_inc_next = self.driver.find_element(By.XPATH, '//*[@class="btn btn-default nav-button pull-right blueBtn "]').click()
+                other_inc_next = self.driver.find_element(By.XPATH,
+                                                          '//*[@class="btn btn-default nav-button pull-right blueBtn "]').click()
                 time.sleep(3)
 
                 try:
-                    error_log = self.driver.find_element(By.XPATH, '//*[@class="help-block"][contains(text(), "This field is required.")]/../label[1]')
+                    error_log = self.driver.find_element(By.XPATH,
+                                                         '//*[@class="help-block"][contains(text(), "This field is required.")]/../label[1]')
                     error_log = error_log.get_attribute('for')
                     print(error_log)
                 except:
@@ -870,7 +983,7 @@ class ApplicationProcessor:
                     pass
                 if error_log:
                     print('field missing or error : ' + error_log)
-                    self.log_error(application, 'field missing or error'+error_log)
+                    self.log_error(application, 'field missing or error' + error_log)
                     sys.exit()
 
                 self.driver.get(main_url)
@@ -884,7 +997,8 @@ class ApplicationProcessor:
             try:
                 self.driver.find_element(By.XPATH, '//span[contains(text(),"Assets")]/../..').click()
                 time.sleep(3)
-                asset_next = self.driver.find_element(By.XPATH, '//*[@class="btn btn-default nav-button pull-right blueBtn "]').click()
+                asset_next = self.driver.find_element(By.XPATH,
+                                                      '//*[@class="btn btn-default nav-button pull-right blueBtn "]').click()
                 time.sleep(3)
                 self.driver.get(main_url)
                 self.driver.refresh()
@@ -898,7 +1012,7 @@ class ApplicationProcessor:
                 self.driver.find_element(By.XPATH, '//*[contains(text(),"Commitments")]/../..').click()
                 time.sleep(3)
                 commitment_next = self.driver.find_element(By.XPATH,
-                                                      '//*[@class="btn btn-default nav-button pull-right blueBtn "]').click()
+                                                           '//*[@class="btn btn-default nav-button pull-right blueBtn "]').click()
                 time.sleep(3)
                 self.driver.get(main_url)
                 self.driver.refresh()
@@ -915,14 +1029,16 @@ class ApplicationProcessor:
                 self.driver.find_element(By.XPATH, '//*[@id="Property_HaveAnyBuyToLetProperties"]/../span[3]').click()
 
                 try:
-                    number_of_own_blt_properties = self.driver.find_element(By.XPATH, '//*[@id="Property_NoOfBuyToLetProperties"]')
+                    number_of_own_blt_properties = self.driver.find_element(By.XPATH,
+                                                                            '//*[@id="Property_NoOfBuyToLetProperties"]')
                     number_of_own_blt_properties.clear()
                     number_of_own_blt_properties.send_keys(application['number_of_own_blt_properties'])
                 except:
                     pass
 
                 try:
-                    total_value_of_portfolio = self.driver.find_element(By.XPATH, '//*[@id="Property_TotalValueOfPortfolio"]')
+                    total_value_of_portfolio = self.driver.find_element(By.XPATH,
+                                                                        '//*[@id="Property_TotalValueOfPortfolio"]')
                     total_value_of_portfolio.send_keys(application['total_value_of_portfolio'])
                 except:
                     pass
@@ -934,16 +1050,20 @@ class ApplicationProcessor:
                     pass
 
                 try:
-                    total_mortgage_balances_outstanding_portfolio = self.driver.find_element(By.XPATH, '//*[@id="Property_TotalMortgageBalance"]')
-                    total_mortgage_balances_outstanding_portfolio.send_keys(application['total_mortgage_balances_outstanding_portfolio'])
+                    total_mortgage_balances_outstanding_portfolio = self.driver.find_element(By.XPATH,
+                                                                                             '//*[@id="Property_TotalMortgageBalance"]')
+                    total_mortgage_balances_outstanding_portfolio.send_keys(
+                        application['total_mortgage_balances_outstanding_portfolio'])
                 except:
                     pass
 
-                portfolio_next = self.driver.find_element(By.XPATH, '//*[@class="btn btn-default nav-button pull-right blueBtn "]').click()
+                portfolio_next = self.driver.find_element(By.XPATH,
+                                                          '//*[@class="btn btn-default nav-button pull-right blueBtn "]').click()
                 time.sleep(3)
 
                 try:
-                    error_log = self.driver.find_element(By.XPATH, '//*[@class="help-block"][contains(text(), "This field is required.")]/../label[1]').text
+                    error_log = self.driver.find_element(By.XPATH,
+                                                         '//*[@class="help-block"][contains(text(), "This field is required.")]/../label[1]').text
                     print(error_log)
                 except:
                     error_log = ''
@@ -964,7 +1084,15 @@ class ApplicationProcessor:
             try:
                 self.driver.find_element(By.XPATH, '//span[contains(text(),"Product")]/../..').click()
                 time.sleep(3)
-                product_next = self.driver.find_element(By.XPATH, '//*[@class="btn btn-default nav-button pull-right blueBtn "]').click()
+
+                try:
+                    procuration_fee = self.driver.find_element(By.XPATH,
+                                                               '//label[contains(text(),"Procuration Fee")]/../../div[2]/div').text
+                except:
+                    procuration_fee = 0
+
+                product_next = self.driver.find_element(By.XPATH,
+                                                        '//*[@class="btn btn-default nav-button pull-right blueBtn "]').click()
                 time.sleep(3)
                 self.driver.get(main_url)
                 self.driver.refresh()
@@ -990,7 +1118,8 @@ class ApplicationProcessor:
                 except:
                     pass
 
-                personal_details_next = self.driver.find_element(By.XPATH, '//*[@class="btn btn-default nav-button pull-right blueBtn "]').click()
+                personal_details_next = self.driver.find_element(By.XPATH,
+                                                                 '//*[@class="btn btn-default nav-button pull-right blueBtn "]').click()
                 time.sleep(4)
 
                 try:
@@ -1028,7 +1157,8 @@ class ApplicationProcessor:
                 try:
                     lift = application['is_there_lift']
                     if lift == 'Yes':
-                        istherelift = self.driver.find_element(By.XPATH, '//*[contains(text(),"Is there a lift?")]/../div/div/div/span[2]').click()
+                        istherelift = self.driver.find_element(By.XPATH,
+                                                               '//*[contains(text(),"Is there a lift?")]/../div/div/div/span[2]').click()
                     else:
                         pass
                 except:
@@ -1037,7 +1167,8 @@ class ApplicationProcessor:
                 try:
                     garage = application['is_there_garage']
                     if garage == 'Yes':
-                        istheregarage = self.driver.find_element(By.XPATH, '//*[contains(text(),"Is there a Garage?")]/../div/div/div/span[2]').click()
+                        istheregarage = self.driver.find_element(By.XPATH,
+                                                                 '//*[contains(text(),"Is there a Garage?")]/../div/div/div/span[2]').click()
                     else:
                         pass
                 except:
@@ -1046,7 +1177,8 @@ class ApplicationProcessor:
                 try:
                     balcony = application['is_flat_accessed_via_balcony']
                     if balcony == 'Yes':
-                        istherebalcony = self.driver.find_element(By.XPATH, '//*[contains(text(),"Is the Flat accessed via a balcony or deck?")]/../div/div/div/span[2]').click()
+                        istherebalcony = self.driver.find_element(By.XPATH,
+                                                                  '//*[contains(text(),"Is the Flat accessed via a balcony or deck?")]/../div/div/div/span[2]').click()
                     else:
                         pass
                 except:
@@ -1055,7 +1187,8 @@ class ApplicationProcessor:
                 try:
                     property_licence = application['local_authority_private_rented_property_licence']
                     if property_licence == 'Yes':
-                        isproperty_licence = self.driver.find_element(By.XPATH, "//*[contains(text(),'Local Authority Private Rented Property Licence')]/../div/div/div/span[2]").click()
+                        isproperty_licence = self.driver.find_element(By.XPATH,
+                                                                      "//*[contains(text(),'Local Authority Private Rented Property Licence')]/../div/div/div/span[2]").click()
                         licence_type = self.driver.find_element(By.XPATH, '//*[@id="Security_PropertyLicence"]')
                         licence_type.send_keys(application['property_licence'])
                     else:
@@ -1066,8 +1199,10 @@ class ApplicationProcessor:
                 try:
                     commercial_premises = application['is_adjacent_to_commercial_premises']
                     if commercial_premises == 'Yes':
-                        commercial_premises = self.driver.find_element(By.XPATH, "//*[contains(text(),'Is the flat above or adjacent to commercial premises')]/../div/div/div/span[2]").click()
-                        commercial_premises_details = self.driver.find_element(By.XPATH, '//*[@id="Security_FlatAboveCommercialPremisesDetails"]')
+                        commercial_premises = self.driver.find_element(By.XPATH,
+                                                                       "//*[contains(text(),'Is the flat above or adjacent to commercial premises')]/../div/div/div/span[2]").click()
+                        commercial_premises_details = self.driver.find_element(By.XPATH,
+                                                                               '//*[@id="Security_FlatAboveCommercialPremisesDetails"]')
                         commercial_premises_details.send_keys(application['commercial_premises_details'])
                     else:
                         pass
@@ -1077,11 +1212,13 @@ class ApplicationProcessor:
                 try:
                     property_new = application['is_property_new']
                     if property_new == 'Yes':
-                        isproperty_new = self.driver.find_element(By.XPATH, '//*[contains(text(),"Is the Property a new Build/new Conversion?")]/../div/div/div/span[2]').click()
+                        isproperty_new = self.driver.find_element(By.XPATH,
+                                                                  '//*[contains(text(),"Is the Property a new Build/new Conversion?")]/../div/div/div/span[2]').click()
                         time.sleep(1)
                         course_construction = application['is_property_in_course_of_construction']
                         if course_construction == 'Yes':
-                            iscourse_construction = self.driver.find_element(By.XPATH, '//*[contains(text(),"Is the property in the course of construction?")]/../div/div/div/span[2]').click()
+                            iscourse_construction = self.driver.find_element(By.XPATH,
+                                                                             '//*[contains(text(),"Is the property in the course of construction?")]/../div/div/div/span[2]').click()
                         else:
                             pass
                     else:
@@ -1092,8 +1229,10 @@ class ApplicationProcessor:
                 try:
                     standerd_construction = application['is_property_of_standard_construction']
                     if standerd_construction == 'No':
-                        isstanderd_construction = self.driver.find_element(By.XPATH, '//*[contains(text(),"Is the Property of Standard Construction?")]/../div/div/div/span[2]').click()
-                        construction_details = self.driver.find_element(By.XPATH, '//*[@name="Security.ConstructionDetails"]')
+                        isstanderd_construction = self.driver.find_element(By.XPATH,
+                                                                           '//*[contains(text(),"Is the Property of Standard Construction?")]/../div/div/div/span[2]').click()
+                        construction_details = self.driver.find_element(By.XPATH,
+                                                                        '//*[@name="Security.ConstructionDetails"]')
                         construction_details.send_keys(application['construction_details'])
                     else:
                         pass
@@ -1117,7 +1256,8 @@ class ApplicationProcessor:
                         try:
                             is_lease_extended = application['is_lease_extended']
                             if is_lease_extended == 'Yes':
-                                is_lease_extended = self.driver.find_element(By.XPATH, '//*[@id="Security_IsExtendedLease"]/../span[3]').click()
+                                is_lease_extended = self.driver.find_element(By.XPATH,
+                                                                             '//*[@id="Security_IsExtendedLease"]/../span[3]').click()
                                 lease_term = self.driver.find_element(By.XPATH, '//*[@name="Security.ExtendedLease"]')
                                 lease_term.send_keys(application['current_lease_years'])
                             else:
@@ -1128,8 +1268,10 @@ class ApplicationProcessor:
                         try:
                             purchasing_share_of_freehold = application['purchasing_share_of_freehold']
                             if purchasing_share_of_freehold == 'Yes':
-                                purchasing_share_of_freehold = self.driver.find_element(By.XPATH, '//*[@id="Security_PurchaseShareOfFreehold"]/../span[3]').click()
-                                share_of_freehold_details = self.driver.find_element(By.XPATH, '//*[@name="Security.PurchaseShareOfFreeholdDetails"]')
+                                purchasing_share_of_freehold = self.driver.find_element(By.XPATH,
+                                                                                        '//*[@id="Security_PurchaseShareOfFreehold"]/../span[3]').click()
+                                share_of_freehold_details = self.driver.find_element(By.XPATH,
+                                                                                     '//*[@name="Security.PurchaseShareOfFreeholdDetails"]')
                                 share_of_freehold_details.send_keys(application['share_of_freehold_details'])
                             else:
                                 pass
@@ -1141,8 +1283,10 @@ class ApplicationProcessor:
                 try:
                     is_used_for_business_purposes = application['is_used_for_business_purposes']
                     if is_used_for_business_purposes == 'Yes':
-                        is_used_for_business_purposes = self.driver.find_element(By.XPATH, '//*[@id="Security_BusinessPurpose"]/../span[3]').click()
-                        business_purposes_details = self.driver.find_element(By.XPATH, '//*[@name="Security.BusinessPurposeDetails"]')
+                        is_used_for_business_purposes = self.driver.find_element(By.XPATH,
+                                                                                 '//*[@id="Security_BusinessPurpose"]/../span[3]').click()
+                        business_purposes_details = self.driver.find_element(By.XPATH,
+                                                                             '//*[@name="Security.BusinessPurposeDetails"]')
                         business_purposes_details.send_keys(application['business_purposes_details'])
                     else:
                         pass
@@ -1152,8 +1296,10 @@ class ApplicationProcessor:
                 try:
                     is_there_occupancy_restriction = application['is_there_occupancy_restriction']
                     if is_there_occupancy_restriction == 'Yes':
-                        is_there_occupancy_restriction = self.driver.find_element(By.XPATH, '//*[@id="Security_OccupancyRestrictions"]/../span[3]').click()
-                        occupancy_restriction_details = self.driver.find_element(By.XPATH, '//*[@name="Security.OccupancyRestrictionDetails"]')
+                        is_there_occupancy_restriction = self.driver.find_element(By.XPATH,
+                                                                                  '//*[@id="Security_OccupancyRestrictions"]/../span[3]').click()
+                        occupancy_restriction_details = self.driver.find_element(By.XPATH,
+                                                                                 '//*[@name="Security.OccupancyRestrictionDetails"]')
                         occupancy_restriction_details.send_keys(application['occupancy_restriction_details'])
                     else:
                         pass
@@ -1163,11 +1309,13 @@ class ApplicationProcessor:
                 try:
                     is_full_vacant_possession = application['is_full_vacant_possession']
                     if is_full_vacant_possession == 'Yes':
-                        is_full_vacant_possession = self.driver.find_element(By.XPATH, '//*[@id="Security_FullVacantPossession"]/../span[3]').click()
+                        is_full_vacant_possession = self.driver.find_element(By.XPATH,
+                                                                             '//*[@id="Security_FullVacantPossession"]/../span[3]').click()
                     else:
                         pass
                     try:
-                        full_vacant_possession_details = self.driver.find_element(By.XPATH, '//*[@name="Security.FullVacantPossessionDetails"]')
+                        full_vacant_possession_details = self.driver.find_element(By.XPATH,
+                                                                                  '//*[@name="Security.FullVacantPossessionDetails"]')
                         full_vacant_possession_details.send_keys(application['full_vacant_possession_details'])
                     except:
                         pass
@@ -1177,8 +1325,10 @@ class ApplicationProcessor:
                 try:
                     is_used_other_than_btl_details = application['is_used_other_than_btl_details']
                     if is_used_other_than_btl_details == 'Yes':
-                        is_used_other_than_btl_details = self.driver.find_element(By.XPATH, '//*[@id="Security_OtherThanBTL"]/../span[3]').click()
-                        other_than_btl_details = self.driver.find_element(By.XPATH, '//*[@name="Security.OtherThanBTLDetails"]')
+                        is_used_other_than_btl_details = self.driver.find_element(By.XPATH,
+                                                                                  '//*[@id="Security_OtherThanBTL"]/../span[3]').click()
+                        other_than_btl_details = self.driver.find_element(By.XPATH,
+                                                                          '//*[@name="Security.OtherThanBTLDetails"]')
                         other_than_btl_details.send_keys(application['other_than_btl_details'])
                     else:
                         pass
@@ -1188,8 +1338,10 @@ class ApplicationProcessor:
                 try:
                     buying_under_purchase_scheme = application['buying_under_purchase_scheme']
                     if buying_under_purchase_scheme == 'yes':
-                        buying_under_purchase_scheme = self.driver.find_element(By.XPATH, '//*[@id="Security_BuyingUnderPurchaseScheme"]/../span[3]').click()
-                        under_purchase_scheme_details = self.driver.find_element(By.XPATH, '//*[@name="Security.BuyingUnderPurchaseSchemeDetails"]')
+                        buying_under_purchase_scheme = self.driver.find_element(By.XPATH,
+                                                                                '//*[@id="Security_BuyingUnderPurchaseScheme"]/../span[3]').click()
+                        under_purchase_scheme_details = self.driver.find_element(By.XPATH,
+                                                                                 '//*[@name="Security.BuyingUnderPurchaseSchemeDetails"]')
                         under_purchase_scheme_details.send_keys(application['under_purchase_scheme_details'])
                     else:
                         pass
@@ -1199,8 +1351,10 @@ class ApplicationProcessor:
                 try:
                     is_receipt_discount_details = application['is_receipt_discount_details']
                     if is_receipt_discount_details == "Yes":
-                        is_receipt_discount_details = self.driver.find_element(By.XPATH, '//*[@id="Security_ReceiptOfAnyDiscount"]/../span[3]').click()
-                        receipt_discount_details = self.driver.find_element(By.XPATH, '//*[@name="Security.ReceiptOfDiscountDetails"]')
+                        is_receipt_discount_details = self.driver.find_element(By.XPATH,
+                                                                               '//*[@id="Security_ReceiptOfAnyDiscount"]/../span[3]').click()
+                        receipt_discount_details = self.driver.find_element(By.XPATH,
+                                                                            '//*[@name="Security.ReceiptOfDiscountDetails"]')
                         receipt_discount_details.send_keys(application['receipt_discount_details'])
                     else:
                         pass
@@ -1210,8 +1364,10 @@ class ApplicationProcessor:
                 try:
                     is_let_family_member = application['is_let_family_member']
                     if is_let_family_member == 'Yes':
-                        is_let_family_member = self.driver.find_element(By.XPATH, '//*[@id="Security_LetToFamilyMember"]/../span[3]').click()
-                        let_family_member_details = self.driver.find_element(By.XPATH, '//*[@name="Security.LetToFamilyMemberDetails"]')
+                        is_let_family_member = self.driver.find_element(By.XPATH,
+                                                                        '//*[@id="Security_LetToFamilyMember"]/../span[3]').click()
+                        let_family_member_details = self.driver.find_element(By.XPATH,
+                                                                             '//*[@name="Security.LetToFamilyMemberDetails"]')
                         let_family_member_details.send_keys(application['let_family_member_details'])
                     else:
                         pass
@@ -1221,7 +1377,8 @@ class ApplicationProcessor:
                 try:
                     is_property_tenanted = application['is_property_tenanted']
                     if is_property_tenanted == "Yes":
-                        is_property_tenanted = self.driver.find_element(By.XPATH, '//*[@id="Security_IsPropertyTenanted"]/../span[3]').click()
+                        is_property_tenanted = self.driver.find_element(By.XPATH,
+                                                                        '//*[@id="Security_IsPropertyTenanted"]/../span[3]').click()
                     else:
                         pass
                 except:
@@ -1248,7 +1405,8 @@ class ApplicationProcessor:
                     pass
 
                 try:
-                    number_of_livingrooms = self.driver.find_element(By.XPATH, '//*[@id="Security_HouseNumberOfLivingRooms"]')
+                    number_of_livingrooms = self.driver.find_element(By.XPATH,
+                                                                     '//*[@id="Security_HouseNumberOfLivingRooms"]')
                     number_of_livingrooms.clear()
                     number_of_livingrooms.send_keys(application['number_of_living_rooms'])
                 except:
@@ -1262,28 +1420,32 @@ class ApplicationProcessor:
                     pass
 
                 try:
-                    number_of_bathrooms = self.driver.find_element(By.XPATH, '//*[@id="Security_HouseNumberOfBathrooms"]')
+                    number_of_bathrooms = self.driver.find_element(By.XPATH,
+                                                                   '//*[@id="Security_HouseNumberOfBathrooms"]')
                     number_of_bathrooms.clear()
                     number_of_bathrooms.send_keys(application['number_of_bathrooms'])
                 except:
                     pass
 
                 try:
-                    number_of_tenants = self.driver.find_element(By.XPATH, '//*[@id="Security_TenantsOnTenancyAgreement"]')
+                    number_of_tenants = self.driver.find_element(By.XPATH,
+                                                                 '//*[@id="Security_TenantsOnTenancyAgreement"]')
                     number_of_tenants.clear()
                     number_of_tenants.send_keys(application['number_of_tenants'])
                 except:
                     pass
 
                 try:
-                    number_of_tenancy_agreements = self.driver.find_element(By.XPATH, '//*[@id="Security_TenancyAgreementsGranted"]')
+                    number_of_tenancy_agreements = self.driver.find_element(By.XPATH,
+                                                                            '//*[@id="Security_TenancyAgreementsGranted"]')
                     number_of_tenancy_agreements.clear()
                     number_of_tenancy_agreements.send_keys(application['number_of_tenancy_agreements'])
                 except:
                     pass
 
                 try:
-                    number_of_floors_in_block = self.driver.find_element(By.XPATH, '//*[@id="Security_FlatNumberOfFloors"]')
+                    number_of_floors_in_block = self.driver.find_element(By.XPATH,
+                                                                         '//*[@id="Security_FlatNumberOfFloors"]')
                     number_of_floors_in_block.clear()
                     number_of_floors_in_block.send_keys(application['number_of_floors_in_block'])
                 except:
@@ -1296,11 +1458,13 @@ class ApplicationProcessor:
                 except:
                     pass
 
-                property_type_next = self.driver.find_element(By.XPATH, '//*[@class="btn btn-default nav-button pull-right blueBtn "]').click()
+                property_type_next = self.driver.find_element(By.XPATH,
+                                                              '//*[@class="btn btn-default nav-button pull-right blueBtn "]').click()
                 time.sleep(2)
 
                 try:
-                    error_log = self.driver.find_element(By.XPATH, '//*[@class="help-block"][contains(text(), "This field is required.")]/../label[1]').text
+                    error_log = self.driver.find_element(By.XPATH,
+                                                         '//*[@class="help-block"][contains(text(), "This field is required.")]/../label[1]').text
                     print(error_log)
                 except:
                     error_log = ''
@@ -1336,13 +1500,15 @@ class ApplicationProcessor:
                     pass
 
                 try:
-                    valuation_contact_person = self.driver.find_element(By.XPATH, '//*[@id="Mortgage_ValuationContact"]')
+                    valuation_contact_person = self.driver.find_element(By.XPATH,
+                                                                        '//*[@id="Mortgage_ValuationContact"]')
                     valuation_contact_person.send_keys(application['valuation_contact_person'])
                 except:
                     pass
 
                 try:
-                    valuation_contact_person_number = self.driver.find_element(By.XPATH, '//*[@id="Mortgage_TelephoneNumber"]')
+                    valuation_contact_person_number = self.driver.find_element(By.XPATH,
+                                                                               '//*[@id="Mortgage_TelephoneNumber"]')
                     valuation_contact_person_number.send_keys(application['valuation_contact_person_number'])
                 except:
                     pass
@@ -1356,8 +1522,10 @@ class ApplicationProcessor:
                 try:
                     is_private_sale = application['is_private_sale']
                     if is_private_sale == "Yes":
-                        is_private_sale = self.driver.find_element(By.XPATH, '//*[@id="Mortgage_PrivateSale"]/../span[3]').click()
-                        private_sale_details = self.driver.find_element(By.XPATH, '//*[@id="Mortgage_PrivateSaleDetails"]')
+                        is_private_sale = self.driver.find_element(By.XPATH,
+                                                                   '//*[@id="Mortgage_PrivateSale"]/../span[3]').click()
+                        private_sale_details = self.driver.find_element(By.XPATH,
+                                                                        '//*[@id="Mortgage_PrivateSaleDetails"]')
                         private_sale_details.send_keys(application['private_sale_details'])
                     else:
                         pass
@@ -1377,7 +1545,8 @@ class ApplicationProcessor:
                     pass
 
                 try:
-                    tenancy_agreement_months = self.driver.find_element(By.XPATH, '//*[@id="Mortgage_AnticipatedTenancyAgreement"]')
+                    tenancy_agreement_months = self.driver.find_element(By.XPATH,
+                                                                        '//*[@id="Mortgage_AnticipatedTenancyAgreement"]')
                     tenancy_agreement_months.clear()
                     tenancy_agreement_months.send_keys(application['tenancy_agreement_months'])
                 except:
@@ -1386,8 +1555,10 @@ class ApplicationProcessor:
                 try:
                     is_distressed_sale = application['is_distressed_sale']
                     if is_distressed_sale == 'Yes':
-                        is_distressed_sale = self.driver.find_element(By.XPATH, '//*[@id="Mortgage_IsDistressedSale"]/../span[3]').click()
-                        distressed_sale_details = self.driver.find_element(By.XPATH, '//*[@id="Mortgage_IsDistressedSaleDetails"]')
+                        is_distressed_sale = self.driver.find_element(By.XPATH,
+                                                                      '//*[@id="Mortgage_IsDistressedSale"]/../span[3]').click()
+                        distressed_sale_details = self.driver.find_element(By.XPATH,
+                                                                           '//*[@id="Mortgage_IsDistressedSaleDetails"]')
                         distressed_sale_details.send_keys(application['distressed_sale_details'])
                     else:
                         pass
@@ -1397,9 +1568,12 @@ class ApplicationProcessor:
                 try:
                     is_purchased_below_market_value = application['is_purchased_below_market_value']
                     if is_purchased_below_market_value == "Yes":
-                        is_purchased_below_market_value = self.driver.find_element(By.XPATH, '//*[@id="Mortgage_IsPurchasedBelowMarketValue"]/../span[3]').click()
-                        purchased_below_market_value_details = self.driver.find_element(By.XPATH, '//*[@id="Mortgage_IsPurchasedBelowMarketDetails"]')
-                        purchased_below_market_value_details.send_keys(application['purchased_below_market_value_details'])
+                        is_purchased_below_market_value = self.driver.find_element(By.XPATH,
+                                                                                   '//*[@id="Mortgage_IsPurchasedBelowMarketValue"]/../span[3]').click()
+                        purchased_below_market_value_details = self.driver.find_element(By.XPATH,
+                                                                                        '//*[@id="Mortgage_IsPurchasedBelowMarketDetails"]')
+                        purchased_below_market_value_details.send_keys(
+                            application['purchased_below_market_value_details'])
                     else:
                         pass
                 except:
@@ -1408,8 +1582,10 @@ class ApplicationProcessor:
                 try:
                     is_government_initiative_purchased = application['is_government_initiative_purchased']
                     if is_government_initiative_purchased == 'Yes':
-                        is_government_initiative_purchased = self.driver.find_element(By.XPATH, '//*[@id="Mortgage_IsGovermentInitiative"]/../span[3]').click()
-                        government_initiative_purchased_details = self.driver.find_element(By.XPATH, '//*[@id="Mortgage_GovernmentInitiativeDetails"]')
+                        is_government_initiative_purchased = self.driver.find_element(By.XPATH,
+                                                                                      '//*[@id="Mortgage_IsGovermentInitiative"]/../span[3]').click()
+                        government_initiative_purchased_details = self.driver.find_element(By.XPATH,
+                                                                                           '//*[@id="Mortgage_GovernmentInitiativeDetails"]')
                         government_initiative_purchased_details.send_keys(
                             application['government_initiative_purchased_details'])
                     else:
@@ -1420,8 +1596,10 @@ class ApplicationProcessor:
                 try:
                     is_ready_to_let_out = application['is_ready_to_let_out']
                     if is_ready_to_let_out == 'No':
-                        is_ready_to_let_out = self.driver.find_element(By.XPATH, '//*[@id="Mortgage_IsReadyToSell"]/../span[3]').click()
-                        ready_to_let_out_details = self.driver.find_element(By.XPATH, '//*[@name="Mortgage.IsReadyToSellDetails"]')
+                        is_ready_to_let_out = self.driver.find_element(By.XPATH,
+                                                                       '//*[@id="Mortgage_IsReadyToSell"]/../span[3]').click()
+                        ready_to_let_out_details = self.driver.find_element(By.XPATH,
+                                                                            '//*[@name="Mortgage.IsReadyToSellDetails"]')
                         ready_to_let_out_details.send_keys(application['ready_to_let_out_details'])
                     else:
                         pass
@@ -1441,7 +1619,8 @@ class ApplicationProcessor:
                     pass
 
                 try:
-                    full_breakdown_details = self.driver.find_element(By.XPATH, '//*[@id="Mortgage_RemortagePortfolioDetails"]')
+                    full_breakdown_details = self.driver.find_element(By.XPATH,
+                                                                      '//*[@id="Mortgage_RemortagePortfolioDetails"]')
                     full_breakdown_details.send_keys(application['full_breakdown_details'])
                 except:
                     full_breakdown_details = ''
@@ -1449,23 +1628,29 @@ class ApplicationProcessor:
                 try:
                     is_property_currently_mortgaged = application['is_property_currently_mortgaged']
                     if is_property_currently_mortgaged == 'Yes':
-                        is_property_currently_mortgaged = self.driver.find_element(By.XPATH, '//*[@id="Mortgage_CurrentlyMortgaged"]/../span[3]').click()
-                        outstanding_balance = self.driver.find_element(By.XPATH, '//*[@id="Mortgage_OutstandingBalance"]')
+                        is_property_currently_mortgaged = self.driver.find_element(By.XPATH,
+                                                                                   '//*[@id="Mortgage_CurrentlyMortgaged"]/../span[3]').click()
+                        outstanding_balance = self.driver.find_element(By.XPATH,
+                                                                       '//*[@id="Mortgage_OutstandingBalance"]')
                         outstanding_balance.send_keys(application['outstanding_balance'])
 
-                        existing_mortgage_lender = self.driver.find_element(By.XPATH, '//*[@id="Mortgage_ExistingMortgageLender"]')
+                        existing_mortgage_lender = self.driver.find_element(By.XPATH,
+                                                                            '//*[@id="Mortgage_ExistingMortgageLender"]')
                         existing_mortgage_lender.send_keys(application['existing_mortgage_lender'])
 
-                        borrow_to_purchase_property = self.driver.find_element(By.XPATH, '//*[@id="Mortgage_OriginalAmountBorrowed"]')
+                        borrow_to_purchase_property = self.driver.find_element(By.XPATH,
+                                                                               '//*[@id="Mortgage_OriginalAmountBorrowed"]')
                         borrow_to_purchase_property.send_keys(application['borrow_to_purchase_property'])
                 except:
                     pass
 
-                loan_next = self.driver.find_element(By.XPATH, '//*[@class="btn btn-default nav-button pull-right blueBtn "]').click()
+                loan_next = self.driver.find_element(By.XPATH,
+                                                     '//*[@class="btn btn-default nav-button pull-right blueBtn "]').click()
                 time.sleep(3)
 
                 try:
-                    error_log = self.driver.find_element(By.XPATH, '//*[@class="help-block"][contains(text(), "This field is required.")]/../label[1]').text
+                    error_log = self.driver.find_element(By.XPATH,
+                                                         '//*[@class="help-block"][contains(text(), "This field is required.")]/../label[1]').text
                     print(error_log)
                 except:
                     error_log = ''
@@ -1482,6 +1667,32 @@ class ApplicationProcessor:
                 self.driver.refresh()
                 time.sleep(3)
                 print('loan done')
+
+                # my_dict = {"key1": "value1", "key2": "value2"}
+
+                # value1 = {'erc': erc, 'initial_rate': initial_rate}
+                value1 = {}
+                value1["name"] = name
+                value1["erc"] = erc
+                value1["initial_rate"] = initial_rate
+                value1["reversion_rate"] = reversion_rate
+                value1["apr"] = apr
+                value1["monthly_payment"] = monthly_payment
+                value1["ltv"] = ltv
+                value1["rental_coverage"] = rental_coverage
+                value1["product_fee"] = product_fee
+                value1["redemption_admin_fee"] = redemption_admin_fee
+                value1["estimated_solicitor_fee"] = estimated_solicitor_fee
+                value1["broker_fee_payable_by_borrower"] = broker_fee_payable_by_borrower
+                value1["valuation_fee"] = valuation_fee
+                value1["funds_release_fee"] = funds_release_fee
+                value1["building_insurance_admin_fee"] = building_insurance_admin_fee
+                value1["application_fee"] = application_fee
+                value1["refrence_number"] = refrence_number
+                value1["procuration_fee"] = procuration_fee
+                return value1
+
+
             except:
                 print('loan not found or error')
             # -------------------------------------------------#
@@ -1492,18 +1703,20 @@ class ApplicationProcessor:
             print(f"Form Filling Error: {e}")
             raise
 
-    def download_and_upload(self, application):
+    def download_and_upload(self, application, value1):
         try:
+            print(value1)
+            # print(value1["initial_rate"])
             download_button = self.driver.find_element(By.XPATH, '//*[contains(text(),"Reissue DIP")]')
             before_download = set(os.listdir(self.download_dir))
             download_button.click()
             time.sleep(8)
-            print(str(datetime.datetime.now())+'download')
+            print(str(datetime.datetime.now()) + 'download')
 
             new_file_name = self.wait_for_download(before_download)
             if new_file_name:
                 updated_file_name = self.rename_downloaded_file(new_file_name)
-                self.upload_file(application['id'], updated_file_name)
+                self.upload_file(application['id'], updated_file_name, value1)
             else:
                 raise Exception("File download failed.")
         except Exception as e:
@@ -1529,11 +1742,36 @@ class ApplicationProcessor:
         )
         return updated_file_name
 
-    def upload_file(self, application_id, file_name):
+    def upload_file(self, application_id, file_name, value1):
+        print(value1)
         url = f"{self.api_url}?id={application_id}&filename={file_name}"
         response = requests.post(url)
         print(f"Upload Response: {response.status_code}")
-        print(str(datetime.datetime.now())+'finish')
+
+        name = value1["name"]
+        erc = value1["erc"].replace('£ ', '')
+        initial_rate = value1["initial_rate"].replace('£ ', '').replace('%', '')
+        procuration_fee = value1["procuration_fee"].replace('£ ', '').replace('%', '')
+        reversion_rate = value1["reversion_rate"].replace('£ ', '')
+        apr = value1["apr"].replace('£ ', '').replace('%', '')
+        monthly_payment = value1["monthly_payment"].replace('£ ', '')
+        ltv = value1["ltv"].replace('£ ', '').replace('%', '')
+        rental_coverage = value1["rental_coverage"].replace('£ ', '').replace('%', '')
+        product_fee = value1["product_fee"].replace('£ ', '')
+        redemption_admin_fee = value1["redemption_admin_fee"].replace('£ ', '')
+        estimated_solicitor_fee = value1["estimated_solicitor_fee"].replace('£ ', '')
+        broker_fee_payable_by_borrower = value1["broker_fee_payable_by_borrower"].replace('£ ', '')
+        valuation_fee = value1["valuation_fee"].replace('£ ', '')
+        funds_release_fee = value1["funds_release_fee"].replace('£ ', '')
+        building_insurance_admin_fee = value1["building_insurance_admin_fee"].replace('£ ', '')
+        application_fee = value1["application_fee"].replace('£ ', '')
+        refrence_number = value1["refrence_number"].replace('£ ', '')
+
+        url1 = f"{self.api_url}/product?id={application_id}&name={name}&erc={erc}&initial_rate={initial_rate}&reversion_rate={reversion_rate}&monthly_payment={monthly_payment}&ltv={ltv}&procuration_fee={procuration_fee}&product_fee={product_fee}&reference_number={refrence_number}&token=YRcwnMgyrR&rental_coverage={rental_coverage}&redemption_admin_fee={redemption_admin_fee}&estimated_solicitor_fee={estimated_solicitor_fee}&broker_fee_payable_by_borrower={broker_fee_payable_by_borrower}&valuation_fee={valuation_fee}&funds_release_fee={funds_release_fee}&buildings_insurance_admin_fee={building_insurance_admin_fee}&application_fee={application_fee}&apr={apr}"
+        response1 = requests.post(url1)
+        print(f"Upload Response: {response1.status_code}")
+
+        print(str(datetime.datetime.now()) + 'finish')
 
     def log_error(self, application, message):
         url = f"{self.api_url}/logs?id={application['id']}&email={application['email']}&message={message}"
