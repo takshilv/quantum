@@ -532,7 +532,7 @@ class ApplicationProcessor:
 
             # ********************************** (page 2) *****************************************#
 
-            time.sleep(3)
+            time.sleep(5)
             satisfied_default = self.driver.find_element(By.XPATH,
                                                          '//*[contains(text(),"Satisfied Defaults")]/../..//*[contains(text(),"No defaults within last 24 months")]/../input').click()
 
