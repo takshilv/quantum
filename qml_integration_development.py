@@ -30,6 +30,7 @@ class ApplicationProcessor:
 
     def fetch_applications(self):
         response = requests.get(self.api_url)
+        print('response: '+response.text)
         return json.loads(response.text)
         # with open('jsn.json', 'r') as json_file:
         #     return json.load(json_file)
@@ -1648,6 +1649,7 @@ if __name__ == "__main__":
     print(str(datetime.datetime.now()))
     # download_dir = "E:\\takshil\\quantum_pdf\\"
     download_dir = "/home/ubuntu/storage/loan-applications/"
+    print(download_dir)
     # download_dir = "/var/www/novyy-dev/Novyy/storage/app/public/qmlApplications/"
     # download_dir = "/var/www/novyy-dev/novyyloans/storage/app/public/qmlApplications/"
 
