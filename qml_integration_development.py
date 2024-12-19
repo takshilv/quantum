@@ -8,7 +8,10 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 import requests
 import sys
-
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
+from webdriver_manager.chrome import ChromeDriverManager
 
 class ApplicationProcessor:
     def __init__(self, download_dir, chrome_options=None):
@@ -18,9 +21,17 @@ class ApplicationProcessor:
 
     def init_driver(self, chrome_options=None):
         if chrome_options is None:
+            # chrome_options = Options()
+            # chrome_options.add_argument('--headless=old')
             chrome_options = Options()
-            chrome_options.add_argument('--headless=old')
-        driver = webdriver.Chrome(options=chrome_options)
+            chrome_options.add_argument("--no-sandbox")
+            chrome_options.add_argument("--disable-dev-shm-usage")
+            chrome_options.add_argument("--headless")  # Optional: use if needed
+            chrome_options.add_argument("--disable-gpu")
+            chrome_options.add_argument("--remote-debugging-port=9222")
+        service = Service(ChromeDriverManager().install())
+        driver = webdriver.Chrome(service=service, options=chrome_options)
+        # driver = webdriver.Chrome(options=chrome_options)
         driver.maximize_window()
         driver.execute_cdp_cmd("Page.setDownloadBehavior", {
             "behavior": "allow",
