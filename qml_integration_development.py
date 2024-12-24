@@ -23,6 +23,7 @@ class ApplicationProcessor:
         if chrome_options is None:
             # chrome_options = Options()
             # chrome_options.add_argument('--headless=old')
+            os.environ["WDM_CACHE_DIR"] = "/home/ubuntu/.wdm_cache"
             chrome_options = Options()
             chrome_options.add_argument("--no-sandbox")
             chrome_options.add_argument("--disable-dev-shm-usage")
