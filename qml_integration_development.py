@@ -1636,6 +1636,7 @@ class ApplicationProcessor:
         refrence_number = value1["refrence_number"].replace('£ ','')
 
         url1 = f"{self.api_url}/product?id={application_id}&name={name}&erc={erc}&initial_rate={initial_rate}&reversion_rate={reversion_rate}&monthly_payment={monthly_payment}&ltv={ltv}&procuration_fee={procuration_fee}&product_fee={product_fee}&reference_number={refrence_number}&token=YRcwnMgyrR&rental_coverage={rental_coverage}&redemption_admin_fee={redemption_admin_fee}&estimated_solicitor_fee={estimated_solicitor_fee}&broker_fee_payable_by_borrower={broker_fee_payable_by_borrower}&valuation_fee={valuation_fee}&funds_release_fee={funds_release_fee}&buildings_insurance_admin_fee={building_insurance_admin_fee}&application_fee={application_fee}&apr={apr}"
+        print(url1)
         response1 = requests.post(url1)
         print(f"Upload Response: {response1.status_code}")
 
