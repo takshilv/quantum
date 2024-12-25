@@ -30,6 +30,7 @@ class ApplicationProcessor:
             chrome_options.add_argument("--headless")  # Optional: use if needed
             chrome_options.add_argument("--disable-gpu")
             chrome_options.add_argument("--remote-debugging-port=9222")
+            chrome_options.add_argument('--disable-setuid-sandbox')
         # os.environ['WDM_LOCAL'] = '/home/ubuntu/chromedriver_cache'
         # os.environ["WDM_CACHE_DIR"] = "/home/ubuntu/.wdm_cache"
         custom_cache_path = os.path.expanduser("~/.wdm")
