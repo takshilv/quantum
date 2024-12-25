@@ -807,7 +807,7 @@ class ApplicationProcessor:
                     self.log_error(application, error_log)
                     sys.exit()
             except:
-                print('company not found or errror')
+                print('Individual Data')
                 pass
             # ------------------------------------------------#
             # -------------------- other income -----------------#
