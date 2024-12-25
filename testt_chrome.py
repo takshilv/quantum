@@ -2,14 +2,8 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
-from selenium.webdriver.firefox.options import Options as FirefoxOptions
-import os
-
 
 def init_driver():
-    # options = webdriver.FirefoxOptions()
-    # options.add_argument("--headless")
-    # driver = webdriver.Firefox(options=options)
     chrome_options = Options()
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument("--disable-dev-shm-usage")
@@ -17,12 +11,9 @@ def init_driver():
     chrome_options.add_argument("--disable-gpu")
     chrome_options.add_argument("--remote-debugging-port=9222")
 
-    # os.environ['WDM_LOCAL'] = '/home/ubuntu/chromedriver_cache'
-    # os.environ["WDM_CACHE_DIR"] = "/home/ubuntu/.wdm_cache"
-    # # Automatically download and use the correct ChromeDriver
-    # service = Service(ChromeDriverManager().install())
-    # driver = webdriver.Chrome(service=service, options=chrome_options)
-    driver = webdriver.Chrome(options=chrome_options)
+    # Automatically download and use the correct ChromeDriver
+    service = Service(ChromeDriverManager().install())
+    driver = webdriver.Chrome(service=service, options=chrome_options)
     return driver
 
 # Example usage
@@ -31,6 +22,40 @@ driver.get("https://www.example.com")
 print("************* driver get done ********************")
 print(driver.title)
 driver.quit()
+
+# from selenium import webdriver
+# from selenium.webdriver.chrome.service import Service
+# from selenium.webdriver.chrome.options import Options
+# from webdriver_manager.chrome import ChromeDriverManager
+# from selenium.webdriver.firefox.options import Options as FirefoxOptions
+# import os
+#
+#
+# def init_driver():
+#     # options = webdriver.FirefoxOptions()
+#     # options.add_argument("--headless")
+#     # driver = webdriver.Firefox(options=options)
+#     chrome_options = Options()
+#     chrome_options.add_argument("--no-sandbox")
+#     chrome_options.add_argument("--disable-dev-shm-usage")
+#     chrome_options.add_argument("--headless")  # Optional: use if needed
+#     chrome_options.add_argument("--disable-gpu")
+#     chrome_options.add_argument("--remote-debugging-port=9222")
+#
+#     # os.environ['WDM_LOCAL'] = '/home/ubuntu/chromedriver_cache'
+#     # os.environ["WDM_CACHE_DIR"] = "/home/ubuntu/.wdm_cache"
+#     # # Automatically download and use the correct ChromeDriver
+#     # service = Service(ChromeDriverManager().install())
+#     # driver = webdriver.Chrome(service=service, options=chrome_options)
+#     driver = webdriver.Chrome(options=chrome_options)
+#     return driver
+#
+# # Example usage
+# driver = init_driver()
+# driver.get("https://www.example.com")
+# print("************* driver get done ********************")
+# print(driver.title)
+# driver.quit()
 
 # import os
 # import subprocess
