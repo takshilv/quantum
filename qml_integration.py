@@ -18,18 +18,30 @@ class ApplicationProcessor:
     def __init__(self, download_dir, chrome_options=None):
         self.download_dir = download_dir
         self.driver = self.init_driver(chrome_options)
-        self.api_url = "https://www.novyyloans.com/api/applications"
+        # self.api_url = "https://www.novyyloans.com/api/applications"
+        self.api_url = "https://novyyloans.ntlstaging.co.uk/api/applications"
 
     def init_driver(self, chrome_options=None):
         if chrome_options is None:
             chrome_options = Options()
+            chrome_options.add_argument("--headless=new")
             chrome_options.add_argument("--no-sandbox")
             chrome_options.add_argument("--disable-dev-shm-usage")
-            chrome_options.add_argument("--headless")  # Optional: use if needed
             chrome_options.add_argument("--disable-gpu")
-            chrome_options.add_argument("--remote-debugging-port=9222")
+            chrome_options.add_argument("--disable-software-rasterizer")
+            chrome_options.add_argument("--disable-setuid-sandbox")
+        custom_cache_path = os.path.expanduser("~/.wdm")
+        os.environ['WDM_LOCAL'] = custom_cache_path
+
+        # Ensure the directory exists
+        if not os.path.exists(custom_cache_path):
+            os.makedirs(custom_cache_path)
+
+        print(f"WebDriverManager cache directory: {custom_cache_path}")
+
         service = Service(ChromeDriverManager().install())
         driver = webdriver.Chrome(service=service, options=chrome_options)
+
         driver.maximize_window()
         driver.execute_cdp_cmd("Page.setDownloadBehavior", {
             "behavior": "allow",
@@ -39,6 +51,7 @@ class ApplicationProcessor:
 
     def fetch_applications(self):
         response = requests.get(self.api_url)
+        print('response: ' + response.text)
         return json.loads(response.text)
         # with open('jsn.json', 'r') as json_file:
         #     return json.load(json_file)
@@ -836,7 +849,7 @@ class ApplicationProcessor:
                     self.log_error(application, error_log)
                     sys.exit()
             except:
-                print('company not found or errror')
+                print('Individual Data')
                 pass
             # ------------------------------------------------#
             # -------------------- other income -----------------#
@@ -1768,6 +1781,7 @@ class ApplicationProcessor:
         refrence_number = value1["refrence_number"].replace('£ ', '')
 
         url1 = f"{self.api_url}/product?id={application_id}&name={name}&erc={erc}&initial_rate={initial_rate}&reversion_rate={reversion_rate}&monthly_payment={monthly_payment}&ltv={ltv}&procuration_fee={procuration_fee}&product_fee={product_fee}&reference_number={refrence_number}&token=YRcwnMgyrR&rental_coverage={rental_coverage}&redemption_admin_fee={redemption_admin_fee}&estimated_solicitor_fee={estimated_solicitor_fee}&broker_fee_payable_by_borrower={broker_fee_payable_by_borrower}&valuation_fee={valuation_fee}&funds_release_fee={funds_release_fee}&buildings_insurance_admin_fee={building_insurance_admin_fee}&application_fee={application_fee}&apr={apr}"
+        print(url1)
         response1 = requests.post(url1)
         print(f"Upload Response: {response1.status_code}")
 
@@ -1798,7 +1812,10 @@ if __name__ == "__main__":
     processor = ApplicationProcessor(download_dir)
     applications = processor.fetch_applications()
 
-    processor.login('loans@novyy.com', 'R6Kgi5pW@c7Jrf',
+    # processor.login('loans@novyy.com', 'R6Kgi5pW@c7Jrf',
+    #                 'https://www.qmlsystem.co.uk/Portal/Application/DisplayForm?formName=Apply%20-%20Who%20is%20applying&items=2TnhPEhIjm8pGUhSWoIm%2B5jvt6o6pgltxGSdMUZKE2ky8vF7wyt5DSNT395nKyC%2B')
+
+    processor.login('asaraff@arethacapital.com', 'X5VA5uX!tLLj4Yg',
                     'https://www.qmlsystem.co.uk/Portal/Application/DisplayForm?formName=Apply%20-%20Who%20is%20applying&items=2TnhPEhIjm8pGUhSWoIm%2B5jvt6o6pgltxGSdMUZKE2ky8vF7wyt5DSNT395nKyC%2B')
 
     for app in applications:
