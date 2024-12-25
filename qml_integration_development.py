@@ -32,7 +32,7 @@ class ApplicationProcessor:
             chrome_options.add_argument("--remote-debugging-port=9222")
         # os.environ['WDM_LOCAL'] = '/home/ubuntu/chromedriver_cache'
         # os.environ["WDM_CACHE_DIR"] = "/home/ubuntu/.wdm_cache"
-        custom_cache_path = os.path.expanduser("~/.wdm")
+        custom_cache_path = '/home/ubuntu/chromedriver_cache'
         os.environ['WDM_LOCAL'] = custom_cache_path
 
         # Ensure the directory exists
