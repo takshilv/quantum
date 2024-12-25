@@ -30,6 +30,7 @@ class ApplicationProcessor:
             chrome_options.add_argument("--headless")  # Optional: use if needed
             chrome_options.add_argument("--disable-gpu")
             chrome_options.add_argument("--remote-debugging-port=9222")
+        os.environ['WDM_LOCAL'] = '/home/ubuntu/chromedriver_cache'
         service = Service(ChromeDriverManager().install())
         driver = webdriver.Chrome(service=service, options=chrome_options)
         # driver = webdriver.Chrome(options=chrome_options)
