@@ -2,6 +2,8 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
+import os
+
 
 def init_driver():
     chrome_options = Options()
@@ -11,6 +13,8 @@ def init_driver():
     chrome_options.add_argument("--disable-gpu")
     chrome_options.add_argument("--remote-debugging-port=9222")
 
+    os.environ['WDM_LOCAL'] = '/home/ubuntu/chromedriver_cache'
+    os.environ["WDM_CACHE_DIR"] = "/home/ubuntu/.wdm_cache"
     # Automatically download and use the correct ChromeDriver
     service = Service(ChromeDriverManager().install())
     driver = webdriver.Chrome(service=service, options=chrome_options)
