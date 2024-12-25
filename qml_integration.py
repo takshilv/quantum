@@ -1801,7 +1801,6 @@ class ApplicationProcessor:
         sys.exit()
 
 
-
 if __name__ == "__main__":
     print('*******************************************  STARTED ***********************************************')
     print(str(datetime.datetime.now()))
