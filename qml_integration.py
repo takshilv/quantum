@@ -30,14 +30,14 @@ class ApplicationProcessor:
             chrome_options.add_argument("--disable-gpu")
             chrome_options.add_argument("--disable-software-rasterizer")
             chrome_options.add_argument("--disable-setuid-sandbox")
-        # custom_cache_path = os.path.expanduser("~/.wdm")
-        # os.environ['WDM_LOCAL'] = custom_cache_path
-        #
-        # # Ensure the directory exists
-        # if not os.path.exists(custom_cache_path):
-        #     os.makedirs(custom_cache_path)
-        #
-        # print(f"WebDriverManager cache directory: {custom_cache_path}")
+        custom_cache_path = os.path.expanduser("~/.wdm")
+        os.environ['WDM_LOCAL'] = custom_cache_path
+
+        # Ensure the directory exists
+        if not os.path.exists(custom_cache_path):
+            os.makedirs(custom_cache_path)
+
+        print(f"WebDriverManager cache directory: {custom_cache_path}")
 
         service = Service(ChromeDriverManager().install())
         driver = webdriver.Chrome(service=service, options=chrome_options)
