@@ -18,8 +18,8 @@ class ApplicationProcessor:
     def __init__(self, download_dir, chrome_options=None):
         self.download_dir = download_dir
         self.driver = self.init_driver(chrome_options)
-        # self.api_url = "https://www.novyyloans.com/api/applications"
-        self.api_url = "https://novyyloans.ntlstaging.co.uk/api/applications"
+        self.api_url = "https://www.novyyloans.com/api/applications"
+        # self.api_url = "https://novyyloans.ntlstaging.co.uk/api/applications"
 
     def init_driver(self, chrome_options=None):
         if chrome_options is None:
@@ -1812,11 +1812,11 @@ if __name__ == "__main__":
     processor = ApplicationProcessor(download_dir)
     applications = processor.fetch_applications()
 
-    # processor.login('loans@novyy.com', 'R6Kgi5pW@c7Jrf',
-    #                 'https://www.qmlsystem.co.uk/Portal/Application/DisplayForm?formName=Apply%20-%20Who%20is%20applying&items=2TnhPEhIjm8pGUhSWoIm%2B5jvt6o6pgltxGSdMUZKE2ky8vF7wyt5DSNT395nKyC%2B')
-
-    processor.login('asaraff@arethacapital.com', 'X5VA5uX!tLLj4Yg',
+    processor.login('loans@novyy.com', 'R6Kgi5pW@c7Jrf',
                     'https://www.qmlsystem.co.uk/Portal/Application/DisplayForm?formName=Apply%20-%20Who%20is%20applying&items=2TnhPEhIjm8pGUhSWoIm%2B5jvt6o6pgltxGSdMUZKE2ky8vF7wyt5DSNT395nKyC%2B')
+
+    # processor.login('asaraff@arethacapital.com', 'X5VA5uX!tLLj4Yg',
+    #                 'https://www.qmlsystem.co.uk/Portal/Application/DisplayForm?formName=Apply%20-%20Who%20is%20applying&items=2TnhPEhIjm8pGUhSWoIm%2B5jvt6o6pgltxGSdMUZKE2ky8vF7wyt5DSNT395nKyC%2B')
 
     for app in applications:
         processor.process_application(app)
