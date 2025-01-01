@@ -27,7 +27,7 @@ class ApplicationProcessor:
     def init_driver(self, chrome_options=None):
         if chrome_options is None:
             chrome_options = Options()
-            chrome_options.add_argument("--headless=new")
+            # chrome_options.add_argument("--headless=new")
             chrome_options.add_argument("--no-sandbox")
             chrome_options.add_argument("--disable-dev-shm-usage")
             chrome_options.add_argument("--disable-gpu")
@@ -53,11 +53,12 @@ class ApplicationProcessor:
         return driver
 
     def fetch_applications(self):
-        response = requests.get(self.api_url)
-        print('response: '+response.text)
-        return json.loads(response.text)
-        # with open('jsn.json', 'r') as json_file:
-        #     return json.load(json_file)
+        # response = requests.get(self.api_url)
+        # print('response: '+response.text)
+        # return json.loads(response.text)
+        with open('jsn.json', 'r') as json_file:
+            print(json_file)
+            return json.load(json_file)
 
     def login(self, username, password, url):
         self.driver.get(url)
@@ -351,6 +352,57 @@ class ApplicationProcessor:
             time.sleep(2)
             try:
                 popup_button = self.driver.find_element(By.XPATH, '//button[contains(text(),"Ok")]').click()
+            except:
+                pass
+
+            try:
+                security_no_of_unit = self.driver.find_element(By.XPATH, '//*[@id="Security_NumberOfUnits"]')
+                security_no_of_unit.clear()
+                security_no_of_unit.send_keys(application['security_no_of_unit'])
+            except:
+                pass
+
+            try:
+                number_of_floors_in_block = self.driver.find_element(By.XPATH, '//*[@id="Security_FlatNumberOfFloors"]')
+                number_of_floors_in_block.clear()
+                number_of_floors_in_block.send_keys(application['number_of_floors_in_block'])
+            except:
+                pass
+
+            try:
+                number_of_letting_rooms = self.driver.find_element(By.XPATH, '//*[@id="Security_NumberOfLettingRooms"]')
+                number_of_letting_rooms.clear()
+                number_of_letting_rooms.send_keys(application['number_of_letting_rooms'])
+            except:
+                pass
+
+            try:
+                is_adjacent_to_commercial_premises = application['is_adjacent_to_commercial_premises']
+                if is_adjacent_to_commercial_premises == 'Yes':
+                    is_adjacent_to_commercial_premises = self.driver.find_element(By.XPATH, '//*[@for="Security_FlatAboveCommercial"]/../div/div/div//*[contains(text(),"No")]').click()
+                else:
+                    pass
+            except:
+                pass
+
+            try:
+                hmo_planning_permission = application['hmo_planning_permission']
+                if hmo_planning_permission == 'Yes':
+                    hmo_planning_permission = self.driver.find_element(By.XPATH, '//*[@for="Security_HousePlanningPermission"]/../div/div/div//*[contains(text(),"No")]').click()
+                else:
+                    pass
+            except:
+                pass
+
+            try:
+                commercial_property_detail = self.driver.find_element(By.XPATH, '//*[@id="Security_AdditionalTextCommercialProperty"]')
+                commercial_property_detail.send_keys(application['commercial_property_detail'])
+            except:
+                pass
+
+            try:
+                square_meters = self.driver.find_element(By.XPATH, '//*[@id="Security_FlatSquareMetres"]')
+                square_meters.send_keys(application['square_meters'])
             except:
                 pass
 
@@ -1082,6 +1134,12 @@ class ApplicationProcessor:
                 time.sleep(3)
 
                 try:
+                    year_of_conversion = self.driver.find_element(By.XPATH, '//*[@id="Security_YearConversion"]')
+                    year_of_conversion.send_keys(application['year_of_conversion'])
+                except:
+                    pass
+
+                try:
                     epc_rating = self.driver.find_element(By.XPATH, '//*[@id="Security_EnergyPerformanceCertificate"]')
                     epc_rating.send_keys(application['epc_rating'])
                 except:
@@ -1672,9 +1730,9 @@ class ApplicationProcessor:
 if __name__ == "__main__":
     print('*******************************************  STARTED ***********************************************')
     print(str(datetime.datetime.now()))
-    # download_dir = "E:\\takshil\\quantum_pdf\\"
+    download_dir = "E:\\takshil\\quantum_pdf\\"
     print('done')
-    download_dir = "/home/ubuntu/storage/loan-applications/"
+    # download_dir = "/home/ubuntu/storage/loan-applications/"
     print('a')
     print(download_dir)
     # download_dir = "/var/www/novyy-dev/Novyy/storage/app/public/qmlApplications/"
@@ -1684,6 +1742,7 @@ if __name__ == "__main__":
     applications = processor.fetch_applications()
 
     print(os.getenv('uname'))
+    print(os.getenv('pword'))
     processor.login(os.getenv('uname'), os.getenv('pword'),
                     'https://www.qmlsystem.co.uk/Portal/Application/DisplayForm?formName=Apply%20-%20Who%20is%20applying&items=2TnhPEhIjm8pGUhSWoIm%2B5jvt6o6pgltxGSdMUZKE2ky8vF7wyt5DSNT395nKyC%2B')
 
