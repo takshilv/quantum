@@ -78,7 +78,7 @@ class ApplicationProcessor:
             value1 = self.fill_form(application)
             self.download_and_upload(application, value1)
         except Exception as e:
-            self.log_error(application, str(e))
+            self.log_error(application, str(e), '', '')
 
     def select_applicant_type(self, application):
         try:
@@ -114,7 +114,7 @@ class ApplicationProcessor:
                 pass
             if error_log:
                 print('field missing or error : ' + error_log)
-                self.log_error(application, error_log)
+                self.log_error(application, error_log, '', '')
                 sys.exit()
 
             purchace_new = application['purchace_new']
@@ -131,7 +131,7 @@ class ApplicationProcessor:
                 pass
             if error_log:
                 print('field missing or error : ' + error_log)
-                self.log_error(application, error_log)
+                self.log_error(application, error_log, '', '')
                 sys.exit()
 
             first_time = application['first_time']
@@ -148,7 +148,7 @@ class ApplicationProcessor:
                 pass
             if error_log:
                 print('field missing or error : ' + error_log)
-                self.log_error(application, error_log)
+                self.log_error(application, error_log, '', '')
                 sys.exit()
 
             plan_occupy = application['plan_occupy']
@@ -165,7 +165,7 @@ class ApplicationProcessor:
                 pass
             if error_log:
                 print('field missing or error : ' + error_log)
-                self.log_error(application, error_log)
+                self.log_error(application, error_log, '', '')
                 sys.exit()
 
             try:
@@ -187,7 +187,7 @@ class ApplicationProcessor:
                 pass
             if error_log:
                 print('field missing or error : ' + error_log)
-                self.log_error(application, error_log)
+                self.log_error(application, error_log, '', '')
                 sys.exit()
 
             # *************************** form start(page 1) ******************************** #
@@ -566,7 +566,7 @@ class ApplicationProcessor:
                 pass
             if error_log:
                 print('field missing or error : ' + error_log)
-                self.log_error(application, 'field missing or error : '+error_log)
+                self.log_error(application, 'field missing or error : '+error_log, '', '')
                 sys.exit()
 
             print('****** first page done *******')
@@ -667,7 +667,7 @@ class ApplicationProcessor:
                 reason = ''
             if reason:
                 print('field missing or error : No product found')
-                self.log_error(application, reason)
+                self.log_error(application, reason, '', '')
                 sys.exit()
             else:
                 pass
@@ -682,7 +682,9 @@ class ApplicationProcessor:
                     sel_prod = False
                 except:
                     print('field missing or error : No product found')
-                    self.log_error(application, 'field missing or error : No product found')
+                    initial_rate = self.driver.find_element(By.XPATH, '//*[@class="productSelection"]/table/tbody/tr//td[@class="td-initialrate"]/span').text
+                    monthly_payment = self.driver.find_element(By.XPATH, '//*[@class="productSelection"]/table/tbody/tr//td[6]').text
+                    self.log_error(application, 'field missing or error : No product found', initial_rate, monthly_payment)
                     sys.exit()
 
             try:
@@ -744,7 +746,7 @@ class ApplicationProcessor:
                 pass
             if error_log:
                 print('field missing or error : ' + error_log)
-                self.log_error(application, error_log)
+                self.log_error(application, error_log, '', '')
                 sys.exit()
 
             print('****** third page done *******')
@@ -838,7 +840,7 @@ class ApplicationProcessor:
                     pass
                 if error_log:
                     print('field missing or error : ' + error_log)
-                    self.log_error(application, error_log)
+                    self.log_error(application, error_log, '', '')
                     sys.exit()
             except:
                 print('Individual Data')
@@ -982,7 +984,7 @@ class ApplicationProcessor:
                     pass
                 if error_log:
                     print('field missing or error : ' + error_log)
-                    self.log_error(application, 'field missing or error'+error_log)
+                    self.log_error(application, 'field missing or error'+error_log, '', '')
                     sys.exit()
 
                 self.driver.get(main_url)
@@ -1062,7 +1064,7 @@ class ApplicationProcessor:
                     pass
                 if error_log:
                     print('field missing or error : ' + error_log)
-                    self.log_error(application, 'field missing or error' + error_log)
+                    self.log_error(application, 'field missing or error' + error_log, '', '')
                     sys.exit()
 
                 self.driver.get(main_url)
@@ -1119,7 +1121,7 @@ class ApplicationProcessor:
                     pass
                 if error_log:
                     print('field missing or error : ' + error_log)
-                    self.log_error(application, 'field missing or error' + error_log)
+                    self.log_error(application, 'field missing or error' + error_log, '', '')
                     sys.exit()
 
                 self.driver.get(main_url)
@@ -1431,7 +1433,7 @@ class ApplicationProcessor:
                     pass
                 if error_log:
                     print('field missing or error : ' + error_log)
-                    self.log_error(application, 'field missing or error' + error_log)
+                    self.log_error(application, 'field missing or error' + error_log, '', '')
                     sys.exit()
 
                 self.driver.get(main_url)
@@ -1596,7 +1598,7 @@ class ApplicationProcessor:
                     pass
                 if error_log:
                     print('field missing or error : ' + error_log)
-                    self.log_error(application, 'field missing or error' + error_log)
+                    self.log_error(application, 'field missing or error' + error_log, '', '')
                     sys.exit()
 
                 self.driver.get(main_url)
@@ -1713,8 +1715,10 @@ class ApplicationProcessor:
 
         print(str(datetime.datetime.now())+'finish')
 
-    def log_error(self, application, message):
-        url = f"{self.api_url}/logs?id={application['id']}&email={application['email']}&message={message}"
+    def log_error(self, application, message, initial_rate, monthly_payment):
+        print(initial_rate)
+        print(monthly_payment)
+        url = f"{self.api_url}/logs?id={application['id']}&email={application['email']}&message={message}&initial_rate={initial_rate}&monthly_payment={monthly_payment}"
         print(url)
         requests.post(url)
         print(f"Logged Error for {application['id']}")
