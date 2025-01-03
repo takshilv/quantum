@@ -27,7 +27,7 @@ class ApplicationProcessor:
     def init_driver(self, chrome_options=None):
         if chrome_options is None:
             chrome_options = Options()
-            chrome_options.add_argument("--headless=new")
+            # chrome_options.add_argument("--headless=new")
             chrome_options.add_argument("--no-sandbox")
             chrome_options.add_argument("--disable-dev-shm-usage")
             chrome_options.add_argument("--disable-gpu")
@@ -667,7 +667,9 @@ class ApplicationProcessor:
                 reason = ''
             if reason:
                 print('field missing or error : No product found')
-                self.log_error(application, reason, '', '')
+                initial_rate = self.driver.find_element(By.XPATH, '//*[@class="productSelection"]/table/tbody/tr//td[@class="td-initialrate"]/span').text
+                monthly_payment = self.driver.find_element(By.XPATH, '//*[@class="productSelection"]/table/tbody/tr//td[6]').text
+                self.log_error(application, reason, initial_rate, monthly_payment)
                 sys.exit()
             else:
                 pass
