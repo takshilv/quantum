@@ -27,7 +27,7 @@ class ApplicationProcessor:
     def init_driver(self, chrome_options=None):
         if chrome_options is None:
             chrome_options = Options()
-            chrome_options.add_argument("--headless=new")
+            # chrome_options.add_argument("--headless=new")
             chrome_options.add_argument("--no-sandbox")
             chrome_options.add_argument("--disable-dev-shm-usage")
             chrome_options.add_argument("--disable-gpu")
@@ -53,12 +53,12 @@ class ApplicationProcessor:
         return driver
 
     def fetch_applications(self):
-        response = requests.get(self.api_url)
-        print('response: '+response.text)
-        return json.loads(response.text)
-        # with open('jsn.json', 'r') as json_file:
-        #     print(json_file)
-        #     return json.load(json_file)
+        # response = requests.get(self.api_url)
+        # print('response: '+response.text)
+        # return json.loads(response.text)
+        with open('jsn.json', 'r') as json_file:
+            print(json_file)
+            return json.load(json_file)
 
     def login(self, username, password, url):
         self.driver.get(url)
@@ -191,15 +191,26 @@ class ApplicationProcessor:
                 sys.exit()
 
             # *************************** form start(page 1) ******************************** #
+
+            time.sleep(3)
+            self.driver.refresh()
+            time.sleep(3)
+
             try:
                 company_name = self.driver.find_element(By.XPATH, '//*[@name="Company.RegisteredName"]')
                 company_name.send_keys(application['name_of_company'])
             except:
                 pass
 
+
             reg_no = application['company_registration_number']
             if reg_no:
-                reg_yes = self.driver.find_element(By.XPATH, '//*[@for="Company_DoYouKnowRegisteredNumber"]/../div/div/div/span[2]').click()
+                try:
+                    reg_yes = self.driver.find_element(By.XPATH, '//*[@for="Company_DoYouKnowRegisteredNumber"]/../div/div/div/span[2]').click()
+                except:
+                    print('form Error : ' + 'is register number not found in form')
+                    self.log_error(application, 'is register number not found in form', '', '')
+                    sys.exit()
                 time.sleep(2)
                 comp_no = self.driver.find_element(By.XPATH, '//*[@name="Company.RegisteredNumber"]')
                 comp_no.send_keys(application['company_registration_number'])
@@ -478,6 +489,20 @@ class ApplicationProcessor:
             except:
                 pass
 
+            # try:
+            #     if application['have_valid_warranty'] == 'Yes':
+            #         have_valid_warrenty = self.driver.find_element(By.XPATH,'//*[@for="Security_ValidWarranty"]/../div/div/div//*[contains(text(),"No")]').click()
+            #     else:
+            #         pass
+            # except:
+            #     pass
+            #
+            # try:
+            #     warranty_scheme = self.driver.find_element(By.XPATH,'//*[@id="Security_WarrantyScheme"]')
+            #     warranty_scheme.send_keys(application['warranty_scheme'])
+            # except:
+            #     pass
+
             try:
                 security_no_of_unit = self.driver.find_element(By.XPATH, '//*[@name="Security.NumberOfUnits"]')
                 security_no_of_unit.send_keys(application['security_no_of_unit'])
@@ -487,6 +512,26 @@ class ApplicationProcessor:
             try:
                 security_country = self.driver.find_element(By.XPATH, '//*[@name="Security.PropertyAddressCountry"]')
                 security_country.send_keys(application['security_country'])
+            except:
+                pass
+
+            try:
+                if application['have_valid_warranty'] == 'Yes':
+                        have_valid_warrenty = self.driver.find_element(By.XPATH,'//*[@for="Security_ValidWarranty"]/../div/div/div//*[contains(text(),"No")]').click()
+                else:
+                    pass
+            except:
+                pass
+
+            try:
+                warranty_scheme = self.driver.find_element(By.XPATH,'//*[@id="Security_WarrantyScheme"]')
+                warranty_scheme.send_keys(application['warranty_scheme'])
+            except:
+                pass
+
+            try:
+                other_warranty_scheme = self.driver.find_element(By.XPATH, '//*[@id="Security_OtherWarrantyScheme"]')
+                other_warranty_scheme.send_keys(application['other_warranty_scheme'])
             except:
                 pass
 
@@ -572,9 +617,13 @@ class ApplicationProcessor:
             print('****** first page done *******')
             # ****************************************************************************************************#
 
+
             # ********************************** (page 2) *****************************************#
 
             time.sleep(5)
+            self.driver.refresh()
+            time.sleep(5)
+
             satisfied_default = self.driver.find_element(By.XPATH, '//*[contains(text(),"Satisfied Defaults")]/../..//*[contains(text(),"No defaults within last 24 months")]/../input').click()
 
             satisfied_ccjs = self.driver.find_element(By.XPATH, '//*[contains(text(),"Satisfied CCJs")]/../..//*[contains(text(),"No CCJs")]/../input').click()
@@ -637,6 +686,10 @@ class ApplicationProcessor:
             # *******************************************************************************************************#
 
             # ********************************************* (page 3) ********************************************#
+            time.sleep(3)
+            self.driver.refresh()
+            time.sleep(5)
+
             try:
                 number_of_loan = self.driver.find_element(By.XPATH, '//*[@id="Product_NumberOfYearsToRepay"]')
                 number_of_loan.clear()
@@ -1736,9 +1789,9 @@ class ApplicationProcessor:
 if __name__ == "__main__":
     print('*******************************************  STARTED ***********************************************')
     print(str(datetime.datetime.now()))
-    # download_dir = "E:\\takshil\\quantum_pdf\\"
+    download_dir = "E:\\takshil\\quantum_pdf\\"
     print('done')
-    download_dir = "/home/ubuntu/storage/loan-applications/"
+    # download_dir = "/home/ubuntu/storage/loan-applications/"
     print('a')
     print(download_dir)
     # download_dir = "/var/www/novyy-dev/Novyy/storage/app/public/qmlApplications/"
