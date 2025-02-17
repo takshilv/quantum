@@ -53,12 +53,12 @@ class ApplicationProcessor:
         return driver
 
     def fetch_applications(self):
-        # response = requests.get(self.api_url)
-        # print('response: '+response.text)
-        # return json.loads(response.text)
-        with open('jsn.json', 'r') as json_file:
-            print(json_file)
-            return json.load(json_file)
+        response = requests.get(self.api_url)
+        print('response: '+response.text)
+        return json.loads(response.text)
+        # with open('jsn.json', 'r') as json_file:
+        #     print(json_file)
+        #     return json.load(json_file)
 
     def login(self, username, password, url):
         self.driver.get(url)
@@ -1789,9 +1789,9 @@ class ApplicationProcessor:
 if __name__ == "__main__":
     print('*******************************************  STARTED ***********************************************')
     print(str(datetime.datetime.now()))
-    download_dir = "E:\\takshil\\quantum_pdf\\"
+    # download_dir = "E:\\takshil\\quantum_pdf\\"
     print('done')
-    # download_dir = "/home/ubuntu/storage/loan-applications/"
+    download_dir = "/home/ubuntu/storage/loan-applications/"
     print('a')
     print(download_dir)
     # download_dir = "/var/www/novyy-dev/Novyy/storage/app/public/qmlApplications/"
@@ -1809,6 +1809,7 @@ if __name__ == "__main__":
         processor.process_application(app)
 
     processor.close()
+
 
 
 
