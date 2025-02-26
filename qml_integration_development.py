@@ -82,6 +82,25 @@ class ApplicationProcessor:
 
     def select_applicant_type(self, application):
         try:
+            agree = self.driver.find_element(By.XPATH, '//*[@for="Application_TermsAndCondition"]/../div/div/div//*[contains(text(),"No")]').click()
+        except:
+            pass
+        try:
+            time.sleep(2)
+            next = self.driver.find_element(By.XPATH, '//*[@class="btn btn-default  btnNavRight blueBtn"]').click()
+        except:
+            pass
+        time.sleep(5)
+        try:
+            lending_type = application['lending_type']
+            if lending_type == 'Buy to let mortgage':
+                lending_type = self.driver.find_element(By.XPATH, '//*[contains(text(),"Buy to let mortgage")]/..').click()
+            else:
+                lending_type = self.driver.find_element(By.XPATH, '//*[contains(text(),"Buy to let mortgage")]/..').click()
+        except Exception as e:
+            print(f"Is the application for a Error: {e}")
+
+        try:
             if application.get('name_of_company'):
                 self.driver.find_element(By.XPATH, '//*[contains(text(),"UK Limited Company")]/..').click()
             else:
@@ -1803,7 +1822,8 @@ if __name__ == "__main__":
     print(os.getenv('uname'))
     print(os.getenv('pword'))
     processor.login(os.getenv('uname'), os.getenv('pword'),
-                    'https://www.qmlsystem.co.uk/Portal/Application/DisplayForm?formName=Apply%20-%20Who%20is%20applying&items=2TnhPEhIjm8pGUhSWoIm%2B5jvt6o6pgltxGSdMUZKE2ky8vF7wyt5DSNT395nKyC%2B')
+                    'https://www.qmlsystem.co.uk/Portal/Application/DisplayForm?formName=Apply%20-%20Terms%20And%20Conditions')
+                    # 'https://www.qmlsystem.co.uk/Portal/Application/DisplayForm?formName=Apply%20-%20Who%20is%20applying&items=2TnhPEhIjm8pGUhSWoIm%2B5jvt6o6pgltxGSdMUZKE2ky8vF7wyt5DSNT395nKyC%2B')
 
     for app in applications:
         processor.process_application(app)
